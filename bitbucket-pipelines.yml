@@ -12,4 +12,4 @@ pipelines:
                 #- /usr/bin/composer global require sensiolabs/security-checker
                 #- ~/.composer/vendor/bin/security-checker security:check ./composer.lock
                 - /usr/bin/composer install
-                - ./vendor/bin/phpunit -d memory_limit=2G -c ./bitbucket-pipelines-phpunit.xml --verbose
+                - ./vendor/bin/phpunit -d memory_limit=2G -c ./bitbucket-pipelines-phpunit.xml --verbose tests
