@@ -1,24 +1,24 @@
 <?php
-
+namespace CroudTech\RecurringTaskScheduler\Tests;
 class ExampleTest extends TestCase
 {
     protected function setUp()
     {
         parent::setUp();
 
-        Artisan::call('vendor:publish',
+        \Artisan::call('vendor:publish',
             [
                 '--provider' => 'CroudTech\RecurringTaskScheduler\RecurringTaskSchedulerServiceProvider',
                 '--tag' => 'migrations'
             ]
         );
 
-        Artisan::call('migrate');
+        \Artisan::call('migrate');
     }
 
     protected function tearDown()
     {
-        Artisan::call('migrate:reset');
+        \Artisan::call('migrate:reset');
 
         parent::tearDown();
     }

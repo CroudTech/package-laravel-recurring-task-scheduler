@@ -1649,7 +1649,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-07-27T13:39:47+00:00"
+            "time": "2017-07-27 13:39:47"
         },
         {
             "name": "ramsey/uuid",

@@ -1,6 +1,7 @@
 <?php
+namespace CroudTech\RecurringTaskScheduler\Tests;
 
-use CroudTech\Package\RecurringTaskSchedulerServiceProvider;
+use CroudTech\RecurringTaskScheduler\RecurringTaskSchedulerServiceProvider;
 use Illuminate\Foundation\Testing\TestCase as LaravelTestCase;
 
 abstract class TestCase extends LaravelTestCase
@@ -21,7 +22,7 @@ abstract class TestCase extends LaravelTestCase
     {
         $app = require __DIR__.'/bootstrap/app.php';
 
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
     }
