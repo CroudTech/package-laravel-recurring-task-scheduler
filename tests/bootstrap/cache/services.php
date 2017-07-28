@@ -27,6 +27,7 @@
     23 => 'App\\Providers\\AuthServiceProvider',
     24 => 'App\\Providers\\EventServiceProvider',
     25 => 'App\\Providers\\RouteServiceProvider',
+    26 => 'CroudTech\\RecurringTaskScheduler\\RecurringTaskSchedulerServiceProvider',
   ),
   'eager' => 
   array (
@@ -44,6 +45,7 @@
     11 => 'App\\Providers\\AuthServiceProvider',
     12 => 'App\\Providers\\EventServiceProvider',
     13 => 'App\\Providers\\RouteServiceProvider',
+    14 => 'CroudTech\\RecurringTaskScheduler\\RecurringTaskSchedulerServiceProvider',
   ),
   'deferred' => 
   array (
