@@ -14,6 +14,11 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrations();
+
+        $this->app->bind(
+            \CroudTech\RecurringTaskScheduler\Contracts\SchedulePeriodParserContract::class,
+            \CroudTech\RecurringTaskScheduler\Library\SchedulePeriodParser::class
+        );
     }
 
     /**
