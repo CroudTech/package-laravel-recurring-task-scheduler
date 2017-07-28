@@ -1,0 +1,25 @@
+{
+    "name": "croudtech/package",
+    "description": "Laravel package boiler plate",
+    "type": "composer",
+    "license": "MIT",
+    "authors": [{
+        "name": "Croud Tech",
+        "email": "tech@croud.co.uk"
+    }],
+    "autoload": {
+        "psr-4": {
+            "CroudTech\\RecurringTaskScheduler\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests"
+        ]
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "laravel/laravel": "5.3.*",
+        "phpunit/phpunit": "^5.5"
+    }
+}
