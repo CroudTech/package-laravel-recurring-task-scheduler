@@ -16,8 +16,8 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
         $this->loadMigrations();
 
         $this->app->bind(
-            \CroudTech\RecurringTaskScheduler\Contracts\SchedulePeriodParserContract::class,
-            \CroudTech\RecurringTaskScheduler\Library\SchedulePeriodParser::class
+            \CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract::class,
+            \CroudTech\RecurringTaskScheduler\Library\ScheduleParser::class
         );
     }
 

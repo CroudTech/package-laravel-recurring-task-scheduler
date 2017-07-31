@@ -1,9 +1,9 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Library;
 
-use CroudTech\RecurringTaskScheduler\Contracts\SchedulePeriodParserContract;
+use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 
-class SchedulePeriodParser implements SchedulePeriodParserContract
+class ScheduleParser implements ScheduleParserContract
 {
     public function getDatesFromDefinition(array $definition) : array
     {
