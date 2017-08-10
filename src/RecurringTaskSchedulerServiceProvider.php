@@ -16,7 +16,15 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
         $this->loadMigrations();
 
         $this->app->bind(\CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract::class, function ($app, $args) {
+            if (!isset($args['definition']['type'])) {
+                throw new \InvalidArgumentException(sprintf('No definition type was provided'));
+            }
+
             $classname = sprintf('\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\%s', ucfirst(camel_case($args['definition']['type'])));
+            if (!class_exists($classname)) {
+                throw new \InvalidArgumentException(sprintf('There is no ScheduleParserContract implementation that matches the definition type "%s"', $args['definition']['type']));
+            }
+
             return new $classname($args['definition']);
         });
 
