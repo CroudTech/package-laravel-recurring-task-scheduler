@@ -15,10 +15,14 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     {
         $this->loadMigrations();
 
-        $this->app->bind(
-            \CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract::class,
-            \CroudTech\RecurringTaskScheduler\Library\ScheduleParser::class
-        );
+        $this->app->bind(\CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract::class, function ($app, $args) {
+            $classname = sprintf('\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\%s', ucfirst(camel_case($args['definition']['type'])));
+            return new $classname($args['definition']);
+        });
+
+        $this->app->singleton(\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory::class, function ($app) {
+            return new \CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory($app);
+        });
     }
 
     /**
