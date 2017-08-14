@@ -82,6 +82,8 @@ class BaseTest extends TestCase
             ['2017-01-01 00:00:00', '2017-12-31 23:59:59']
         ];
         $data = [];
+
+        // Provide a date range for every identifier
         foreach ($date_ranges as $date_range) {
             foreach ($identifiers as $identifier) {
                 $data[] = [

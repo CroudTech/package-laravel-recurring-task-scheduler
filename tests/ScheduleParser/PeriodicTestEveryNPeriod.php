@@ -25,7 +25,7 @@ use CroudTech\RecurringTaskScheduler\Tests\TestCase;
  *
  * Examples
  */
-class PeriodicTest extends TestCase
+class PeriodicTestEveryNPeriod extends TestCase
 {
     /**
      * Test daily periodic definition
@@ -50,9 +50,18 @@ class PeriodicTest extends TestCase
             $test_date->$modify_method($definition['interval'])->setTime(...explode(':', $definition['time_of_day']));
         }
 
-        $this->assertEquals($expected_dates, $generated_dates->map(function($date){return $date->format('c');})->toArray());
+        $this->assertEquals($expected_dates, $generated_dates->map(
+            function ($date) {
+                return $date->format('c');
+            }
+        )->toArray());
     }
 
+    /**
+     * Test definitions
+     *
+     * @return array
+     */
     public function testDailyEveryNDaysProvider()
     {
         return [
