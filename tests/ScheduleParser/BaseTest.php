@@ -8,6 +8,19 @@ use CroudTech\RecurringTaskScheduler\Tests\TestCase;
 class BaseTest extends TestCase
 {
     /**
+     * Test that the getDefinition returns a correctly parsed definition array
+     *
+     * @group DEV2
+     * @dataProvider definitionDaysProvider
+     */
+    public function testGetDefinitionDays($definition, $expected_days)
+    {
+        $parser = new PeriodicParser($definition);
+        $this->assertArrayHasKey('days', $parser->getDefinition());
+        $this->assertEquals($expected_days, $parser->getDefinition()['days']);
+    }
+
+    /**
      * Check that the parser gives the correct value for time_of_day
      *
      */
@@ -34,7 +47,6 @@ class BaseTest extends TestCase
     /**
      * Test daily periodic definition
      *
-     * @group DEV1
      * @dataProvider timezonesProvider
      */
     public function testGetRangeMethods($timezone, $range_start, $range_end)
@@ -94,5 +106,95 @@ class BaseTest extends TestCase
             }
         }
         return $data;
+    }
+
+    /**
+     * Provide test data for testGetDefinitionDays()
+     *
+     * @return void
+     */
+    public function definitionDaysProvider()
+    {
+        return [
+            [
+                [],
+                [
+                    'mon' => true,
+                    'tue' => true,
+                    'wed' => true,
+                    'thu' => true,
+                    'fri' => true,
+                    'sat' => true,
+                    'sun' => true,
+                ]
+            ],
+            [
+                [
+                    'days' => [
+                        'mon' => true
+                    ],
+                ],
+                [
+                    'mon' => true,
+                    'tue' => false,
+                    'wed' => false,
+                    'thu' => false,
+                    'fri' => false,
+                    'sat' => false,
+                    'sun' => false,
+                ]
+            ],
+            [
+                [
+                    'days' => [
+                        'mon' => true,
+                        'tue' => true,
+                    ],
+                ],
+                [
+                    'mon' => true,
+                    'tue' => true,
+                    'wed' => false,
+                    'thu' => false,
+                    'fri' => false,
+                    'sat' => false,
+                    'sun' => false,
+                ]
+            ],
+            [
+                [
+                    'days' => [
+                        'mon' => 'mon',
+                        'tue' => 1,
+                    ],
+                ],
+                [
+                    'mon' => true,
+                    'tue' => true,
+                    'wed' => false,
+                    'thu' => false,
+                    'fri' => false,
+                    'sat' => false,
+                    'sun' => false,
+                ]
+            ],
+            [
+                [
+                    'days' => [
+                        'mon' => 'invalid_day',
+                        'tue' => 1,
+                    ],
+                ],
+                [
+                    'mon' => false,
+                    'tue' => true,
+                    'wed' => false,
+                    'thu' => false,
+                    'fri' => false,
+                    'sat' => false,
+                    'sun' => false,
+                ]
+            ],
+        ];
     }
 }

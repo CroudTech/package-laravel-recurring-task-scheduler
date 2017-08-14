@@ -25,17 +25,15 @@ use CroudTech\RecurringTaskScheduler\Tests\TestCase;
  *
  * Examples
  */
-class PeriodicTestEveryNPeriod extends TestCase
+class PeriodicEveryNPeriodTest extends TestCase
 {
     /**
      * Test daily periodic definition
      *
-     * @group DEV
      * @dataProvider testDailyEveryNDaysProvider
      */
     public function testDailyEveryNDays($definition, $expected_dates)
     {
-
         $parser = new \CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic($definition);
         $generated_dates = collect($parser->getDates());
 

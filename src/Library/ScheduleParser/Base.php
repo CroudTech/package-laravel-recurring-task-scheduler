@@ -24,6 +24,29 @@ abstract class Base
         'range' => [],
         'time_of_day' => '09:00:00',
         'interval' => 1,
+        'days' => [
+            'mon' => true,
+            'tue' => true,
+            'wed' => true,
+            'thu' => true,
+            'fri' => true,
+            'sat' => true,
+            'sun' => true,
+        ],
+        'months' => [
+            'jan' => true,
+            'feb' => true,
+            'mar' => true,
+            'apr' => true,
+            'may' => true,
+            'jun' => true,
+            'jul' => true,
+            'aug' => true,
+            'sep' => true,
+            'oct' => true,
+            'nov' => true,
+            'dec' => true,
+        ],
     ];
 
     /**
@@ -83,6 +106,16 @@ abstract class Base
     }
 
     /**
+     * Get the parsed definition array
+     *
+     * @return array
+     */
+    public function getDefinition() : array
+    {
+        return $this->definition;
+    }
+
+    /**
      * Set default definition values
      *
      * @return array
@@ -94,7 +127,39 @@ abstract class Base
             1 => Carbon::now()->addYear(),
         ];
 
-        return collect($this->default_definition)->merge(collect($definition))->toArray();
+        $merged_definition = collect($this->default_definition)->merge(collect($definition))->toArray();
+        $merged_definition = $this->getDaysFromDefinition($merged_definition);
+
+        return $merged_definition;
+    }
+
+    /**
+     * Get parsed days array from definition
+     *
+     * @return void
+     */
+    protected function getDaysFromDefinition($definition)
+    {
+        $new_definition = $definition;
+        // If days are set in the provided definition the merge with default days setting all other values to false
+        if (isset($definition['days']) && is_array($definition['days'])) {
+            $new_definition['days'] = collect($this->default_definition['days'])->map(
+                function () {
+                    return false;
+                }
+            )->merge($definition['days'])->toArray();
+        }
+
+        $new_definition['days'] = collect($new_definition['days'])->map(
+            function ($var, $key) {
+                if (strtolower($var) === $key) {
+                    return true;
+                }
+                return filter_var($var, FILTER_VALIDATE_BOOLEAN);
+            }
+        )->toArray();
+
+        return $new_definition;
     }
 
     /**
