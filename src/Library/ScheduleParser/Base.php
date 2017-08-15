@@ -24,6 +24,7 @@ abstract class Base
         'range' => [],
         'time_of_day' => '09:00:00',
         'interval' => 1,
+        'period' => 'days',
         'days' => [
             'mon' => true,
             'tue' => true,
@@ -129,6 +130,7 @@ abstract class Base
 
         $merged_definition = collect($this->default_definition)->merge(collect($definition))->toArray();
         $merged_definition = $this->getDaysFromDefinition($merged_definition);
+        $merged_definition = $this->getMonthsFromDefinition($merged_definition);
 
         return $merged_definition;
     }
@@ -140,17 +142,37 @@ abstract class Base
      */
     protected function getDaysFromDefinition($definition)
     {
+        return $this->getDefaultsFromDefinition($definition, 'days');
+    }
+
+    /**
+     * Get parsed months array from definition
+     *
+     * @return void
+     */
+    protected function getMonthsFromDefinition($definition)
+    {
+        return $this->getDefaultsFromDefinition($definition, 'months');
+    }
+
+    /**
+     * Get parsed days array from definition
+     *
+     * @return void
+     */
+    protected function getDefaultsFromDefinition($definition, $definition_key)
+    {
         $new_definition = $definition;
-        // If days are set in the provided definition the merge with default days setting all other values to false
-        if (isset($definition['days']) && is_array($definition['days'])) {
-            $new_definition['days'] = collect($this->default_definition['days'])->map(
+        // If keys are set in the provided definition the merge with default keys setting all other values to false
+        if (isset($definition[$definition_key]) && is_array($definition[$definition_key])) {
+            $new_definition[$definition_key] = collect($this->default_definition[$definition_key])->map(
                 function () {
                     return false;
                 }
-            )->merge($definition['days'])->toArray();
+            )->merge($definition[$definition_key])->toArray();
         }
 
-        $new_definition['days'] = collect($new_definition['days'])->map(
+        $new_definition[$definition_key] = collect($new_definition[$definition_key])->map(
             function ($var, $key) {
                 if (strtolower($var) === $key) {
                     return true;
@@ -225,5 +247,22 @@ abstract class Base
     public function getInterval() : int
     {
         return $this->interval;
+    }
+
+    /**
+     * Return generated dates from provided schedule definition
+     *
+     * @return Collection
+     */
+    public function filterExceptions($generated)
+    {
+        return collect($generated)->filter(function ($date) {
+            $day = strtolower($date->format('D'));
+            $month = strtolower($date->format('M'));
+            return array_key_exists($day, $this->definition['days']) &&
+                $this->definition['days'][$day] === true &&
+                array_key_exists($month, $this->definition['months']) &&
+                $this->definition['months'][$month] === true;
+        })->values()->toArray();
     }
 }

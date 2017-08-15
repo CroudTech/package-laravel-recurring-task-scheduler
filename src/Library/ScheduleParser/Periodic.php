@@ -22,6 +22,8 @@ class Periodic extends Base implements ScheduleParserContract
             }
         }
 
+        $this->generated = $this->filterExceptions($this->generated);
+
         return $this->generated;
     }
 }

@@ -8,9 +8,29 @@ use CroudTech\RecurringTaskScheduler\Tests\TestCase;
 class BaseTest extends TestCase
 {
     /**
+     * Check that months and days are filtered correctly
+     *
+     * @dataProvider filterExceptionsDataProvider
+     */
+    public function testFilterExceptions($definition)
+    {
+        $parser = new PeriodicParser($definition);
+        $this->assertNotEmpty($parser->getDates());
+        collect($parser->getDates())->each(
+            function ($date) use ($definition) {
+                if (isset($definition['months'])) {
+                    $this->assertArrayHasKey(strtolower($date->format('M')), $definition['months']);
+                }
+                if (isset($definition['days'])) {
+                    $this->assertArrayHasKey(strtolower($date->format('D')), $definition['days']);
+                }
+            }
+        );
+    }
+
+    /**
      * Test that the getDefinition returns a correctly parsed definition array
      *
-     * @group DEV2
      * @dataProvider definitionDaysProvider
      */
     public function testGetDefinitionDays($definition, $expected_days)
@@ -21,8 +41,19 @@ class BaseTest extends TestCase
     }
 
     /**
-     * Check that the parser gives the correct value for time_of_day
+     * Test that the getDefinition returns a correctly parsed definition array
      *
+     * @dataProvider definitionMonthsProvider
+     */
+    public function testGetDefinitionMonths($definition, $expected_days)
+    {
+        $parser = new PeriodicParser($definition);
+        $this->assertArrayHasKey('months', $parser->getDefinition());
+        $this->assertEquals($expected_days, $parser->getDefinition()['months']);
+    }
+
+    /**
+     * Check that the parser gives the correct value for time_of_day
      */
     public function testGetTimeOfday()
     {
@@ -34,7 +65,6 @@ class BaseTest extends TestCase
 
     /**
      * Check that the parser gives the correct value for interval
-     *
      */
     public function testGetInterval()
     {
@@ -95,10 +125,18 @@ class BaseTest extends TestCase
         ];
         $data = [];
 
-        // Provide a date range for every identifier
+        // Provide a date range for every identifier unique offset
         foreach ($date_ranges as $date_range) {
             foreach ($identifiers as $identifier) {
-                $data[] = [
+                $tz = new \DateTimeZone($identifier);
+                $offset_1 = $tz->getOffset(new Carbon($date_range[0]));
+                $offset_2 = $tz->getOffset(new Carbon($date_range[1]));
+                $data[$offset_1] = [
+                    $identifier,
+                    $date_range[0],
+                    $date_range[1],
+                ];
+                $data[$offset_2] = [
                     $identifier,
                     $date_range[0],
                     $date_range[1],
@@ -109,9 +147,114 @@ class BaseTest extends TestCase
     }
 
     /**
-     * Provide test data for testGetDefinitionDays()
+     * Undocumented function
      *
      * @return void
+     */
+    public function filterExceptionsDataProvider()
+    {
+        return [
+                [
+                    'range' => [
+                        '2017-01-01 00:00:00',
+                        '2020-01-01 00:00:00',
+                    ],
+                    'months' => [
+                        'jan' => true,
+                    ]
+                ],
+                [
+                    'range' => [
+                        '2017-01-01 00:00:00',
+                        '2020-01-01 00:00:00',
+                    ],
+                    'months' => [
+                        'jan' => true,
+                        'feb' => true,
+                    ]
+                ],
+                [
+                    'range' => [
+                        '2017-01-01 00:00:00',
+                        '2020-01-01 00:00:00',
+                    ],
+                    'months' => [
+                        'jan' => true,
+                        'feb' => true,
+                        'dec' => true,
+                    ]
+                ],
+                [
+                    'range' => [
+                        '2017-01-01 00:00:00',
+                        '2020-01-01 00:00:00',
+                    ],
+                    'days' => [
+                        'sat' => true,
+                        'sun' => true,
+                    ],
+                    'months' => [
+                        'jan' => true,
+                        'feb' => true,
+                        'dec' => true,
+                    ]
+                ],
+        ];
+    }
+
+    /**
+     * Provide test data for testGetDefinitionMonths()
+     *
+     * @return array
+     */
+    public function definitionMonthsProvider()
+    {
+        return [
+            [
+                [],
+                [
+                    'jan' => true,
+                    'feb' => true,
+                    'mar' => true,
+                    'apr' => true,
+                    'may' => true,
+                    'jun' => true,
+                    'jul' => true,
+                    'aug' => true,
+                    'sep' => true,
+                    'oct' => true,
+                    'nov' => true,
+                    'dec' => true,
+                ]
+            ],
+            [
+                [
+                    'months' => [
+                        'jan' => true,
+                    ]
+                ],
+                [
+                    'jan' => true,
+                    'feb' => false,
+                    'mar' => false,
+                    'apr' => false,
+                    'may' => false,
+                    'jun' => false,
+                    'jul' => false,
+                    'aug' => false,
+                    'sep' => false,
+                    'oct' => false,
+                    'nov' => false,
+                    'dec' => false,
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * Provide test data for testGetDefinitionDays()
+     *
+     * @return array
      */
     public function definitionDaysProvider()
     {
