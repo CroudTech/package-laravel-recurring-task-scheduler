@@ -30,7 +30,6 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
     /**
      * Test daily periodic definition
      *
-     * @group DEV
      * @dataProvider testDailyEveryNDaysProvider
      */
     public function testDailyEveryNDays($definition, $expected_dates)
@@ -55,15 +54,6 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
                 return $date->format('c');
             }
         )->toArray(), 'Expected dates did not match for definition ' . var_export($definition, true));
-        // try {
-        //     $this->assertEquals($expected_dates, $generated_dates->map(
-        //         function ($date) {
-        //             return $date->format('c');
-        //         }
-        //     )->toArray(), 'Expected dates did not match for definition ' . var_export($definition, true));
-        // } catch (\Exception $e) {
-        //     dd($definition, $generated_dates);
-        // }
     }
 
     /**
