@@ -12,16 +12,4 @@ class Schedule extends Model
      * @var ScheduleParserContract
      */
     protected $schedule_parser;
-
-    /**
-     * Create a new Eloquent model instance.
-     *
-     * @param  array  $attributes
-     * @return void
-     */
-    public function __construct(array $attributes = [], ScheduleParserContract $schedule_parser = null)
-    {
-        $this->schedule_parser = $schedule_parser;
-        return parent::__construct($attributes);
-    }
 }
