@@ -188,7 +188,7 @@ return [
             '2017-11-13T09:00:00+00:00', // Mon, 13 Nov 2017 00:00:00 +0000
         ],
     ],
-    [   // Same week each month [every second monday]
+    [   // Same week each month (with two days) [every second monday and wednesday]
         '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true, "wed": true }, "months": {} }',
         [
             '2017-08-09T09:00:00+01:00', // Wed 09 Aug 2017 00:00:00 +01:00
@@ -200,5 +200,26 @@ return [
             '2017-11-08T09:00:00+00:00', // Mon 08 Nov 2017 00:00:00 +01:00
             '2017-11-13T09:00:00+00:00', // Mon 13 Nov 2017 00:00:00 +01:00
         ],
+    ],
+    [   // Same week each month (with two days and excluded month) [every second monday and wednesday]
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true, "wed": true }, "months": { "aug": true, "nov": true } }',
+        [
+            '2017-08-09T09:00:00+01:00', // Wed 09 Aug 2017 00:00:00 +01:00
+            '2017-08-14T09:00:00+01:00', // Mon 14 Aug 2017 00:00:00 +01:00
+            '2017-11-08T09:00:00+00:00', // Mon 08 Nov 2017 00:00:00 +01:00
+            '2017-11-13T09:00:00+00:00', // Mon 13 Nov 2017 00:00:00 +01:00
+        ],
+    ],
+    [   // Same day each year [16th August every year]
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "years", "day_of_month": "16", "week_of_month": false, "days": {}, "months": { "aug": true } }',
+        [
+            '2017-08-16T09:00:00+01:00', // Wed 16 Aug 2017 00:00:00 +01:00
+        ]
+    ],
+    [   // Same week each year [last Monday of August every year]
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "years", "day_of_month": false, "week_of_month": "last", "days": { "mon": true }, "months": { "aug": true } }',
+        [
+            '2017-08-28T09:00:00+01:00', // Mon 28 Aug 2017 00:00:00 +01:00
+        ]
     ],
 ];
