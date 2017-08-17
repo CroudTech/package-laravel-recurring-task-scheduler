@@ -25,6 +25,8 @@ abstract class Base
         'time_of_day' => '09:00:00',
         'interval' => 1,
         'period' => 'days',
+        'day_of_month' => false,
+        'week_of_month' => false,
         'days' => [
             'mon' => true,
             'tue' => true,
@@ -98,12 +100,29 @@ abstract class Base
     {
         $this->definition = $this->addDefinitionDefaults($definition);
         $this->timezone = isset($this->definition['timezone']) ? $this->definition['timezone'] : $this->timezone;
-        $this->range_start = is_a($this->definition['range'][0], Carbon::class) ? $this->definition['range'][0] : new Carbon($this->definition['range'][0], new \DateTimeZone($this->getTimezone()));
-        $this->range_end = is_a($this->definition['range'][1], Carbon::class) ? $this->definition['range'][1] : new Carbon($this->definition['range'][1], new \DateTimeZone($this->getTimezone()));
+        $this->definition['timezone'] = $this->timezone;
+        $this->parseDefinitionRange();
         $this->time_of_day = $this->definition['time_of_day'];
         $this->interval = $this->definition['interval'];
 
         return $this->definition;
+    }
+
+    protected function parseDefinitionRange()
+    {
+        if (is_array($this->definition['range'])) {
+            $this->definition['range'] = array_slice($this->definition['range'], 0, 2);
+        }
+
+        if (!isset($this->definition['range']['start'])) {
+            $this->definition['range']['start'] = Carbon::now()->setTime(0,0,0);
+        }
+        $this->range_start = is_a($this->definition['range']['start'], Carbon::class) ? $this->definition['range']['start'] : new Carbon($this->definition['range']['start'], new \DateTimeZone($this->getTimezone()));
+        $this->range_end = is_a($this->definition['range']['end'], Carbon::class) ? $this->definition['range']['end'] : new Carbon($this->definition['range']['end'], new \DateTimeZone($this->getTimezone()));
+        $this->range_start->setTime(0, 0, 0);
+        $this->range_end->setTime(23, 59, 59);
+        $this->definition['range']['start'] = $this->getRangeStart()->format('c');
+        $this->definition['range']['end'] = $this->getRangeEnd()->format('c');
     }
 
     /**
@@ -124,8 +143,8 @@ abstract class Base
     protected function addDefinitionDefaults($definition) : array
     {
         $this->default_definition['range'] = [
-            0 => Carbon::now(),
-            1 => Carbon::now()->addYear(),
+            'start' => Carbon::now(),
+            'end' => Carbon::now()->addYear(),
         ];
 
         $merged_definition = collect($this->default_definition)->merge(collect($definition))->toArray();
@@ -162,6 +181,12 @@ abstract class Base
      */
     protected function getDefaultsFromDefinition($definition, $definition_key)
     {
+        // Deal with empty definition key
+        if (empty($definition[$definition_key])) {
+            $definition[$definition_key] = $this->default_definition[$definition_key];
+            return $definition;
+        }
+
         $new_definition = $definition;
         // If keys are set in the provided definition the merge with default keys setting all other values to false
         if (isset($definition[$definition_key]) && is_array($definition[$definition_key])) {

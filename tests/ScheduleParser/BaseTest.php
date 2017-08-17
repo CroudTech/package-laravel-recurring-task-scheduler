@@ -75,6 +75,21 @@ class BaseTest extends TestCase
     }
 
     /**
+     * Test default ranges
+     * @group DEV
+     */
+    public function testGetRangeMethodsDefaultRange()
+    {
+        $definition = [
+            'type' => 'periodic',
+        ];
+        $now = Carbon::now();
+        $parser = new PeriodicParser($definition);
+        $this->assertEquals($now->setTime(0, 0, 0)->format('c'), $parser->getRangeStart()->format('c'));
+        $this->assertEquals($now->setTime(23, 59, 59)->addYear(1)->format('c'), $parser->getRangeEnd()->format('c'));
+    }
+
+    /**
      * Test daily periodic definition
      *
      * @dataProvider timezonesProvider

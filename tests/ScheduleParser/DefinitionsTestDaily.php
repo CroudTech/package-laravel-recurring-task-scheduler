@@ -12,19 +12,7 @@ use CroudTech\RecurringTaskScheduler\Tests\TestCase;
  *  - Every N days {period, interval}
  *  - Every Workday {period, interval, modifier}
  *  - Every DOW {period, interval}
- * Weekly
- *  - N weeks {period, interval}
- *  - On DOW {period, interval, modifier}
- * Same day each month
- *  - Day N of every N months {period, interval, modifier}
- * Same week each month
- *  – every N months on the (1,2,3,4,last) DOW {period, interval, modifier}
- * Same day each year
- *  – Day Month {period, interval, modifier}
- * Same week each year
- *  – (1,2,3,4,last) DOW or Month {period, interval, modifier}
  *
- * Examples
  */
 class DefinitionsTestDaily extends TestCase
 {

@@ -15,7 +15,7 @@ class Periodic extends Base implements ScheduleParserContract
         if (empty($this->generated)) {
             $interval = $this->getInterval();
             $current_date = $this->getRangeStart()->setTime(...explode(':', $this->getTimeOfDay()));
-            while ($current_date < $this->getRangeEnd()) {
+            while ($current_date->lte($this->getRangeEnd())) {
                 $this->generated[] = $current_date->copy();
                 $modify_method = sprintf('add%s', ucfirst(camel_case($this->definition['period'])));
                 $current_date->$modify_method($interval)->setTime(...explode(':', $this->getTimeOfDay()));
