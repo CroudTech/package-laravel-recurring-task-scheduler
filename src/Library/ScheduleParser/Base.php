@@ -98,7 +98,7 @@ abstract class Base
      */
     protected function setDefinition(array $definition)
     {
-        $this->definition = $this->addDefinitionDefaults($definition);
+        $this->definition = $this->addDefinitionDefaults($this->replaceNumericRangeKeys($definition));
         $this->timezone = isset($this->definition['timezone']) ? $this->definition['timezone'] : $this->timezone;
         $this->definition['timezone'] = $this->timezone;
         $this->parseDefinitionRange();
@@ -108,15 +108,34 @@ abstract class Base
         return $this->definition;
     }
 
+    /**
+     * Replace numeric keys on range array and slice array to 2 items
+     *
+     * @return array
+     */
+    protected function replaceNumericRangeKeys($definition) : array
+    {
+        // Deal with numeric keys on date range
+        if (isset($definition['range']) && is_array($definition['range'])) {
+            $definition['range'] = array_slice($definition['range'], 0, 2);
+            if (is_numeric(array_keys($definition['range'])[0])) {
+                $definition['range'] = array_combine(['start','end'], $definition['range']);
+            }
+        }
+
+        return $definition;
+    }
+
     protected function parseDefinitionRange()
     {
         if (is_array($this->definition['range'])) {
             $this->definition['range'] = array_slice($this->definition['range'], 0, 2);
         }
 
-        if (!isset($this->definition['range']['start'])) {
-            $this->definition['range']['start'] = Carbon::now()->setTime(0,0,0);
+        if(!isset($this->definition['range']['start'])) {
+            dd($this->definition['range']);
         }
+
         $this->range_start = is_a($this->definition['range']['start'], Carbon::class) ? $this->definition['range']['start'] : new Carbon($this->definition['range']['start'], new \DateTimeZone($this->getTimezone()));
         $this->range_end = is_a($this->definition['range']['end'], Carbon::class) ? $this->definition['range']['end'] : new Carbon($this->definition['range']['end'], new \DateTimeZone($this->getTimezone()));
         $this->range_start->setTime(0, 0, 0);
