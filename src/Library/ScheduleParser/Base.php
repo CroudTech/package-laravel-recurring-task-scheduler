@@ -132,10 +132,6 @@ abstract class Base
             $this->definition['range'] = array_slice($this->definition['range'], 0, 2);
         }
 
-        if(!isset($this->definition['range']['start'])) {
-            dd($this->definition['range']);
-        }
-
         $this->range_start = is_a($this->definition['range']['start'], Carbon::class) ? $this->definition['range']['start'] : new Carbon($this->definition['range']['start'], new \DateTimeZone($this->getTimezone()));
         $this->range_end = is_a($this->definition['range']['end'], Carbon::class) ? $this->definition['range']['end'] : new Carbon($this->definition['range']['end'], new \DateTimeZone($this->getTimezone()));
         $this->range_start->setTime(0, 0, 0);
@@ -308,5 +304,38 @@ abstract class Base
                 array_key_exists($month, $this->definition['months']) &&
                 $this->definition['months'][$month] === true;
         })->values()->toArray();
+    }
+
+    /**
+     * Convert weekday name formatting
+     *
+     * @param string $day_name in short format (mon,tue etc...)
+     * @return string
+     */
+    protected function formatShortDay($day_name, $format)
+    {
+        $date = \Carbon\Carbon::parse('2017-08-28');
+        $last_date = $date->copy()->addWeek(1);
+        while ($date->lte($last_date)) {
+            $formats = ['D', 'l', 'N', 'w'];
+            $days[strtolower($date->format('D'))] = [];
+            foreach ($formats as $current_format) {
+                $days[strtolower($date->format('D'))][$current_format] = $date->format($current_format);
+            }
+            $date->addDay(1);
+        }
+        return isset($days[strtolower($day_name)][$format]) ? $days[strtolower($day_name)][$format] : $day_name;
+    }
+
+    /**
+     * Sort generated dates
+     *
+     * @return void
+     */
+    protected function sortDates()
+    {
+        usort($this->generated, function($a, $b) {
+            return $a->gt($b);
+        });
     }
 }

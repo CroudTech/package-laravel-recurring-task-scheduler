@@ -6,13 +6,7 @@ use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as Periodic
 use CroudTech\RecurringTaskScheduler\Tests\TestCase;
 
 /**
- * Check scheduler periods:
- *
- * Daily
- *  - Every N days {period, interval}
- *  - Every Workday {period, interval, modifier}
- *  - Every DOW {period, interval}
- *
+ * Test scheduler handles input from json string as passed in by the front-end
  */
 class DefinitionJsonTest extends TestCase
 {
@@ -32,18 +26,13 @@ class DefinitionJsonTest extends TestCase
         )->toArray());
     }
 
-    public function definitionsProvider()
+    /**
+     * Load json definitions from data file
+     *
+     * @return array
+     */
+    public function definitionsProvider() : array
     {
-        // $date_start = Carbon::parse('2017-08-16 09:00:00');
-        // $date_end = Carbon::parse('2017-11-30 23:59:59');
-        // while ($date_start->lte($date_end)) {
-        //     echo sprintf('\'%s\','.PHP_EOL, $date_start->format('c'));
-        //     $date_start->addDays(2);
-        // }
-        // die();
-        // dd($this->app['config']);
-        // dd(config('test.data_folder'));
-            //dd($this->test_root . '/test_data/json_definitions.php');
         return include $this->test_root . '/test_data/json_definitions.php';
     }
 }
