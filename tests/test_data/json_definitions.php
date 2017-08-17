@@ -1,35 +1,5 @@
 <?php
 
-// function formatShortDay($day_name, $format)
-// {
-//     $date = \Carbon\Carbon::parse('2017-08-28');
-//     $last_date = $date->copy()->addWeek(1);
-//     while ($date->lte($last_date)) {
-//         $formats = ['D', 'l', 'N', 'w'];
-//         $days[strtolower($date->format('D'))] = [];
-//         foreach ($formats as $format) {
-//             $days[strtolower($date->format('D'))][$format] = $date->format($format);
-//         }
-//         $date->addDay(1);
-//     }
-//     return $days[strtolower($day_name)][$format];
-// }
-// //"start": "2017-08-16", "end": "2017-11-30";
-// $start = \Carbon\Carbon::parse('2017-08-16')->setTime(9, 0, 0);
-// $end = \Carbon\Carbon::parse('2017-11-30')->setTime(23, 59, 59);
-// while ($start->lte($end)) {
-//     // if (in_array(strtolower($start->format('D')), ['mon','tue','wed','thu','fri', 'sat', 'sun'])) {
-//     //     echo sprintf("'%s', // %s\n", $start->format('c'), $start->format('r'));
-//     // }
-
-//     $start->firstOfMonth(formatShortDay('mon', 'N'));
-//     echo sprintf("'%s', // %s\n", $start->format('c'), $start->format('r'));
-//     $d = \Carbon\Carbon::now();
-
-
-//     $start->addMonth(1)->firstOfMonth(formatShortDay('mon', 'N'));
-// }
-// die;
 return [
     [   // Daily [every other day]
         '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "days", "day_of_month": false, "week_of_month": false, "days": {}, "months": {} }',
