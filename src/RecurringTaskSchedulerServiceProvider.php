@@ -31,6 +31,8 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
         $this->app->singleton(\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory::class, function ($app) {
             return new \CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory($app);
         });
+
+        $this->app->register(\CroudTech\Repositories\Providers\RepositoryServiceProvider::class);
     }
 
     /**
