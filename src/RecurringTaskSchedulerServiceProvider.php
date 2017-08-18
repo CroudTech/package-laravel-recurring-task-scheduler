@@ -2,13 +2,15 @@
 
 namespace CroudTech\RecurringTaskScheduler;
 
+use CroudTech\RecurringTaskScheduler\Contracts\ScheduleContract;
+use CroudTech\RecurringTaskScheduler\Contracts\ScheduleEventContract;
+use CroudTech\RecurringTaskScheduler\Contracts\ScheduleEventRepositoryContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
+use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
 use CroudTech\RecurringTaskScheduler\Exceptions\InvalidArgument;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory as ScheduleParserFactory;
-use CroudTech\RecurringTaskScheduler\Contracts\ScheduleEventRepositoryContract;
-use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
-use CroudTech\RecurringTaskScheduler\Contracts\ScheduleEventRepository;
-use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepository;
+use CroudTech\RecurringTaskScheduler\Repository\ScheduleEventRepository;
+use CroudTech\RecurringTaskScheduler\Repository\ScheduleRepository;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleEventTransformer;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleTransformer;
 use CroudTech\Repositories\Contracts\RepositoryContract;
