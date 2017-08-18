@@ -1,10 +1,12 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Repository;
 
-use CroudTech\Repositories\Contracts\RepositoryContract;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
+use CroudTech\RecurringTaskScheduler\Repository\Contracts\ScheduleEventRepositoryContract;
+use CroudTech\Repositories\BaseRepository;
+use CroudTech\Repositories\Contracts\RepositoryContract;
 
-class ScheduleRepository implements RepositoryContract {
+class ScheduleEventRepository extends BaseRepository implements RepositoryContract, ScheduleEventRepositoryContract {
 
     /**
      * Return the model name for this repository
