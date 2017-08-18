@@ -32,7 +32,8 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register(){
+    public function register()
+    {
         $this->app->bind(ScheduleParserContract::class, function ($app, $args) {
             if (!isset($args['definition']['type'])) {
                 throw new InvalidArgument(sprintf('No definition type was provided'));
