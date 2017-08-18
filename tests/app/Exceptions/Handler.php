@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace CroudTech\RecurringTaskScheduler\Tests\App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;

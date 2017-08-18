@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace CroudTech\RecurringTaskScheduler\Tests\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;

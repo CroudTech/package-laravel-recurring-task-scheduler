@@ -2,6 +2,7 @@
 namespace CroudTech\RecurringTaskScheduler\Tests;
 
 use CroudTech\RecurringTaskScheduler\RecurringTaskSchedulerServiceProvider;
+use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Foundation\Testing\TestCase as LaravelTestCase;
 
 abstract class TestCase extends LaravelTestCase
@@ -40,5 +41,21 @@ abstract class TestCase extends LaravelTestCase
         $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    /**
+     * Create the test database schema
+     *
+     * @method migrate
+     *
+     */
+    protected function migrate()
+    {
+        \Illuminate\Support\Facades\Schema::dropIfExists('test_schedulables');
+        \Illuminate\Support\Facades\Schema::create('test_schedulables', function (\Illuminate\Database\Schema\Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
     }
 }

@@ -3,13 +3,28 @@ namespace CroudTech\RecurringTaskScheduler\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
+use CroudTech\RecurringTaskScheduler\Contracts\SchedulableContract;
+use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToRelationshipQuery;
 
 class Schedule extends Model
 {
+    protected $fillable = [
+        'timestamp',
+        'range_start',
+        'range_end',
+    ];
+
+    protected $attributes = [
+        'timezone' => 'Europe/London',
+    ];
+
     /**
-     * The object used to parse the schedule definition into a collection of dates
+     * Polymorphic relationship to SchedulableContract object
      *
-     * @var ScheduleParserContract
+     * @return MorphToRelationshipQuery
      */
-    protected $schedule_parser;
+    public function schedulable() : MorphToRelationshipQuery
+    {
+        return $this->morphTo();
+    }
 }

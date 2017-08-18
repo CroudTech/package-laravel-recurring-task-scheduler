@@ -1,5 +1,5 @@
 <?php
-namespace CroudTech\RecurringTaskScheduler\Tests\ScheduleParser;
+namespace CroudTech\RecurringTaskScheduler\Tests\RepositoryTests;
 
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
