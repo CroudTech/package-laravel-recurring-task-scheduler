@@ -2,7 +2,7 @@
 namespace CroudTech\RecurringTaskScheduler\Repository;
 
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
-use CroudTech\RecurringTaskScheduler\Repository\Contracts\ScheduleEventRepositoryContract;
+use CroudTech\RecurringTaskScheduler\Contracts\ScheduleEventRepositoryContract;
 use CroudTech\Repositories\BaseRepository;
 use CroudTech\Repositories\Contracts\RepositoryContract;
 

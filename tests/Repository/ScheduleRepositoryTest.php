@@ -14,7 +14,7 @@ class ScheduleRepositoryTest extends TestCase
      */
     public function testServiceProvider()
     {
-        $repository = $this->app->make(\CroudTech\RecurringTaskScheduler\Repository\Contracts\ScheduleRepositoryContract::class);
+        $repository = $this->app->make(\CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract::class);
         $this->assertInstanceOf(\CroudTech\RecurringTaskScheduler\Repository\ScheduleRepository::class, $repository);
     }
 }
