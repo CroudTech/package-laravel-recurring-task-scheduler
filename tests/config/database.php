@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'test'),
+    'default' => env('DB_CONNECTION', 'real'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,7 +50,18 @@ return [
         'test' => [
             'driver'    => 'sqlite',
             'database'  => ':memory:',
-            'prefix'    => 'CroudTech_package_tests',
+            'prefix'    => 'ct_rts_',
+        ],
+        'real' => [
+            'charset'   => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'database'  => 'recurring_schedules',
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'password'  => 'root',
+            'prefix'    => 'ct_rts_',
+            'strict'    => false,
+            'username'  => 'root',
         ],
     ],
 

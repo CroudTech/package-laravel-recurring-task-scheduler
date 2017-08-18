@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbb704f79e200a3a6024f26b68a168a9",
+    "content-hash": "598c2948a4b9c57fa8108b1d3955ed5d",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -476,6 +476,51 @@
                 "laravel"
             ],
             "time": "2017-08-12 11:52:23"
+        },
+        {
+            "name": "laravel/laravel",
+            "version": "5.3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/laravel.git",
+                "reference": "c72a0de96f0b1e5cbc84e2164c1bc5d4f1916a09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/laravel/zipball/c72a0de96f0b1e5cbc84e2164c1bc5d4f1916a09",
+                "reference": "c72a0de96f0b1e5cbc84e2164c1bc5d4f1916a09",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "5.3.*",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~5.0",
+                "symfony/css-selector": "3.1.*",
+                "symfony/dom-crawler": "3.1.*"
+            },
+            "type": "project",
+            "autoload": {
+                "classmap": [
+                    "database"
+                ],
+                "psr-4": {
+                    "App\\": "app/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The Laravel Framework.",
+            "keywords": [
+                "framework",
+                "laravel"
+            ],
+            "time": "2017-03-15 19:34:55"
         },
         {
             "name": "league/flysystem",
@@ -950,12 +995,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "342d4d855ee83130e59fbff5875a7f9496c3fc4f"
+                "reference": "8ba576394268e77768556a4f2cb7be1d02d9e8dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/342d4d855ee83130e59fbff5875a7f9496c3fc4f",
-                "reference": "342d4d855ee83130e59fbff5875a7f9496c3fc4f",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/8ba576394268e77768556a4f2cb7be1d02d9e8dd",
+                "reference": "8ba576394268e77768556a4f2cb7be1d02d9e8dd",
                 "shasum": ""
             },
             "require": {
@@ -1015,7 +1060,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-08-07 20:41:08"
+            "time": "2017-08-18 06:12:53"
         },
         {
             "name": "ramsey/uuid",
@@ -2043,51 +2088,6 @@
             "time": "2015-06-14 21:17:01"
         },
         {
-            "name": "laravel/laravel",
-            "version": "5.3.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/laravel.git",
-                "reference": "c72a0de96f0b1e5cbc84e2164c1bc5d4f1916a09"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/laravel/zipball/c72a0de96f0b1e5cbc84e2164c1bc5d4f1916a09",
-                "reference": "c72a0de96f0b1e5cbc84e2164c1bc5d4f1916a09",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "5.3.*",
-                "php": ">=5.6.4"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "~1.4",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "~5.0",
-                "symfony/css-selector": "3.1.*",
-                "symfony/dom-crawler": "3.1.*"
-            },
-            "type": "project",
-            "autoload": {
-                "classmap": [
-                    "database"
-                ],
-                "psr-4": {
-                    "App\\": "app/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "The Laravel Framework.",
-            "keywords": [
-                "framework",
-                "laravel"
-            ],
-            "time": "2017-03-15 19:34:55"
-        },
-        {
             "name": "myclabs/deep-copy",
             "version": "1.x-dev",
             "source": {
@@ -2593,12 +2593,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "011cc0e386e33c1ea80048a9690b6c00278e9660"
+                "reference": "3bfbdd9a0c8510afeabee01eab3f7b98789ed072"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/011cc0e386e33c1ea80048a9690b6c00278e9660",
-                "reference": "011cc0e386e33c1ea80048a9690b6c00278e9660",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3bfbdd9a0c8510afeabee01eab3f7b98789ed072",
+                "reference": "3bfbdd9a0c8510afeabee01eab3f7b98789ed072",
                 "shasum": ""
             },
             "require": {
@@ -2667,7 +2667,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-08-17 07:36:00"
+            "time": "2017-08-18T07:34:02+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
