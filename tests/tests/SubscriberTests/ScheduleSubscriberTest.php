@@ -33,7 +33,7 @@ class ScheduleSubscriberTest extends TestCase
         $schedule_event->save();
         $schedule_event->trigger();
         $this->assertNotNull($schedule_event->fresh()->triggered_at);
-        $this->assertFalse($schedule_event->fresh()->trigger_success);
+        $this->assertTrue($schedule_event->fresh()->trigger_success);
     }
 
     /**
