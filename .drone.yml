@@ -1,0 +1,6 @@
+pipeline:
+  test:
+    image: croudtech/webapp
+    commands:
+      - /usr/bin/composer install
+      - ./vendor/bin/phpunit -d memory_limit=2G -c ./bitbucket-pipelines-phpunit.xml --verbose tests

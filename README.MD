@@ -3,7 +3,7 @@
 
 # Recurring Task Scheduler
 
-[Link/Badge]() to CI server (if one exists)
+[![Build Status](http://drone.staging.croudcontrol.com/api/badges/croudtech/recurring_task_scheduler/status.svg)](http://drone.staging.croudcontrol.com/croudtech/recurring_task_scheduler)
 
 PHP Laravel Package to provide scheduler functionality.
 
