@@ -16,10 +16,17 @@ class ScheduleEvent extends Model
 {
     protected $fillable = [
         'date',
+        'triggered_at',
+        'trigger_success',
     ];
 
     protected $casts = [
         'triggered_at' => 'datetime',
+        'trigger_success' => 'boolean',
+    ];
+
+    protected $attributes = [
+        'trigger_success' => null,
     ];
 
     /**
@@ -37,14 +44,8 @@ class ScheduleEvent extends Model
      *
      * @return bool
      */
-    public function trigger() : bool
+    public function trigger()
     {
-        $return_value = $this->schedule->trigger($this);
-        if ($return_value === true) {
-            $this->triggered_at = $this->schedule->triggered_at;
-            $this->save();
-        }
-
-        return $return_value;
+        event(new \CroudTech\RecurringTaskScheduler\Events\ScheduleEventTriggerEvent($this));
     }
 }

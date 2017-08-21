@@ -1,6 +1,8 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Contracts;
 
+use CroudTech\RecurringTaskScheduler\Events\ScheduleEventTriggerEvent;
+
 interface ScheduleableContract
 {
     /**
@@ -8,5 +10,5 @@ interface ScheduleableContract
      *
      * @return bool
      */
-    public function trigger() : bool;
+    public function trigger(ScheduleEventTriggerEvent $event) : bool;
 }

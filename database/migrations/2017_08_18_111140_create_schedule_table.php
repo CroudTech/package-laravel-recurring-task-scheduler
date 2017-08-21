@@ -20,7 +20,6 @@ class CreateScheduleTable extends Migration
             $table->string('type', 20)->default('periodic');
             $table->dateTime('range_start');
             $table->dateTime('range_end');
-            $table->timestamp('triggered_at')->nullable();
             $table->time('time_of_day')->default('00:00:00');
             $table->unsignedSmallInteger('interval')->default(1);
             $table->string('period');

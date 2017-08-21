@@ -1,6 +1,7 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Traits;
 
+use CroudTech\RecurringTaskScheduler\Events\ScheduleEventTriggerEvent;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
 use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -24,5 +25,5 @@ trait ScheduleableTrait
      * @param ScheduleEvent $event
      * @return boolean
      */
-    abstract public function trigger(Schedule $schedule, ScheduleEvent $event) : bool;
+    abstract public function trigger(ScheduleEventTriggerEvent $event) : bool;
 }

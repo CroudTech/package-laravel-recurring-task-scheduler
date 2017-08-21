@@ -43,18 +43,4 @@ class Schedule extends Model
     {
         return $this->hasMany(ScheduleEvent::class);
     }
-
-    /**
-     * Trigger the callback on the scheduleable object
-     *
-     * @return bool
-     */
-    public function trigger(ScheduleEvent $event) : bool
-    {
-        if ($return_value = $this->scheduleable()->first()->trigger($this, $event)) {
-            $this->triggered_at = Carbon::now();
-            $this->save();
-        }
-        return $return_value;
-    }
 }

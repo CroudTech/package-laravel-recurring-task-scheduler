@@ -18,6 +18,7 @@ class CreateScheduleEventTable extends Migration
             $table->unsignedInteger('schedule_id');
             $table->timestamp('date');
             $table->timestamp('triggered_at')->nullable();
+            $table->boolean('trigger_success')->nullable();
             $table->boolean('modified')->default(false);
             $table->timestamps();
             $table->softDeletes();

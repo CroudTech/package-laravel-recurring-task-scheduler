@@ -11,10 +11,12 @@ use CroudTech\RecurringTaskScheduler\Exceptions\InvalidArgument;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory as ScheduleParserFactory;
 use CroudTech\RecurringTaskScheduler\Repository\ScheduleEventRepository;
 use CroudTech\RecurringTaskScheduler\Repository\ScheduleRepository;
+use CroudTech\RecurringTaskScheduler\Subscribers\ScheduleSubscriber;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleEventTransformer;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleTransformer;
 use CroudTech\Repositories\Contracts\RepositoryContract;
 use CroudTech\Repositories\Contracts\TransformerContract;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class RecurringTaskSchedulerServiceProvider extends ServiceProvider
@@ -27,6 +29,7 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrations();
+        $this->registerEvents();
     }
 
     /**
@@ -86,5 +89,10 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations')
         ], 'migrations');
+    }
+
+    public function registerEvents()
+    {
+        Event::subscribe(ScheduleSubscriber::class);
     }
 }
