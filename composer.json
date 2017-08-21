@@ -18,7 +18,7 @@
         ],
         "psr-4": {
             "CroudTech\\RecurringTaskScheduler\\Tests\\": "tests",
-            "CroudTech\\RecurringTaskScheduler\\Tests\\App": "tests/app",
+            "CroudTech\\RecurringTaskScheduler\\Tests\\App": "tests/app"
         }
     },
     "minimum-stability": "dev",
