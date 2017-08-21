@@ -4,6 +4,4 @@ pipeline:
     commands:
       - /usr/bin/composer install
       - ./vendor/bin/phpunit -d memory_limit=2G tests
-    volumes:
-      - composer_cache:/root/.composer
 
