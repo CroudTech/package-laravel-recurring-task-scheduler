@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace CroudTech\RecurringTaskScheduler\Tests\App\Http\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 

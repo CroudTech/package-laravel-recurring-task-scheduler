@@ -172,11 +172,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
+        CroudTech\RecurringTaskScheduler\Tests\App\Providers\AppServiceProvider::class,
+        CroudTech\RecurringTaskScheduler\Tests\App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        CroudTech\RecurringTaskScheduler\Tests\App\Providers\EventServiceProvider::class,
+        CroudTech\RecurringTaskScheduler\Tests\App\Providers\RouteServiceProvider::class,
         CroudTech\RecurringTaskScheduler\RecurringTaskSchedulerServiceProvider::class,
 
     ],

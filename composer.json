@@ -15,11 +15,19 @@
     "autoload-dev": {
         "classmap": [
             "tests"
-        ]
+        ],
+        "psr-4": {
+            "CroudTech\\RecurringTaskScheduler\\Tests\\\\": "tests",
+            "CroudTech\\RecurringTaskScheduler\\Tests\\App\\": "tests/app"
+        }
     },
     "minimum-stability": "dev",
     "require-dev": {
-        "laravel/laravel": "5.3.*",
         "phpunit/phpunit": "^5.5"
+    },
+    "require": {
+        "laravel/laravel": "5.3.*",
+        "nesbot/carbon": "^1.23@dev",
+        "croudtech/laravel-repositories": "dev-master"
     }
 }
