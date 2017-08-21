@@ -4,4 +4,11 @@ pipeline:
     commands:
       - /usr/bin/composer install
       - ./vendor/bin/phpunit -d memory_limit=2G tests
+  notify:
+    image: drillster/drone-email
+    subject: Recurring Task Scheduler Pipeline {{#success build.status}}SUCCESS{{else}}FAILURE{{/success}} Notification
+    host: email-smtp.eu-west-1.amazonaws.com
+    from: Drone CI <drone@croudcontrol.com>
+    recipients: [ jim.robinson@croud.co.uk ]
+    secrets: [ EMAIL_USERNAME, EMAIL_PASSWORD ]
 
