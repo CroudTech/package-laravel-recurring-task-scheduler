@@ -51,8 +51,8 @@ abstract class TestCase extends LaravelTestCase
      */
     protected function migrate()
     {
-        \Illuminate\Support\Facades\Schema::dropIfExists('test_schedulables');
-        \Illuminate\Support\Facades\Schema::create('test_schedulables', function (\Illuminate\Database\Schema\Blueprint $table) {
+        \Illuminate\Support\Facades\Schema::dropIfExists('test_scheduleables');
+        \Illuminate\Support\Facades\Schema::create('test_scheduleables', function (\Illuminate\Database\Schema\Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();

@@ -1,6 +1,8 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Model;
 
+use Carbon\Carbon;
+use CroudTech\RecurringTaskScheduler\Model\Schedule;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -12,5 +14,37 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ScheduleEvent extends Model
 {
+    protected $fillable = [
+        'date',
+    ];
 
+    protected $casts = [
+        'triggered_at' => 'datetime',
+    ];
+
+    /**
+     * Schedule relationship
+     *
+     * @return void
+     */
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
+    /**
+     * Trigger the callback on the schedule
+     *
+     * @return bool
+     */
+    public function trigger() : bool
+    {
+        $return_value = $this->schedule->trigger($this);
+        if ($return_value === true) {
+            $this->triggered_at = $this->schedule->triggered_at;
+            $this->save();
+        }
+
+        return $return_value;
+    }
 }

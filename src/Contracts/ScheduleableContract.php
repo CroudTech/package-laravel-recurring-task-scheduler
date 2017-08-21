@@ -1,6 +1,12 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Contracts;
 
-interface SchedulableContract
+interface ScheduleableContract
 {
+    /**
+     * Schedule callback
+     *
+     * @return bool
+     */
+    public function trigger() : bool;
 }

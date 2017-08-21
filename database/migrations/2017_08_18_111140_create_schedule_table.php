@@ -15,11 +15,12 @@ class CreateScheduleTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->increments('id');
-            $table->morphs('schedulable');
+            $table->morphs('scheduleable');
             $table->string('timezone', 40);
             $table->string('type', 20)->default('periodic');
             $table->dateTime('range_start');
             $table->dateTime('range_end');
+            $table->timestamp('triggered_at')->nullable();
             $table->time('time_of_day')->default('00:00:00');
             $table->unsignedSmallInteger('interval')->default(1);
             $table->string('period');
