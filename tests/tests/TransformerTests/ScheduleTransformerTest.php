@@ -12,14 +12,13 @@ class ScheduleTransformerTest extends TestCase
      * Create schedule from definition
      *
      * @dataProvider definitionsProvider
-     * @group DEV
      */
-    public function testTransformScheduleToDefinition($definition, $expected)
+    public function testTransformDefinitionToScheduleAttributes($definition, $expected)
     {
         $transformer = $this->app->make(ScheduleTransformer::class);
         $parser = $this->app->make(\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory::class)->factory(json_decode($definition, true));
         $parsed_definition = $parser->getDefinition();
-        $attributes = $transformer->transformScheduleToDefinition($parsed_definition);
+        $attributes = $transformer->transformDefinitionToScheduleAttributes($parsed_definition);
 
         $this->assertInternalType('array', $attributes);
 

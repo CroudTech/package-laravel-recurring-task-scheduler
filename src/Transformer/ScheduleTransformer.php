@@ -11,7 +11,7 @@ class ScheduleTransformer implements TransformerContract
      * @param array $definition
      * @return array
      */
-    public function transformScheduleToDefinition(array $definition) : array
+    public function transformDefinitionToScheduleAttributes(array $definition) : array
     {
         $attributes = $definition;
         $attributes['range_start'] = $attributes['range']['start'];
