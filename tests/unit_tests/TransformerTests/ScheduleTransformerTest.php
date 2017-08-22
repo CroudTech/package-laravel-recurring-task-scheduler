@@ -152,7 +152,7 @@ class ScheduleTransformerTest extends TestCase
                 case 'fri':
                 case 'sat':
                 case 'sun':
-                    $this->assertEquals($transformed['data']['days'][$expected_attribute], $schedule[$expected_attribute]);
+                    $this->assertEquals($schedule[$expected_attribute], $transformed['data']['days'][$expected_attribute]);
                     break;
                 case 'jan':
                 case 'feb':
@@ -166,16 +166,16 @@ class ScheduleTransformerTest extends TestCase
                 case 'oct':
                 case 'nov':
                 case 'dec':
-                    $this->assertEquals($transformed['data']['months'][$expected_attribute], $schedule[$expected_attribute]);
+                    $this->assertEquals($schedule[$expected_attribute], $transformed['data']['months'][$expected_attribute]);
                     break;
                 case 'range_start':
-                    $this->assertEquals($transformed['data']['range']['start']->format('c'), $schedule[$expected_attribute]);
+                    $this->assertEquals($schedule[$expected_attribute], $transformed['data']['range']['start']->format('c'));
                     break;
                 case 'range_end':
-                    $this->assertEquals($transformed['data']['range']['end']->format('c'), $schedule[$expected_attribute]);
+                    $this->assertEquals($schedule[$expected_attribute], $transformed['data']['range']['end']->format('c'));
                     break;
                 default:
-                    $this->assertEquals($transformed['data'][$expected_attribute], $schedule[$expected_attribute]);
+                    $this->assertEquals($schedule[$expected_attribute], $transformed['data'][$expected_attribute], sprintf('Expected "%s" for "%s" got "%s"', $transformed['data'][$expected_attribute], $expected_attribute, $schedule[$expected_attribute]));
                     break;
             }
         }

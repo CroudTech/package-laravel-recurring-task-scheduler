@@ -8,8 +8,10 @@ use League\Fractal\TransformerAbstract;
 
 class ScheduleTransformer extends TransformerAbstract implements TransformerContract
 {
-    protected $defaultIncludes = [
-        'schedule_events',
+    protected $availableIncludes = [
+        'all_schedule_events',
+        'future_schedule_events',
+        'past_schedule_events',
     ];
 
     protected $days = [
@@ -133,7 +135,7 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
      *
      * @return void
      */
-    public function includeScheduleEvents(Schedule $schedule)
+    public function includeAllScheduleEvents(Schedule $schedule)
     {
         return $this->collection($schedule->scheduleEvents, new ScheduleEventTransformer);
     }

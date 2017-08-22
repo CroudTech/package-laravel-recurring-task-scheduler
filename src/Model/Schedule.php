@@ -50,6 +50,7 @@ class Schedule extends Model
 
     protected $casts = [
         'triggered_at' => 'datetime',
+        'day_of_month' => 'string',
     ];
 
     /**

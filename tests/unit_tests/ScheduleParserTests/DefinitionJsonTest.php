@@ -18,12 +18,12 @@ class DefinitionJsonTest extends TestCase
         $definition = json_decode($definition_json, true);
         $parser = $this->app->make(\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory::class)->factory($definition);
         $generated_dates = collect($parser->getDates());
-
-        $this->assertEquals($expected, $generated_dates->map(
+        $generated_dates_array = $generated_dates->map(
             function ($date) {
                 return $date->format('c');
             }
-        )->toArray());
+        )->toArray();
+        $this->assertEquals($expected, $generated_dates_array);
     }
 
     /**
