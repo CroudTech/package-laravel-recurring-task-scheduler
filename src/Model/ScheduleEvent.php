@@ -23,6 +23,7 @@ class ScheduleEvent extends Model
     protected $casts = [
         'triggered_at' => 'datetime',
         'trigger_success' => 'boolean',
+        'modified' => 'boolean',
     ];
 
     protected $attributes = [

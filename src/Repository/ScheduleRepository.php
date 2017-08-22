@@ -5,7 +5,6 @@ use CroudTech\RecurringTaskScheduler\Contracts\ScheduleableContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
-use CroudTech\Repositories\BaseRepository;
 use CroudTech\Repositories\Contracts\RepositoryContract;
 
 class ScheduleRepository extends BaseRepository implements RepositoryContract, ScheduleRepositoryContract {

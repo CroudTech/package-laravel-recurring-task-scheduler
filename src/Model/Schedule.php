@@ -36,8 +36,12 @@ class Schedule extends Model
         'jul',
         'aug',
         'sep',
+        'oct',
         'nov',
         'dec',
+        'scheduleable_id',
+        'scheduleable_type',
+        'occurrence',
     ];
 
     protected $attributes = [

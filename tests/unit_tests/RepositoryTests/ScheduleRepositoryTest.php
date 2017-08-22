@@ -25,7 +25,6 @@ class ScheduleRepositoryTest extends TestCase
      * Create schedule from definition
      *
      * @dataProvider definitionsProvider
-     * @group DEV
      */
     public function testCreateScheduleFromDefinition($definition, $expected)
     {

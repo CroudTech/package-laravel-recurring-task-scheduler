@@ -23,12 +23,13 @@ class CreateScheduleTable extends Migration
             $table->time('time_of_day')->default('00:00:00');
             $table->unsignedSmallInteger('interval')->default(1);
             $table->string('period');
+            $table->string('occurrence')->nullable();
             $table->unsignedTinyInteger('day_of_month')->nullable();
             $table->unsignedTinyInteger('week_of_month')->nullable();
             foreach (['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as $day) {
                 $table->unsignedTinyInteger($day)->default(1);
             }
-            foreach (['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'nov', 'dec'] as $month) {
+            foreach (['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'] as $month) {
                 $table->unsignedTinyInteger($month)->default(1);
             }
             $table->timestamps();

@@ -76,7 +76,6 @@ class BaseTest extends TestCase
 
     /**
      * Test default ranges
-     * @group DEV
      */
     public function testGetRangeMethodsDefaultRange()
     {

@@ -98,7 +98,6 @@ class ScheduleTransformerTest extends TestCase
 
     /**
      * @dataProvider definitionsProvider
-     * @group DEV
      */
     public function testTransform($definition, $expected)
     {

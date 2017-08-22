@@ -8,6 +8,10 @@ use League\Fractal\TransformerAbstract;
 
 class ScheduleTransformer extends TransformerAbstract implements TransformerContract
 {
+    protected $defaultIncludes = [
+        'schedule_events',
+    ];
+
     protected $days = [
         'mon',
         'tue',
@@ -56,7 +60,7 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
      */
     public function transform(Schedule $schedule) : array
     {
-        $schedule_array = $schedule->toArray();
+        $schedule_array = $schedule->fresh()->toArray();
 
         foreach ($this->transform_exclusions as $exclusion) {
             unset($schedule_array[$exclusion]);
@@ -93,7 +97,8 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
      */
     public function transformDefinitionToScheduleAttributes(array $definition) : array
     {
-        $attributes = $definition;
+        $parser = app()->make(\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory::class)->factory($definition);
+        $attributes = $parser->getDefinition();
         $attributes['range_start'] = $attributes['range']['start'];
         $attributes['range_end'] = $attributes['range']['end'];
         unset($attributes['range']);
@@ -107,5 +112,29 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
         unset($attributes['months']);
 
         return $attributes;
+    }
+
+    /**
+     * Include User
+     *
+     * @param Event $event
+     * @return \League\Fractal\ItemResource
+     */
+    public function includeOwner(Event $event)
+    {
+        if (!$event->owner) {
+            return;
+        }
+        return $this->item($event->owner, new \App\Transformers\UserTransformer);
+    }
+
+    /**
+     * Include all the events attached to this schedule
+     *
+     * @return void
+     */
+    public function includeScheduleEvents(Schedule $schedule)
+    {
+        return $this->collection($schedule->scheduleEvents, new ScheduleEventTransformer);
     }
 }
