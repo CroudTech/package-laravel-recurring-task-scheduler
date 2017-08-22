@@ -1,2 +1,3 @@
 vendor
 tests/storage/logs
+tests/bootstrap/cache
