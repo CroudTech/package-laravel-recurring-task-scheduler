@@ -11,9 +11,33 @@ use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToRelationshipQuery;
 class Schedule extends Model
 {
     protected $fillable = [
-        'timestamp',
+        'timezone',
+        'type',
         'range_start',
         'range_end',
+        'time_of_day',
+        'interval',
+        'period',
+        'day_of_month',
+        'week_of_month',
+        'mon',
+        'tue',
+        'wed',
+        'thu',
+        'fri',
+        'sat',
+        'sun',
+        'jan',
+        'feb',
+        'mar',
+        'apr',
+        'may',
+        'jun',
+        'jul',
+        'aug',
+        'sep',
+        'nov',
+        'dec',
     ];
 
     protected $attributes = [

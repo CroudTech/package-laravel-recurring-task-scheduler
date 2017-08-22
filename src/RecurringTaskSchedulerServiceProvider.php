@@ -30,6 +30,7 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     {
         $this->loadMigrations();
         $this->registerEvents();
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
     }
 
     /**
