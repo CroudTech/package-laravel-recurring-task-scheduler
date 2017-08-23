@@ -50,7 +50,6 @@ class ScheduleRouteTest extends TestCase
      * Test create method
      *
      * @dataProvider definitionsProvider
-     * @group DEV
      */
     public function testStore($definition, $expected)
     {
@@ -89,6 +88,42 @@ class ScheduleRouteTest extends TestCase
      *
      * @dataProvider definitionsProvider
      * @group DEV
+     */
+    public function testUpdate($definition, $expected)
+    {
+        $this->migrate();
+        $scheduleable = new \CroudTech\RecurringTaskScheduler\Tests\App\Model\TestScheduleable(['name' => __CLASS__ . '::' . __METHOD__]);
+        $scheduleable->save();
+        $definition_array = json_decode($definition, true);
+        $definition_array['scheduleable_id'] = $scheduleable->id;
+        $definition_array['scheduleable_type'] = get_class($scheduleable);
+
+        $this->json('POST', route('schedule.store'), $definition_array);
+        $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
+        $this->assertResponseStatus(200);
+        $this->seeJsonStructure([
+            'data' => [
+                'id',
+                'days',
+                'months',
+                'period',
+                'interval',
+                'type',
+                'range' => [
+                    'start',
+                    'end',
+                ],
+            ],
+        ]);
+
+        $this->assertFalse(array_key_exists('all_schedule_events', $this->response->getData()->data));
+        $this->assertFalse(array_key_exists('future_schedule_events', $this->response->getData()->data));
+    }
+
+    /**
+     * Test create method
+     *
+     * @dataProvider definitionsProvider
      */
     public function testStoreWithAllEventsIncluded($definition, $expected)
     {
@@ -129,7 +164,53 @@ class ScheduleRouteTest extends TestCase
         ]);
 
         $this->assertFalse(array_key_exists('future_schedule_events', $this->response->getData()->data));
-        $this->assertFalse(array_key_exists('past_schedule_events', $this->response->getData()->data));
+    }
+
+    /**
+     * Test create method
+     *
+     * @dataProvider definitionsProvider
+     */
+    public function testStoreWithFutureEventsIncluded($definition, $expected)
+    {
+        $definition_array = json_decode($definition, true);
+        Carbon::setTestNow(Carbon::parse($definition['range']['start'])->addDays(3));
+        $this->migrate();
+        $scheduleable = new \CroudTech\RecurringTaskScheduler\Tests\App\Model\TestScheduleable(['name' => __CLASS__ . '::' . __METHOD__]);
+        $scheduleable->save();
+        $definition_array['scheduleable_id'] = $scheduleable->id;
+        $definition_array['scheduleable_type'] = get_class($scheduleable);
+
+        $this->json('POST', route('schedule.store', ['include' => 'future_schedule_events']), $definition_array);
+        $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
+        $this->assertResponseStatus(200);
+        $this->seeJsonStructure([
+            'data' => [
+                'id',
+                'days',
+                'months',
+                'period',
+                'interval',
+                'type',
+                'range' => [
+                    'start',
+                    'end',
+                ],
+                'future_schedule_events' => [
+                    'data' => [
+                        '*' => [
+                            'id',
+                            'date',
+                            'triggered_at',
+                            'trigger_success',
+                            'modified',
+                        ]
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->assertFalse(array_key_exists('all_schedule_events', $this->response->getData()->data));
     }
 
     /**

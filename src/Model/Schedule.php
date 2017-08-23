@@ -7,6 +7,7 @@ use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToRelationshipQuery;
+use Illuminate\Database\Eloquent\Relations\HasMany as HasManyRelationshipQuery;
 
 class Schedule extends Model
 {
@@ -66,10 +67,20 @@ class Schedule extends Model
     /**
      * Schedule events relationship
      *
-     * @return void
+     * @return HasManyRelationshipQuery
      */
-    public function scheduleEvents()
+    public function scheduleEvents() : HasManyRelationshipQuery
     {
         return $this->hasMany(ScheduleEvent::class);
+    }
+
+    /**
+     * Future schedule events relationship
+     *
+     * @return HasManyRelationshipQuery
+     */
+    public function futureScheduleEvents() : HasManyRelationshipQuery
+    {
+        return $this->hasMany(ScheduleEvent::class)->where('date', '>', Carbon::now());
     }
 }

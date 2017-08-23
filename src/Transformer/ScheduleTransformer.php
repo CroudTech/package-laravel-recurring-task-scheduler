@@ -139,4 +139,14 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
     {
         return $this->collection($schedule->scheduleEvents, new ScheduleEventTransformer);
     }
+
+    /**
+     * Include all the events attached to this schedule
+     *
+     * @return void
+     */
+    public function includeFutureScheduleEvents(Schedule $schedule)
+    {
+        return $this->collection($schedule->futureScheduleEvents, new ScheduleEventTransformer);
+    }
 }
