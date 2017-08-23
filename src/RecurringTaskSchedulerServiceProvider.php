@@ -12,6 +12,10 @@ use CroudTech\RecurringTaskScheduler\Exceptions\InvalidArgument;
 use CroudTech\RecurringTaskScheduler\Http\Controllers\ScheduleController;
 use CroudTech\RecurringTaskScheduler\Http\Controllers\ScheduleEventController;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory as ScheduleParserFactory;
+use CroudTech\RecurringTaskScheduler\Model\Schedule;
+use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
+use CroudTech\RecurringTaskScheduler\Observers\ScheduleEventObserver;
+use CroudTech\RecurringTaskScheduler\Observers\ScheduleObserver;
 use CroudTech\RecurringTaskScheduler\Repository\ScheduleEventRepository;
 use CroudTech\RecurringTaskScheduler\Repository\ScheduleRepository;
 use CroudTech\RecurringTaskScheduler\Subscribers\ScheduleSubscriber;
@@ -28,6 +32,16 @@ use Illuminate\Support\ServiceProvider;
 class RecurringTaskSchedulerServiceProvider extends ServiceProvider
 {
     /**
+     * Get the events that trigger this service provider to register.
+     *
+     * @return array
+     */
+    public function when()
+    {
+        return [];
+    }
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -36,6 +50,10 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     {
         $this->loadMigrations();
         $this->registerEvents();
+        $this->app->booted(function() {
+            $this->registerObservers();
+        });
+
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         Validator::extend('is_scheduleable', function ($attribute, $value, $parameters, $validator) {
@@ -110,5 +128,16 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     public function registerEvents()
     {
         Event::subscribe(ScheduleSubscriber::class);
+    }
+
+    /**
+     * Register model event observers
+     *
+     * @return void
+     */
+    public function registerObservers()
+    {
+        Schedule::observe(ScheduleObserver::class);
+        ScheduleEvent::observe(ScheduleEventObserver::class);
     }
 }

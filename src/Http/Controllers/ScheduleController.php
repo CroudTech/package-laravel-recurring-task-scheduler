@@ -26,4 +26,26 @@ class ScheduleController extends BaseController
 
         throw new ModelNotFoundException(sprintf('%s not found', class_basename($this->repository->getModelName())));
     }
+
+    /**
+     * RESTful Update method
+     *
+     * @param  Request $request Request
+     * @param  int $id ID
+     * @return string
+     */
+    public function update(Request $request, $id)
+    {
+        if ($item = $this->repository->find($id)) {
+            if ($this->repository->updateFromScheduleDefinition($id, $request->all())) {
+                $this->postUpdate($request, $item);
+                $item = $item->fresh();
+                return $this->sendResponse($this->transform($item->fresh()));
+            }
+
+            throw new ApiException(sprintf('%s could not be saved', class_basename($this->repository->getModelName())), 402);
+        }
+
+        throw new ModelNotFoundException(sprintf('%s could not found', class_basename($this->repository->getModelName())));
+    }
 }

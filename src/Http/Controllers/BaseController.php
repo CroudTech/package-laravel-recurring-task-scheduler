@@ -112,7 +112,7 @@ class BaseController extends Controller
      * @param  int $id ID
      * @return string
      */
-    public function update(Request $request, $id)
+    public function apiUpdate(Request $request, $id)
     {
         if ($item = $this->repository->find($id)) {
             if ($this->repository->update($id, $request->all())) {

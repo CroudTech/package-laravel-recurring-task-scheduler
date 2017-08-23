@@ -16,14 +16,16 @@ class ScheduleEvent extends Model
 {
     protected $fillable = [
         'date',
-        'triggered_at',
+        'original_date',
+        'schedule_id',
         'trigger_success',
+        'triggered_at',
     ];
 
     protected $casts = [
-        'triggered_at' => 'datetime',
-        'trigger_success' => 'boolean',
         'modified' => 'boolean',
+        'trigger_success' => 'boolean',
+        'triggered_at' => 'datetime',
     ];
 
     protected $attributes = [

@@ -34,7 +34,6 @@ class ScheduleRepositoryTest extends TestCase
         $scheduleable->save();
         $schedule = $repository->createFromScheduleDefinition(json_decode($definition, true), $scheduleable);
         $this->assertEquals(count($expected), $schedule->scheduleEvents()->count());
-
     }
 
     /**

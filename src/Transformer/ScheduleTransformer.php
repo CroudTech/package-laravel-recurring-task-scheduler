@@ -62,6 +62,20 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
      */
     public function transform(Schedule $schedule) : array
     {
+        $schedule_array = $this->transformScheduleToDefinition($schedule);
+        $schedule_array['created_at'] = Carbon::parse($schedule_array['created_at']);
+        $schedule_array['updated_at'] = Carbon::parse($schedule_array['updated_at']);
+        return $schedule_array;
+    }
+
+    /**
+     * Convert flat schedule attributes to definition array
+     *
+     * @param Schedule $schedule
+     * @return void
+     */
+    public function transformScheduleToDefinition(Schedule $schedule)
+    {
         $schedule_array = $schedule->fresh()->toArray();
 
         foreach ($this->transform_exclusions as $exclusion) {
@@ -86,8 +100,7 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
         $schedule_array = $parser->getDefinition();
         $schedule_array['range']['start'] = Carbon::parse($schedule_array['range']['start']);
         $schedule_array['range']['end'] = Carbon::parse($schedule_array['range']['end']);
-        $schedule_array['created_at'] = Carbon::parse($schedule_array['created_at']);
-        $schedule_array['updated_at'] = Carbon::parse($schedule_array['updated_at']);
+
         return $schedule_array;
     }
 

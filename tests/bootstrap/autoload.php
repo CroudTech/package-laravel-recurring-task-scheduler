@@ -16,11 +16,11 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__.'/../../vendor/autoload.php';
 
-$capsule = new \Illuminate\Database\Capsule\Manager;
-$capsule->addConnection([ 'driver' => 'sqlite', 'database' => ':memory:', 'prefix' => 'CroudTech_package_tests' ]);
-$capsule->setEventDispatcher(new \Illuminate\Events\Dispatcher);
-$capsule->bootEloquent();
-$capsule->setAsGlobal();
+// $capsule = new \Illuminate\Database\Capsule\Manager;
+// $capsule->addConnection([ 'driver' => 'sqlite', 'database' => ':memory:', 'prefix' => 'CroudTech_package_tests' ]);
+// $capsule->setEventDispatcher(new \Illuminate\Events\Dispatcher);
+// $capsule->bootEloquent();
+// $capsule->setAsGlobal();
 
 /*
 |--------------------------------------------------------------------------
