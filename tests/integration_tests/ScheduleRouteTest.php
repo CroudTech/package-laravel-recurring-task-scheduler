@@ -96,10 +96,13 @@ class ScheduleRouteTest extends TestCase
         $scheduleable = new \CroudTech\RecurringTaskScheduler\Tests\App\Model\TestScheduleable(['name' => __CLASS__ . '::' . __METHOD__]);
         $scheduleable->save();
         $definition_array = json_decode($definition, true);
+        $definition_array['scheduleable_id'] = $scheduleable->id;
+        $definition_array['scheduleable_type'] = get_class($scheduleable);
         $schedule = $repository->createFromScheduleDefinition($definition_array, $scheduleable);
         $old_range_end = $definition_array['range']['end'];
         $definition_array['range']['end'] = Carbon::parse($old_range_end)->addMonth('1')->setTime(23, 59, 59)->format('c');
         $this->json('PUT', route('schedule.update', ['schedule' => $schedule->id]), $definition_array);
+
         $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
         $this->assertResponseStatus(200);
         $this->seeJsonStructure([

@@ -34,10 +34,10 @@ class ScheduleController extends BaseController
      * @param  int $id ID
      * @return string
      */
-    public function update(Request $request, $id)
+    public function update(ScheduleFormRequest $request, $id)
     {
-        if ($item = $this->repository->find($id)) {
-            if ($this->repository->updateFromScheduleDefinition($id, $request->all())) {
+        if (($item = $this->repository->find($id)) && ($scheduleable = $request['scheduleable_type']::find($request['scheduleable_id']))) {
+            if ($this->repository->updateFromScheduleDefinition($id, $request->all(), $scheduleable)) {
                 $this->postUpdate($request, $item);
                 $item = $item->fresh();
                 return $this->sendResponse($this->transform($item->fresh()));
