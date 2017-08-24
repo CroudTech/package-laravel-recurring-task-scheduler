@@ -27,7 +27,7 @@
     },
     "require": {
         "composer/installers": "~1.0",
-        "croudtech/laravel-repositories": "dev-master",
+        "croudtech/laravel-repositories": "^1.5",
         "laravel/laravel": "5.3.*",
         "nesbot/carbon": "^1.23@dev"
     }
