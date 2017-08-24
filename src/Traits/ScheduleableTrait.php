@@ -25,5 +25,5 @@ trait ScheduleableTrait
      * @param ScheduleEvent $event
      * @return boolean
      */
-    abstract public function trigger(ScheduleEventTriggerEvent $event) : bool;
+    abstract public function scheduleEventTrigger(ScheduleEventTriggerEvent $event) : bool;
 }

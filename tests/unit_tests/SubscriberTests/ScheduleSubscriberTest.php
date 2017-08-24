@@ -31,7 +31,7 @@ class ScheduleSubscriberTest extends TestCase
             'date' => Carbon::parse('2017-01-01 09:00:00'),
         ]);
         $schedule_event->save();
-        $schedule_event->trigger();
+        $schedule_event->scheduleEventTrigger();
         $this->assertNotNull($schedule_event->fresh()->triggered_at);
         $this->assertTrue($schedule_event->fresh()->trigger_success);
     }
@@ -56,7 +56,7 @@ class ScheduleSubscriberTest extends TestCase
             'date' => Carbon::parse('2017-01-01 09:00:00'),
         ]);
         $schedule_event->save();
-        $schedule_event->trigger();
+        $schedule_event->scheduleEventTrigger();
         $this->assertNotNull($schedule_event->fresh()->triggered_at);
         $this->assertFalse($schedule_event->fresh()->trigger_success);
     }

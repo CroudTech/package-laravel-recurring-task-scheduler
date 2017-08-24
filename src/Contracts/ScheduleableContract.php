@@ -10,5 +10,5 @@ interface ScheduleableContract
      *
      * @return bool
      */
-    public function trigger(ScheduleEventTriggerEvent $event) : bool;
+    public function scheduleEventTrigger(ScheduleEventTriggerEvent $event) : bool;
 }
