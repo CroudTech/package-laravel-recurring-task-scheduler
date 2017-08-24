@@ -34,6 +34,6 @@ class CreateScheduleEventTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule_events');
+        Schema::dropIfExists('ctrts_schedule_events');
     }
 }
