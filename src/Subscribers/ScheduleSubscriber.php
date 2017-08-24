@@ -23,16 +23,6 @@ class ScheduleSubscriber
     }
 
     /**
-     * Deal with schedule updates. When a schedule fundamentally changes then it's events need re-generating
-     *
-     * @return void
-     */
-    public function onScheduleUpdate($event)
-    {
-
-    }
-
-    /**
      * Register the listeners for the subscriber.
      *
      * @param  Illuminate\Events\Dispatcher  $events
@@ -42,11 +32,6 @@ class ScheduleSubscriber
         $events->listen(
             ScheduleEventTriggerEvent::class,
             self::class . '@onScheduleEventTrigger'
-        );
-
-        $events->listen(
-            ScheduleUpdateEvent::class,
-            self::class . '@onScheduleUpdate'
         );
     }
 }

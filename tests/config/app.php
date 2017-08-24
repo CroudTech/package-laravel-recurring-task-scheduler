@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +176,6 @@ return [
         CroudTech\RecurringTaskScheduler\Tests\App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         CroudTech\RecurringTaskScheduler\Tests\App\Providers\EventServiceProvider::class,
-        CroudTech\RecurringTaskScheduler\Tests\App\Providers\RouteServiceProvider::class,
         CroudTech\RecurringTaskScheduler\RecurringTaskSchedulerServiceProvider::class,
 
     ],

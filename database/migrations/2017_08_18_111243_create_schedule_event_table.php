@@ -16,6 +16,7 @@ class CreateScheduleEventTable extends Migration
         Schema::create('schedule_events', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('schedule_id');
+            $table->timestamp('original_date');
             $table->timestamp('date');
             $table->timestamp('triggered_at')->nullable();
             $table->boolean('trigger_success')->nullable();

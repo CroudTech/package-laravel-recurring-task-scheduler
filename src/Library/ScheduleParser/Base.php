@@ -101,6 +101,8 @@ abstract class Base
         $this->definition = $this->addDefinitionDefaults($this->replaceNumericRangeKeys($definition));
         $this->timezone = isset($this->definition['timezone']) ? $this->definition['timezone'] : $this->timezone;
         $this->definition['timezone'] = $this->timezone;
+        $this->definition['day_of_month'] = empty($this->definition['day_of_month']) ? false : $this->definition['day_of_month'];
+        $this->definition['week_of_month'] = empty($this->definition['week_of_month']) ? false : $this->definition['week_of_month'];
         $this->parseDefinitionRange();
         $this->time_of_day = $this->definition['time_of_day'];
         $this->interval = $this->definition['interval'];

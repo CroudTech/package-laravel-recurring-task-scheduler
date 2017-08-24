@@ -2,25 +2,45 @@
 
 namespace CroudTech\RecurringTaskScheduler;
 
+use CroudTech\RecurringTaskScheduler\Contracts\ScheduleableContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleEventContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleEventRepositoryContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
 use CroudTech\RecurringTaskScheduler\Exceptions\InvalidArgument;
+use CroudTech\RecurringTaskScheduler\Http\Controllers\ScheduleController;
+use CroudTech\RecurringTaskScheduler\Http\Controllers\ScheduleEventController;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory as ScheduleParserFactory;
+use CroudTech\RecurringTaskScheduler\Model\Schedule;
+use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
+use CroudTech\RecurringTaskScheduler\Observers\ScheduleEventObserver;
+use CroudTech\RecurringTaskScheduler\Observers\ScheduleObserver;
 use CroudTech\RecurringTaskScheduler\Repository\ScheduleEventRepository;
 use CroudTech\RecurringTaskScheduler\Repository\ScheduleRepository;
 use CroudTech\RecurringTaskScheduler\Subscribers\ScheduleSubscriber;
+use CroudTech\RecurringTaskScheduler\Traits\ScheduleableTrait;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleEventTransformer;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleTransformer;
 use CroudTech\Repositories\Contracts\RepositoryContract;
 use CroudTech\Repositories\Contracts\TransformerContract;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 class RecurringTaskSchedulerServiceProvider extends ServiceProvider
 {
+    /**
+     * Get the events that trigger this service provider to register.
+     *
+     * @return array
+     */
+    public function when()
+    {
+        return [];
+    }
+
     /**
      * Bootstrap any application services.
      *
@@ -30,6 +50,15 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     {
         $this->loadMigrations();
         $this->registerEvents();
+        $this->app->booted(function() {
+            $this->registerObservers();
+        });
+
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
+
+        Validator::extend('is_scheduleable', function ($attribute, $value, $parameters, $validator) {
+            return !empty($value) && class_exists($value) && in_array(ScheduleableContract::class, class_implements($value));
+        });
     }
 
     /**
@@ -89,10 +118,26 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations')
         ], 'migrations');
+
+
+        $this->publishes([
+            __DIR__.'/../config/scheduleable.php' => config_path('scheduleable.php'),
+        ]);
     }
 
     public function registerEvents()
     {
         Event::subscribe(ScheduleSubscriber::class);
+    }
+
+    /**
+     * Register model event observers
+     *
+     * @return void
+     */
+    public function registerObservers()
+    {
+        Schedule::observe(ScheduleObserver::class);
+        ScheduleEvent::observe(ScheduleEventObserver::class);
     }
 }
