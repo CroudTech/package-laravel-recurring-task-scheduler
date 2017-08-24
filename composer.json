@@ -1,7 +1,7 @@
 {
     "name": "croudtech/recurring-task-scheduler",
     "description": "Laravel Recurring Task Scheduler",
-    "type": "laravel-library",
+    "type": "library",
     "license": "proprietary",
     "authors": [{
         "name": "Croud Tech",
