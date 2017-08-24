@@ -49,13 +49,13 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
      * @param ScheduleableContract $scheduleable
      * @return Schedule
      */
-    public function updateFromScheduleDefinition(int $schedule_id, array $definition, ScheduleableContract $scheduleable) : Schedule
+    public function updateFromScheduleDefinition(int $schedule_id, array $definition) : Schedule
     {
         $parser = $this->getParserFromDefinition($definition);
         $schedule_attributes = $this->getTransformer()->transformDefinitionToScheduleAttributes($parser->getDefinition());
         $schedule_attributes = $this->preCreate($this->parseData($schedule_attributes));
         $schedule = $this->find($schedule_id);
-        $schedule->scheduleable()->associate($scheduleable);
+        $schedule->update($schedule_attributes);
         $schedule->save();
 
         return $schedule;

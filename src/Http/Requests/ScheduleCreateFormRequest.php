@@ -1,7 +1,7 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Http\Requests;
 
-class ScheduleFormRequest extends Request
+class ScheduleCreateFormRequest extends Request
 {
     /**
      * Define validation rules for the schedule request
