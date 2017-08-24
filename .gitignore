@@ -2,4 +2,4 @@ vendor
 tests/storage/logs
 tests/storage/framework/views
 tests/storage/framework/cache
-tests/bootstrap/cache
+tests/bootstrap/cachecomposer.lock
