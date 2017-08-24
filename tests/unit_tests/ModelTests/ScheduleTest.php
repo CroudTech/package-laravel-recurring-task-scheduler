@@ -68,7 +68,6 @@ class ScheduleTest extends TestCase
      * Check that schedule events are generated when they should be
      *
      * @dataProvider definitionsProvider
-     * @group DEV
      */
     public function testScheduleEventsGenerationOnUpdate($definition, $expected)
     {
