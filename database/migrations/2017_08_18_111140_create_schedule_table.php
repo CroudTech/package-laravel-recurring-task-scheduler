@@ -13,7 +13,7 @@ class CreateScheduleTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('ctrts_schedules', function (Blueprint $table) {
             $table->increments('id');
             $table->morphs('scheduleable');
             $table->string('timezone', 40);

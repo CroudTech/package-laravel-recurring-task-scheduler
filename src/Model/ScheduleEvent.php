@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ScheduleEvent extends Model
 {
+    protected $table = 'ctrts_schedule_events';
+
     protected $fillable = [
         'date',
         'original_date',

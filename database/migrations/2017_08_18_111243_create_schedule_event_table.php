@@ -13,7 +13,7 @@ class CreateScheduleEventTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedule_events', function (Blueprint $table) {
+        Schema::create('ctrts_schedule_events', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('schedule_id');
             $table->timestamp('original_date');

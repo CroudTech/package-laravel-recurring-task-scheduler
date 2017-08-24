@@ -14,6 +14,8 @@ class Schedule extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'ctrts_schedules';
+
     protected $fillable = [
         'timezone',
         'type',
