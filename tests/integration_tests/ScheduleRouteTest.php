@@ -154,6 +154,47 @@ class ScheduleRouteTest extends TestCase
     }
 
     /**
+     * Test destroy route method
+     */
+    public function testGet()
+    {
+        $this->migrate();
+        $repository = $this->app->make(\CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract::class);
+        $scheduleable = new \CroudTech\RecurringTaskScheduler\Tests\App\Model\TestScheduleable(['name' => __CLASS__ . '::' . __METHOD__]);
+        $scheduleable->save();
+        $definition_array['scheduleable_id'] = $scheduleable->id;
+        $definition_array['scheduleable_type'] = get_class($scheduleable);
+        $definition_array['range'] = [
+            'start' => Carbon::now(),
+            'end' => Carbon::now()->addMonth(1),
+        ];
+        $definition_array['type'] = 'periodic';
+        $definition_array['interval'] = 1;
+        $definition_array['period'] = 'days';
+        $schedule = $repository->createFromScheduleDefinition($definition_array, $scheduleable);
+
+        $this->assertNotNull(\CroudTech\RecurringTaskScheduler\Model\Schedule::find($schedule->id));
+        $this->json('GET', route('schedule.show', ['schedule' => $schedule->id]));
+        $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
+        $this->assertResponseStatus(200);
+        $this->seeJsonStructure([
+            'data' => [
+                'id',
+                'days',
+                'months',
+                'period',
+                'interval',
+                'type',
+                'range' => [
+                    'start',
+                    'end',
+                ],
+            ],
+        ]);
+        $this->assertEquals($schedule->id, $this->response->getData()->data->id);
+    }
+
+    /**
      * Load json definitions from data file
      *
      * @return array
