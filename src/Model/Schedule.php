@@ -6,11 +6,14 @@ use CroudTech\RecurringTaskScheduler\Contracts\ScheduleableContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToRelationshipQuery;
 use Illuminate\Database\Eloquent\Relations\HasMany as HasManyRelationshipQuery;
+use Illuminate\Database\Eloquent\Relations\MorphTo as MorphToRelationshipQuery;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Schedule extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'timezone',
         'type',

@@ -87,7 +87,6 @@ class ScheduleRouteTest extends TestCase
      * Test create method
      *
      * @dataProvider definitionsProvider
-     * @group DEV
      */
     public function testUpdate($definition, $expected)
     {
@@ -123,6 +122,35 @@ class ScheduleRouteTest extends TestCase
         $returned_range_end = Carbon::parse($this->response->getData()->data->range->end->date)->timezone($this->response->getData()->data->range->end->timezone)->format('c');
         $this->assertNotEquals(Carbon::parse($old_range_end)->setTime(23, 59, 59)->format('c'), $returned_range_end);
         $this->assertEquals(Carbon::parse($definition_array['range']['end'])->format('c'), $returned_range_end);
+    }
+
+    /**
+     * Test destroy route method
+     *
+     */
+    public function testDestroy()
+    {
+        $this->migrate();
+        $repository = $this->app->make(\CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract::class);
+        $scheduleable = new \CroudTech\RecurringTaskScheduler\Tests\App\Model\TestScheduleable(['name' => __CLASS__ . '::' . __METHOD__]);
+        $scheduleable->save();
+        $definition_array['scheduleable_id'] = $scheduleable->id;
+        $definition_array['scheduleable_type'] = get_class($scheduleable);
+        $definition_array['range'] = [
+            'start' => Carbon::now(),
+            'end' => Carbon::now()->addMonth(1),
+        ];
+        $definition_array['type'] = 'periodic';
+        $definition_array['interval'] = 1;
+        $definition_array['period'] = 'days';
+        $schedule = $repository->createFromScheduleDefinition($definition_array, $scheduleable);
+
+        $this->assertNotNull(\CroudTech\RecurringTaskScheduler\Model\Schedule::find($schedule->id));
+        $this->json('DELETE', route('schedule.destroy', ['schedule' => $schedule->id]));
+        $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
+        $this->assertResponseStatus(200);
+        $this->assertNull(\CroudTech\RecurringTaskScheduler\Model\Schedule::find($schedule->id));
+        $this->assertNotNull(\CroudTech\RecurringTaskScheduler\Model\Schedule::withTrashed()->where('id', $schedule->id)->first());
     }
 
     /**
