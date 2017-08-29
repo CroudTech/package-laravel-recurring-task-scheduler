@@ -3,3 +3,4 @@ tests/storage/logs
 tests/storage/framework/views
 tests/storage/framework/cache
 tests/bootstrap/cachecomposer.lock
+composer.lock

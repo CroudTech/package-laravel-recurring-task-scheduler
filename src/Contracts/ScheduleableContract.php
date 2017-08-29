@@ -8,7 +8,7 @@ interface ScheduleableContract
     /**
      * Schedule callback
      *
-     * @return bool
+     * @return boolean
      */
-    public function trigger(ScheduleEventTriggerEvent $event) : bool;
+    public function scheduleEventTrigger(ScheduleEventTriggerEvent $event) : bool;
 }
