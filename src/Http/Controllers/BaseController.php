@@ -37,7 +37,7 @@ class BaseController extends Controller
      * @param \Illuminate\Auth\AuthManager  $auth_manager The auth manager
      * @param RepositoryContract            $repository
      */
-    public function __construct(Request $request, RepositoryContract $repository = null)
+    public function __construct(Request $request, AuthManager $auth_manager, RepositoryContract $repository = null)
     {
         $this->repository = $repository;
         $this->fractal = new Fractal($request);

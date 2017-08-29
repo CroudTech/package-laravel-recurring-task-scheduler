@@ -7,7 +7,7 @@ use CroudTech\RecurringTaskScheduler\Model\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class ScheduleController extends BaseController
+abstract class NestedScheduleController extends BaseController
 {
     /**
      * RESTful Store Method
@@ -15,7 +15,7 @@ class ScheduleController extends BaseController
      * @param  Request $request Request
      * @return string
      */
-    public function store(ScheduleCreateFormRequest $request)
+    public function store(ScheduleCreateFormRequest $request, $scheduleable_id)
     {
         $scheduleable_type = $request['scheduleable_type'];
         $scheduleable = $request['scheduleable_type']::findOrFail($request['scheduleable_id']);
@@ -34,7 +34,7 @@ class ScheduleController extends BaseController
      * @param  int $id ID
      * @return string
      */
-    public function update(ScheduleUpdateFormRequest $request, $id)
+    public function update(ScheduleUpdateFormRequest $request, $scheduleable_id, $id)
     {
         if (($item = $this->repository->find($id))) {
             if ($this->repository->updateFromScheduleDefinition($id, $request->all())) {
