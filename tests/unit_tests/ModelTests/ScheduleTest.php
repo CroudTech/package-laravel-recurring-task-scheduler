@@ -61,7 +61,7 @@ class ScheduleTest extends TestCase
         $schedule->scheduleable()->associate($scheduleable);
         $schedule->save();
 
-        $this->assertEquals(count($expected), $schedule->scheduleEvents()->count());
+        $this->assertEquals(count($expected), $schedule->scheduleEvents()->count(), sprintf('Failed with definition %s', $definition));
     }
 
     /**
