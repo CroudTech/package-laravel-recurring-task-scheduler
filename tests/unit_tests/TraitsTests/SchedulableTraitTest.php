@@ -51,7 +51,7 @@ class ScheduleTraitTest extends TestCase
             'date' => Carbon::parse('2017-01-01 09:00:00'),
         ]);
         $schedule_event->save();
-        $schedule_event->scheduleEventTrigger();
+        $schedule_event->trigger();
         Event::assertFired(\CroudTech\RecurringTaskScheduler\Events\ScheduleEventTriggerEvent::class, function ($e) use ($schedule_event) {
             return $e->schedule_event->id === $schedule_event->id;
         });

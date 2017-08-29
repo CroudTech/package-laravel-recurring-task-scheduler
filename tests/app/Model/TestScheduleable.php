@@ -28,7 +28,7 @@ class TestScheduleable extends Model implements ScheduleableContract
      *
      * @return boolean
      */
-    public function trigger(ScheduleEventTriggerEvent $event) : bool
+    public function scheduleEventTrigger(ScheduleEventTriggerEvent $event) : bool
     {
         return $this->test_success;
     }

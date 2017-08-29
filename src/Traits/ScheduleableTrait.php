@@ -4,18 +4,18 @@ namespace CroudTech\RecurringTaskScheduler\Traits;
 use CroudTech\RecurringTaskScheduler\Events\ScheduleEventTriggerEvent;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
 use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait ScheduleableTrait
 {
     /**
      * Get the schedule relationship query
      *
-     * @return MorphMany
+     * @return MorphOne
      */
-    public function schedule() : MorphMany
+    public function schedule() : MorphOne
     {
-        return $this->morphMany(Schedule::class, 'scheduleable');
+        return $this->morphOne(Schedule::class, 'scheduleable');
     }
 
     /**
