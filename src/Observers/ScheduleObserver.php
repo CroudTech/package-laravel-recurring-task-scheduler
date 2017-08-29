@@ -74,4 +74,14 @@ class ScheduleObserver
     {
         $this->getRepository()->regenerateScheduleEvents($schedule);
     }
+
+    /**
+     * Listen to the ScheduleEvent updated event.
+     *
+     * @return void
+     */
+    public function updated(Schedule $schedule)
+    {
+        $this->getRepository()->regenerateScheduleEvents($schedule);
+    }
 }
