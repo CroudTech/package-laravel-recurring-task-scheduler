@@ -23,7 +23,7 @@ class CreateScheduleEventTable extends Migration
             $table->boolean('modified')->default(false);
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('schedule_id')->references('id')->on('schedules');
+            $table->foreign('schedule_id')->references('id')->on('ctrts_schedules');
         });
     }
 
