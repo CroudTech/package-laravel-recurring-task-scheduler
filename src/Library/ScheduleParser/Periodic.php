@@ -28,11 +28,15 @@ class Periodic extends Base implements ScheduleParserContract
                             $modification_string = sprintf('%s %s of %s %s', ucfirst($this->definition['week_of_month']), $this->formatShortDay($day, 'l'), $current_date->format('F'), $current_date->year);
                             $current_date->modify($modification_string);
                             $current_date->setTime(...explode(':', $this->getTimeOfDay()));
-                            $this->generated[] = $current_date->copy();
+                            if ($current_date->lte($this->getRangeEnd()) && $current_date->gte($this->getRangeStart())) {
+                                $this->generated[] = $current_date->copy();
+                            }
                         }
                     }
                 } else {
-                    $this->generated[] = $current_date->copy();
+                    if ($current_date->lte($this->getRangeEnd()) && $current_date->gte($this->getRangeStart())) {
+                        $this->generated[] = $current_date->copy();
+                    }
                 }
 
                 $modify_method = sprintf('add%s', ucfirst(camel_case($this->definition['period'])));
