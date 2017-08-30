@@ -47,6 +47,21 @@ class Task extends Model {
 }
 ```
 
+### Routes
+
+#### api/croudtech/schedule/{schedule}
+
+Restful resource route for schedule objects
+
+#### api/croudtech/schedule/{schedule}/schedule-event/{schedule_event}
+
+Nested resource route for schedule events
+
+#### api/croudtech/schedule/parse
+
+Schedule parser. Pass a definition array in to get the matching dates. Doesn't save any data so is useful for previews
+
+
 ### Prerequisites
 
 PHP 7 and Laravel 5.3^
