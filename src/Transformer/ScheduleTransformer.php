@@ -83,12 +83,16 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
         }
 
         foreach ($this->days as $day) {
-            $schedule_array['days'][$day] = $schedule[$day];
+            if (isset($schedule[$day])) {
+                $schedule_array['days'][$day] = $schedule[$day];
+            }
             unset($schedule_array[$day]);
         }
 
         foreach ($this->months as $month) {
-            $schedule_array['months'][$month] = $schedule[$month];
+            if (isset($schedule[$month])) {
+                $schedule_array['months'][$month] = $schedule[$month];
+            }
             unset($schedule_array[$month]);
         }
 
@@ -150,7 +154,7 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
      */
     public function includeAllScheduleEvents(Schedule $schedule)
     {
-        return $this->collection($schedule->scheduleEvents, new ScheduleEventTransformer);
+        return $this->collection($schedule->scheduleEvents, new ScheduleEventSimpleTransformer);
     }
 
     /**
@@ -160,6 +164,6 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
      */
     public function includeFutureScheduleEvents(Schedule $schedule)
     {
-        return $this->collection($schedule->futureScheduleEvents, new ScheduleEventTransformer);
+        return $this->collection($schedule->futureScheduleEvents, new ScheduleEventSimpleTransformer);
     }
 }

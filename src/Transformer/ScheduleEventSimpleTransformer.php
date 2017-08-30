@@ -7,7 +7,7 @@ use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
 use CroudTech\Repositories\Contracts\TransformerContract;
 use League\Fractal\TransformerAbstract;
 
-class ScheduleEventTransformer extends TransformerAbstract implements TransformerContract
+class ScheduleEventSimpleTransformer extends TransformerAbstract implements TransformerContract
 {
     /**
      * Transform the schedule event
@@ -16,6 +16,12 @@ class ScheduleEventTransformer extends TransformerAbstract implements Transforme
      */
     public function transform(ScheduleEvent $schedule_event) : array
     {
-        return $schedule_event->toArray();
+        return [
+            'id' => $schedule_event['id'],
+            'date' => $schedule_event['date'],
+            'triggered_at' => $schedule_event['triggered_at'],
+            'trigger_success' => $schedule_event['trigger_success'],
+            'modified' => $schedule_event['modified'],
+        ];
     }
 }

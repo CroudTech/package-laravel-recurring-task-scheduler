@@ -10,7 +10,7 @@ use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
 use CroudTech\RecurringTaskScheduler\Exceptions\InvalidArgument;
 use CroudTech\RecurringTaskScheduler\Http\Controllers\ScheduleController;
-use CroudTech\RecurringTaskScheduler\Http\Controllers\ScheduleEventController;
+use CroudTech\RecurringTaskScheduler\Http\Controllers\ScheduleEventsNestedController;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory as ScheduleParserFactory;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
 use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
@@ -50,7 +50,7 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     {
         $this->loadMigrations();
         $this->registerEvents();
-        $this->app->booted(function() {
+        $this->app->booted(function () {
             $this->registerObservers();
         });
 
@@ -90,7 +90,7 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
         $this->app->bind(ScheduleRepositoryContract::class, ScheduleRepository::class);
 
         // Controller repository bindings
-        $this->app->when(ScheduleEventController::class)
+        $this->app->when(ScheduleEventsNestedController::class)
             ->needs(RepositoryContract::class)
             ->give(ScheduleEventRepositoryContract::class);
 
