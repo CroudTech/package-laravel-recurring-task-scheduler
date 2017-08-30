@@ -17,13 +17,6 @@ use Illuminate\Support\Collection;
 class BaseController extends Controller
 {
     /**
-     * The repository for this resource
-     *
-     * @var RepositoryContract
-     */
-    protected $repository;
-
-    /**
      * The Fractal class used for transforming resource data for the response
      *
      * @var Fractal
@@ -37,127 +30,9 @@ class BaseController extends Controller
      * @param \Illuminate\Auth\AuthManager  $auth_manager The auth manager
      * @param RepositoryContract            $repository
      */
-    public function __construct(Request $request, AuthManager $auth_manager, RepositoryContract $repository = null)
+    public function __construct(Request $request, AuthManager $auth_manager)
     {
-        $this->repository = $repository;
         $this->fractal = new Fractal($request);
-    }
-
-    /**
-     * RESTful Show Method
-     *
-     * @param  Request $request Request
-     * @return string
-     */
-    public function apiIndex(Request $request)
-    {
-        $items = $this->fractal->collection(
-            $this->repository->apiPaginate($request),
-            $this->repository->getTransformer(),
-            $this->repository->getModelName()
-        );
-        return $this->sendResponse($items);
-    }
-
-    /**
-     * RESTful Show Method
-     *
-     * @param  Request $request Request
-     * @param  int $id Id
-     * @return string
-     */
-    public function apiShow(Request $request, $id)
-    {
-        if ($item = $this->repository->find($id)) {
-            return $this->sendResponse($this->transform($item));
-        }
-
-        throw new ModelNotFoundException(sprintf('%s not found', class_basename($this->repository->getModelName())));
-    }
-
-    /**
-     * RESTful Store Method
-     *
-     * @param  Request $request Request
-     * @return string
-     */
-    public function apiStore(Request $request)
-    {
-        if ($item = $this->repository->create($request->all())) {
-            $this->postStore($request, $item);
-            return $this->sendResponse($this->transform($item));
-        }
-
-        throw new ModelNotFoundException(sprintf('%s not found', class_basename($this->repository->getModelName())));
-    }
-
-    /**
-     * Run post apiStore actions
-     *
-     * Override in subclass and be sure to call this one too.
-     *
-     * @param Request $request
-     * @param Model $model
-     */
-    public function postStore(Request $request, Model $model)
-    {
-        if ($request->has('meta') && is_array($request['meta'])) {
-            $model->saveMetaValues($request['meta']);
-        }
-    }
-
-    /**
-     * RESTful Update method
-     *
-     * @param  Request $request Request
-     * @param  int $id ID
-     * @return string
-     */
-    public function apiUpdate(Request $request, $id)
-    {
-        if ($item = $this->repository->find($id)) {
-            if ($this->repository->update($id, $request->all())) {
-                $this->postUpdate($request, $item);
-                $item = $item->fresh();
-                return $this->sendResponse($this->transform($item->fresh()));
-            }
-
-            throw new ApiException(sprintf('%s could not be saved', class_basename($this->repository->getModelName())), 402);
-        }
-
-        throw new ModelNotFoundException(sprintf('%s could not found', class_basename($this->repository->getModelName())));
-    }
-
-    /**
-     * Run post apiUpdate actions
-     *
-     * Override in subclass and be sure to call this one too.
-     *
-     * @param Request $request
-     * @param Model $model
-     */
-    public function postUpdate(Request $request, Model $model)
-    {
-        if ($request->has('meta') && is_array($request['meta'])) {
-            $model->saveMetaValues($request['meta']);
-        }
-    }
-
-    /**
-     * RESTful destroy method
-     *
-     * @param Request $request Request
-     * @param int $id Id
-     * @return string
-     */
-    public function apiDestroy(Request $request, $id)
-    {
-        if ($item = $this->repository->find($id)) {
-            $this->repository->delete($id);
-            return $this->sendSuccess(sprintf('%s deleted', class_basename($this->repository->getModelName())));
-        }
-
-        throw new ModelNotFoundException(sprintf('%s not found', class_basename($this->repository->getModelName())));
     }
 
     /**

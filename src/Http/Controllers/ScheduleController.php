@@ -7,7 +7,7 @@ use CroudTech\RecurringTaskScheduler\Model\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class ScheduleController extends BaseController
+class ScheduleController extends BaseResourceController
 {
     /**
      * Index endpoint

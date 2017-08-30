@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-abstract class NestedScheduleController extends BaseController
+abstract class NestedScheduleController extends BaseResourceController
 {
     /**
      * The repository for the scheduleable item
