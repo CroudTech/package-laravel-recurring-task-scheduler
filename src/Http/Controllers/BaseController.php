@@ -49,7 +49,7 @@ class BaseController extends Controller
      * @param  Request $request Request
      * @return string
      */
-    public function index(Request $request)
+    public function apiIndex(Request $request)
     {
         $items = $this->fractal->collection(
             $this->repository->apiPaginate($request),
@@ -66,11 +66,12 @@ class BaseController extends Controller
      * @param  int $id Id
      * @return string
      */
-    public function show(Request $request, $id)
+    public function apiShow(Request $request, $id)
     {
         if ($item = $this->repository->find($id)) {
             return $this->sendResponse($this->transform($item));
         }
+
         throw new ModelNotFoundException(sprintf('%s not found', class_basename($this->repository->getModelName())));
     }
 
@@ -149,7 +150,7 @@ class BaseController extends Controller
      * @param int $id Id
      * @return string
      */
-    public function destroy(Request $request, $id)
+    public function apiDestroy(Request $request, $id)
     {
         if ($item = $this->repository->find($id)) {
             $this->repository->delete($id);
@@ -158,6 +159,7 @@ class BaseController extends Controller
 
         throw new ModelNotFoundException(sprintf('%s not found', class_basename($this->repository->getModelName())));
     }
+
     /**
      * Return transformed model
      * @param $item

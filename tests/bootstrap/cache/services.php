@@ -23,10 +23,11 @@
     19 => 'Illuminate\\Translation\\TranslationServiceProvider',
     20 => 'Illuminate\\Validation\\ValidationServiceProvider',
     21 => 'Illuminate\\View\\ViewServiceProvider',
-    22 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\AppServiceProvider',
-    23 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\AuthServiceProvider',
-    24 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\EventServiceProvider',
-    25 => 'CroudTech\\RecurringTaskScheduler\\RecurringTaskSchedulerServiceProvider',
+    22 => 'CroudTech\\RecurringTaskScheduler\\RecurringTaskSchedulerServiceProvider',
+    23 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\AppServiceProvider',
+    24 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\AuthServiceProvider',
+    25 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\EventServiceProvider',
+    26 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\RouteServiceProvider',
   ),
   'eager' => 
   array (
@@ -40,10 +41,11 @@
     7 => 'Illuminate\\Pagination\\PaginationServiceProvider',
     8 => 'Illuminate\\Session\\SessionServiceProvider',
     9 => 'Illuminate\\View\\ViewServiceProvider',
-    10 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\AppServiceProvider',
-    11 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\AuthServiceProvider',
-    12 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\EventServiceProvider',
-    13 => 'CroudTech\\RecurringTaskScheduler\\RecurringTaskSchedulerServiceProvider',
+    10 => 'CroudTech\\RecurringTaskScheduler\\RecurringTaskSchedulerServiceProvider',
+    11 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\AppServiceProvider',
+    12 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\AuthServiceProvider',
+    13 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\EventServiceProvider',
+    14 => 'CroudTech\\RecurringTaskScheduler\\Tests\\App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (

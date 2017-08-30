@@ -10,6 +10,41 @@ use Illuminate\Routing\Controller;
 class ScheduleController extends BaseController
 {
     /**
+     * Index endpoint
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function index(Request $request)
+    {
+        return $this->apiIndex($request);
+    }
+
+    /**
+     * RESTful Show Method
+     *
+     * @param  Request $request Request
+     * @param  int $id Id
+     * @return string
+     */
+    public function show(Request $request, $id)
+    {
+        return $this->apiShow($request, $id);
+    }
+
+    /**
+     * RESTful Destroy Method
+     *
+     * @param  Request $request Request
+     * @param  int $id Id
+     * @return string
+     */
+    public function destroy(Request $request, $id)
+    {
+        return $this->apiDestroy($request, $id);
+    }
+
+    /**
      * RESTful Store Method
      *
      * @param  Request $request Request
