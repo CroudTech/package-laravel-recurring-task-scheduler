@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
 
-class ScheduleEventsNestedController extends BaseController
+class ScheduleEventsNestedController extends BaseResourceController
 {
     /**
      * Index endpoint
