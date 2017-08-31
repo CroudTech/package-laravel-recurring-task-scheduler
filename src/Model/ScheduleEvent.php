@@ -53,4 +53,15 @@ class ScheduleEvent extends Model
     {
         event(new \CroudTech\RecurringTaskScheduler\Events\ScheduleEventTriggerEvent($this));
     }
+
+    /**
+     * Scope a query to only include future events
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+     public function scopeFutureEvents($query)
+     {
+         return $query->where('date', '>', Carbon::now());
+     }
 }
