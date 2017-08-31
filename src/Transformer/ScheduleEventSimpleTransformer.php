@@ -22,6 +22,15 @@ class ScheduleEventSimpleTransformer extends TransformerAbstract implements Tran
             'triggered_at' => $schedule_event['triggered_at'],
             'trigger_success' => $schedule_event['trigger_success'],
             'modified' => $schedule_event['modified'],
+            'links' => [
+                [
+                    'rel' => 'self',
+                    'uri' => route('schedule.schedule-event.show', [
+                        'schedule' => $schedule_event->schedule_id,
+                        'schedule_event' => $schedule_event->id,
+                    ]),
+                ]
+            ]
         ];
     }
 }
