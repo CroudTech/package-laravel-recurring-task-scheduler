@@ -18,19 +18,19 @@ class ScheduleEventRepository extends BaseRepository implements RepositoryContra
         return ScheduleEvent::class;
     }
 
-     /**
-     * modifyApiPaginateQueryRepository
-     * @method modifyApiPaginateQueryRepository
-     * @param  array    $query_params [description]
+    /**
+     * @param Collection | QueryBuilder $this->query()
+     * @param $request
      * @return void
      */
-    public function modifyApiPaginateQueryRepository($query_params) {
-        if (empty($query_params['all_events'])) {
+    protected function modifyApiPaginateQuery(Request $request)
+    {
+        if (empty($request['all_events'])) {
             $this->query()->futureEvents();
         }
-        
-        unset($query_params['all_events']); 
 
-        parent::modifyApiPaginateQueryRepository($query_params);
+        unset($request['all_events']);
+
+        parent::modifyApiPaginateQuery($request);
     }
 }

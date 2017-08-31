@@ -22,7 +22,12 @@ class NestedScheduleRouteTest extends TestCase
         $schedules[] = $this->getSchedule();
 
         foreach ($schedules as $schedule) {
-            $this->json('GET', route('schedule.schedule-event.index', ['schedule' => $schedule->id]), ['per_page' => 500]);
+            $this->json('GET', route('schedule.schedule-event.index', [
+                'schedule' => $schedule->id,
+                'per_page' => 500,
+                'all_events' => true,
+            ]));
+
             $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
 
             $this->seeJsonStructure([
@@ -41,6 +46,7 @@ class NestedScheduleRouteTest extends TestCase
                     ],
                 ],
             ]);
+
             $this->assertNotEmpty($this->response->getData()->data);
             foreach ($this->response->getData()->data as $returned_schedule_event) {
                 $this->assertEquals($schedule['id'], intval($returned_schedule_event->schedule_id));
