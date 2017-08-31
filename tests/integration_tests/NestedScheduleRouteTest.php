@@ -13,6 +13,7 @@ class NestedScheduleRouteTest extends TestCase
     /**
      * Test index resource route
      *
+     * @group DEV
      */
     public function testIndex()
     {

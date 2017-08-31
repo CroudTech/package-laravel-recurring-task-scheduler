@@ -17,7 +17,20 @@ class ScheduleEventTransformer extends TransformerAbstract implements Transforme
     public function transform(ScheduleEvent $schedule_event) : array
     {
         $array = $schedule_event->toArray();
-        $array['links'] = [
+        $array['links'] = $this->getLinks($schedule_event);
+        return $array;
+    }
+
+    /**
+     * Get Links
+     *
+     * @param ScheduleEvent $schedule_event
+     * @return void
+     */
+    protected function getLinks(ScheduleEvent $schedule_event)
+    {
+        return
+        [
             [
                 'rel' => 'self',
                 'uri' => route('schedule.schedule-event.show', [
@@ -26,6 +39,5 @@ class ScheduleEventTransformer extends TransformerAbstract implements Transforme
                 ]),
             ]
         ];
-        return $array;
     }
 }

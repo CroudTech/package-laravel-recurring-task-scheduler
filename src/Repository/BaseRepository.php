@@ -5,6 +5,7 @@ use CroudTech\RecurringTaskScheduler\Contracts\ScheduleEventRepositoryContract;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
 use CroudTech\Repositories\BaseRepository as CroudTechBaseRepository;
 use CroudTech\Repositories\Contracts\RepositoryContract;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Schema;
 
@@ -18,7 +19,7 @@ abstract class BaseRepository extends CroudTechBaseRepository
      * @param array|null $with List of relationship to eager load
      * @return array
      */
-    public function apiPaginate(\Illuminate\Http\Request $request, $active_only = true, array $with = null)
+    public function apiPaginate(Request $request, $active_only = true, array $with = null)
     {
 
         $per_page = $request->get('per_page', 15);
@@ -26,10 +27,8 @@ abstract class BaseRepository extends CroudTechBaseRepository
 
         $query_params = null;
 
-        if ($request->has('query')) {
-            $query_params = $request->get('query');
-        }
-        return $this->apiPaginateRepository($query_params, $with, $order_by, $per_page, $active_only);
+
+        return $this->apiPaginateRepository($request, $with, $order_by, $per_page, $active_only);
     }
 
     /**
@@ -43,7 +42,7 @@ abstract class BaseRepository extends CroudTechBaseRepository
      * @return [type]                              [description]
      */
     public function apiPaginateRepository(
-        $query_params = null,
+        Request $request,
         array $with = null,
         $order_by = null,
         $per_page = 15,
@@ -61,9 +60,6 @@ abstract class BaseRepository extends CroudTechBaseRepository
             $order_by[1] = 'asc';
         }
 
-
-        $request = Input::get();
-
         if (!empty($request->search)) {
             $this->query = $model_name::apiSearch($request);
         } else {
@@ -80,7 +76,7 @@ abstract class BaseRepository extends CroudTechBaseRepository
             $this->query()->whereIn('status', $model_name::$active_statuses);
         }
 
-        $this->modifyApiPaginateQueryRepository($query_params);
+        $this->modifyApiPaginateQuery($request);
 
         $items = $this->paginate($per_page);
 
