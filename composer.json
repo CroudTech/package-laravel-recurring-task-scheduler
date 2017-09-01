@@ -30,13 +30,5 @@
         "croudtech/laravel-repositories": "^1.5",
         "laravel/laravel": "5.3.*",
         "nesbot/carbon": "^1.21"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php artisan vendor:publish --provider=\"CroudTech\\\\RecurringTaskScheduler\\\\RecurringTaskSchedulerServiceProvider\""
-        ],
-        "post-update-cmd": [
-            "php artisan optimize"
-        ]
     }
 }
