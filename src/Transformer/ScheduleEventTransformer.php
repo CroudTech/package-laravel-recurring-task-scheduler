@@ -36,7 +36,7 @@ class ScheduleEventTransformer extends TransformerAbstract implements Transforme
                 'uri' => route('schedule.schedule-event.show', [
                     'schedule' => $schedule_event->schedule_id,
                     'schedule_event' => $schedule_event->id,
-                ]),
+                ], false),
             ]
         ];
     }
