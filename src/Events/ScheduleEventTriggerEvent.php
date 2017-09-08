@@ -3,7 +3,7 @@ namespace CroudTech\RecurringTaskScheduler\Events;
 
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleableContract;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
-use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
+use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent as ScheduleEventModel;
 use Illuminate\Queue\SerializesModels;
 
 class ScheduleEventTriggerEvent
@@ -13,7 +13,7 @@ class ScheduleEventTriggerEvent
     /**
      * The Schedule event being tiggered
      *
-     * @var ScheduleEvent
+     * @var ScheduleEventModel
      */
     public $schedule_event;
 
@@ -23,7 +23,7 @@ class ScheduleEventTriggerEvent
      * @param  ScheduleEvent  $schedule_event
      * @return void
      */
-    public function __construct(ScheduleEvent $schedule_event)
+    public function __construct(ScheduleEventModel $schedule_event, ScheduleExecuteEvent $schedule_execute_event)
     {
         $this->schedule_event = $schedule_event;
     }

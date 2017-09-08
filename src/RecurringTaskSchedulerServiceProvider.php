@@ -22,12 +22,17 @@ use CroudTech\RecurringTaskScheduler\Subscribers\ScheduleSubscriber;
 use CroudTech\RecurringTaskScheduler\Traits\ScheduleableTrait;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleEventTransformer;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleTransformer;
+use CroudTech\RecurringTaskScheduler\Console\Commands\ExecuteCommand;
 use CroudTech\Repositories\Contracts\RepositoryContract;
 use CroudTech\Repositories\Contracts\TransformerContract;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use CroudTech\RecurringTaskScheduler\Events\ScheduleExecuteEvent;
+use CroudTech\RecurringTaskScheduler\Events\ScheduleEventTriggerEvent;
+use CroudTech\RecurringTaskScheduler\Listeners\TriggerScheduleEventsListener;
+use CroudTech\RecurringTaskScheduler\Listeners\TriggerScheduleEventCallback;
 
 class RecurringTaskSchedulerServiceProvider extends ServiceProvider
 {
@@ -68,6 +73,8 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerCommands();
+
         $this->app->bind(ScheduleParserContract::class, function ($app, $args) {
             if (!isset($args['definition']['type'])) {
                 throw new InvalidArgument(sprintf('No definition type was provided'));
@@ -108,6 +115,13 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
             ->give(ScheduleTransformer::class);
     }
 
+    protected function registerCommands()
+    {
+        $this->commands([
+            ExecuteCommand::class
+        ]);
+    }
+
     /**
      * Load migration files
      *
@@ -128,6 +142,7 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
     public function registerEvents()
     {
         Event::subscribe(ScheduleSubscriber::class);
+        Event::listen(ScheduleExecuteEvent::class, TriggerScheduleEventsListener::class);
     }
 
     /**
