@@ -26,7 +26,7 @@ class ExecuteCommand extends Command
      */
     public function handle()
     {
-        $this->info('Command eternaltree:install fire');
+        $this->info('Schedule executing');
         event(new ScheduleExecuteEvent);
     }
 }
