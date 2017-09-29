@@ -1,6 +1,6 @@
 <?php
 
-list($redis_host, $redis_port) = explode(':', env('REDIS_SERVER_GATEWAY', '127.0.0.1:6379'));
+list($redis_host, $redis_port) = explode(':', env('REDIS_SERVER_GATEWAY', 'gateway-redis:6379'));
 
 return [
 

@@ -8,19 +8,8 @@ use CroudTech\Repositories\Contracts\RepositoryContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class ScheduleEventRepository extends BaseRepository implements RepositoryContract, ScheduleEventRepositoryContract {
-
-    /**
-     * Return the model name for this repository
-     *
-     * @method getModelName
-     * @return string
-     */
-    public function getModelName() : string
-    {
-        return ScheduleEvent::class;
-    }
-
+class ScheduleEventRepository extends BaseRepository implements RepositoryContract, ScheduleEventRepositoryContract
+{
     /**
      * @param Collection | QueryBuilder $this->query()
      * @param $request

@@ -9,19 +9,8 @@ use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
 use CroudTech\Repositories\Contracts\RepositoryContract;
 use Illuminate\Support\Collection;
 
-class ScheduleRepository extends BaseRepository implements RepositoryContract, ScheduleRepositoryContract {
-
-    /**
-     * Return the model name for this repository
-     *
-     * @method getModelName
-     * @return string
-     */
-    public function getModelName() : string
-    {
-        return Schedule::class;
-    }
-
+class ScheduleRepository extends BaseRepository implements RepositoryContract, ScheduleRepositoryContract
+{
     /**
      * Create a new schedule from a definition array
      *

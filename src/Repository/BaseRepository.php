@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\Schema;
 abstract class BaseRepository extends CroudTechBaseRepository
 {
     /**
+     * Return the model name for this repository
+     *
+     * @method getModelName
+     * @return string
+     */
+    public function getModelName() : string
+    {
+        $config_key = 'scheduleable.repositories.' . snake_case(class_basename(static::class)) . '.model_class';
+        return config($config_key);
+    }
+
+    /**
      * Default API paginate method using fractal to transform and include
      *
      * @param \Illuminate\Http\Request $request
