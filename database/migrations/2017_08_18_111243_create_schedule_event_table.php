@@ -21,6 +21,7 @@ class CreateScheduleEventTable extends Migration
             $table->timestamp('triggered_at')->nullable();
             $table->boolean('trigger_success')->nullable();
             $table->boolean('modified')->default(false);
+            $table->boolean('paused')->default(false);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('schedule_id')->references('id')->on('ctrts_schedules');

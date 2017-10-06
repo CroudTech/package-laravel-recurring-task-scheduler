@@ -22,6 +22,7 @@ class ScheduleEvent extends Model
         'schedule_id',
         'trigger_success',
         'triggered_at',
+        'paused',
     ];
 
     protected $casts = [
