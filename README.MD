@@ -3,7 +3,14 @@
 
 # Recurring Task Scheduler
 
-[![Build Status](http://drone.staging.croudcontrol.com/api/badges/croudtech/recurring_task_scheduler/status.svg)](http://drone.staging.croudcontrol.com/croudtech/recurring_task_scheduler)
+<p align="left">
+    <a href="https://travis-ci.org/CroudSupport/recurring_task_scheduler"><img src="https://travis-ci.org/CroudSupport/recurring_task_scheduler.svg?branch=master"></a>
+    <a href="https://packagist.org/packages/croudtech/recurring-task-scheduler"><img src="https://poser.pugx.org/croudtech/recurring-task-scheduler/v/stable"></a>
+    <a href="https://packagist.org/packages/croudtech/recurring-task-scheduler"><img src="https://poser.pugx.org/croudtech/recurring-task-scheduler/v/unstable"></a>
+    <a href="https://packagist.org/packages/croudtech/recurring-task-scheduler"><img src="https://poser.pugx.org/croudtech/recurring-task-scheduler/composerlock"></a>
+    <a href="https://packagist.org/packages/croudtech/recurring-task-scheduler"><img src="https://poser.pugx.org/croudtech/recurring-task-scheduler/license"></a>
+    <a href="https://packagist.org/packages/croudtech/recurring-task-scheduler"><img src="https://poser.pugx.org/croudtech/recurring-task-scheduler/downloads"></a>
+</p>
 
 PHP Laravel Package to provide scheduler functionality.
 
