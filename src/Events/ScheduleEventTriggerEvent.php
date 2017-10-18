@@ -23,7 +23,7 @@ class ScheduleEventTriggerEvent
      * @param  ScheduleEvent  $schedule_event
      * @return void
      */
-    public function __construct(ScheduleEventModel $schedule_event, ScheduleExecuteEvent $schedule_execute_event)
+    public function __construct(ScheduleEventModel $schedule_event)
     {
         $this->schedule_event = $schedule_event;
     }

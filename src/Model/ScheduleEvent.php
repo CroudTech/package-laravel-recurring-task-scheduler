@@ -29,6 +29,8 @@ class ScheduleEvent extends Model
         'modified' => 'boolean',
         'trigger_success' => 'boolean',
         'triggered_at' => 'datetime',
+        'schedule_id' => 'int',
+        'paused' => 'boolean',
     ];
 
     protected $attributes = [

@@ -16,7 +16,7 @@ class ScheduleCreateFormRequest extends Request
             'range.start' => 'required',
             'range.end' => 'required',
             'type' => 'required',
-            'period' => 'in:days,weeks,months',
+            'period' => 'in:days,weeks,months,years',
         ];
     }
 

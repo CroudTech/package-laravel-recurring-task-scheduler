@@ -10,6 +10,10 @@ class ScheduleEventTest extends TestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * Test creation of schedule event from model
+     *
+     */
     public function testScheduleEventCreation()
     {
         Carbon::setTestNow(Carbon::parse('2017-01-01 00:00:00'));
@@ -29,14 +33,15 @@ class ScheduleEventTest extends TestCase
         $expected_event_array = [
             'created_at' => '2017-01-01 00:00:00',
             'date' => '2017-01-01 00:00:00',
-            'deleted_at' => NULL,
+            'deleted_at' => null,
             'id' => $schedule_event->id,
             'modified' => false,
             'original_date' => '2017-01-01 00:00:00',
             'schedule_id' => $schedule->id,
-            'trigger_success' => NULL,
-            'triggered_at' => NULL,
+            'trigger_success' => null,
+            'triggered_at' => null,
             'updated_at' => '2017-01-01 00:00:00',
+            'paused' => false,
         ];
         $this->assertEquals($expected_event_array, $schedule_event_array);
     }
