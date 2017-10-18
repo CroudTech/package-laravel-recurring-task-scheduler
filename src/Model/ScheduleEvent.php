@@ -37,6 +37,15 @@ class ScheduleEvent extends Model
         'trigger_success' => null,
     ];
 
+    protected $dates = [
+        'created_at',
+        'date',
+        'deleted_at',
+        'original_date',
+        'triggered_at',
+        'updated_at',
+    ];
+
     /**
      * Schedule relationship
      *
