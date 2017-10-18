@@ -43,11 +43,10 @@ class Periodic extends Base implements ScheduleParserContract
                 $current_date->$modify_method($interval)->setTime(...explode(':', $this->getTimeOfDay()));
             }
         }
-        $this->generated = collect($this->generated)->map(function ($date) {
-            return $date->setTimezone('UTC');
-        })->toArray();
+
         $this->generated = $this->filterExceptions($this->generated);
         $this->sortDates();
+        $this->fixTimezones();
         return $this->generated;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-return [
+return collect([
     [   // Daily [every other day]
         '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "days", "day_of_month": false, "week_of_month": false, "days": {}, "months": {} }',
         [
@@ -233,4 +233,9 @@ return [
             '2017-11-13T09:00:00+03:00', // Mon 13 Nov 2017 00:00:00 +01:00
         ],
     ],
-];
+])->map(function ($row) {
+    foreach ($row[1] as $k => $expected_date) {
+        $row[1][$k] = \Carbon\Carbon::parse($expected_date)->setTimezone('UTC')->format('c');
+    }
+    return $row;
+})->toArray();

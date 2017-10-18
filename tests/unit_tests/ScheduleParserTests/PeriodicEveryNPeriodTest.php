@@ -17,20 +17,21 @@ class PeriodicEveryNPeriodTest extends TestCase
         $parser = new \CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic($definition);
         $generated_dates = collect($parser->getDates());
 
-        $this->assertTrue((new Carbon($definition['range'][0], $definition['timezone']))->isSameDay($generated_dates->first()), 'First generated date is not the same day as the first day of the range'); // Check that the first date is equal to the start of the range
+        $this->assertTrue((new Carbon($definition['range'][0], $definition['timezone']))->isSameDay($generated_dates->first()->setTimezone($definition['timezone'])), 'First generated date is not the same day as the first day of the range'); // Check that the first date is equal to the start of the range
+
         $this->assertTrue($generated_dates->last()->lte(new Carbon($definition['range'][1], $definition['timezone'])), 'Last generated date is not before the last date of the range'); // Check that the last date is not after the end of the range
         $test_date = (new Carbon($definition['range'][0], $definition['timezone']))->setTime(...explode(':', $definition['time_of_day']));
 
         foreach ($generated_dates as $generated_date) {
             $this->assertTrue($test_date->eq($generated_date), $test_date->format('c') . ' ' . $generated_date->format('c'));
-            $this->assertEquals($definition['time_of_day'], $generated_date->format('H:i:s'), $generated_date->format('c'));
+            $this->assertEquals($definition['time_of_day'], $generated_date->copy()->setTimezone($definition['timezone'])->format('H:i:s'), $generated_date->format('c'));
             $modify_method = sprintf('add%s', ucfirst(camel_case($definition['period'])));
             $test_date->$modify_method($definition['interval'])->setTime(...explode(':', $definition['time_of_day']));
         }
 
         $this->assertEquals($expected_dates, $generated_dates->map(
-            function ($date) {
-                return $date->format('c');
+            function ($date) use ($definition) {
+                return $date->copy()->setTimezone($definition['timezone'])->format('c');
             }
         )->toArray());
     }

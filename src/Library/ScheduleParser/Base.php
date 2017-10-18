@@ -340,4 +340,16 @@ abstract class Base
             return $a->gt($b);
         });
     }
+
+    /**
+     * Set all timezones to UTC
+     *
+     * @return array
+     */
+    protected function fixTimezones() : array
+    {
+        return $this->generated = collect($this->generated)->map(function ($date) {
+            return $date->setTimezone('UTC');
+        })->toArray();
+    }
 }

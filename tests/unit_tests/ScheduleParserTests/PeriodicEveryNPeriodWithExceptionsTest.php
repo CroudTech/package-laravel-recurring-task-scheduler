@@ -43,7 +43,7 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
      */
     public function testDailyEveryNDaysProvider()
     {
-        return [
+        return collect([
             [
                 [
                     'timezone' => 'Europe/London',
@@ -149,6 +149,11 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
                     "2017-10-02T09:30:00+01:00",
                 ],
             ],
-        ];
+        ])->map(function ($row) {
+            foreach ($row[1] as $k => $expected_date) {
+                $row[1][$k] = \Carbon\Carbon::parse($expected_date)->setTimezone('UTC')->format('c');
+            }
+            return $row;
+        })->toArray();
     }
 }
