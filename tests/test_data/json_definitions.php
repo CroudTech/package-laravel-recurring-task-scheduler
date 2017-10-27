@@ -142,6 +142,15 @@ return collect([
             '2017-11-30T09:00:00+00:00', // Thu, 30 Nov 2017 09:00:00 +0000
         ],
     ],
+    [   // Last day of each month
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "1", "period": "months", "day_of_month": "last", "week_of_month": false, "days": {}, "months": {} }',
+        [
+            '2017-08-31T09:00:00+01:00', // Tue, 03 Oct 2017 09:00:00 +0100
+            '2017-09-30T09:00:00+01:00', // Tue, 03 Oct 2017 09:00:00 +0100
+            '2017-10-31T09:00:00+00:00', // Tue, 03 Oct 2017 09:00:00 +0100
+            '2017-11-30T09:00:00+00:00', // Tue, 03 Oct 2017 09:00:00 +0100
+        ],
+    ],
     [   // Same day each month [3rd of every other month] (excluding day of current month outside date range)
         '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "months", "day_of_month": "3", "week_of_month": false, "days": {}, "months": {} }',
         [

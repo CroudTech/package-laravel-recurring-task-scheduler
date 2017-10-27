@@ -15,12 +15,19 @@ class Periodic extends Base implements ScheduleParserContract
         if (empty($this->generated)) {
             $interval = $this->getInterval();
             $current_date = $this->getRangeStart()->setTime(...explode(':', $this->getTimeOfDay()));
-            if (isset($this->definition['day_of_month']) && is_numeric($this->definition['day_of_month'])) {
-                $current_date->day($this->definition['day_of_month']);
-            }
+            $original_current_date = $current_date->copy();
 
             // Prevent iteration over more than 1000 days to stop incorrect definition from causing infinite loops
             while ($current_date->lte($this->getRangeEnd()) && count($this->generated) < 1000) {
+                if (isset($this->definition['day_of_month'])) {
+                    if (is_numeric($this->definition['day_of_month'])) {
+                        $current_date->day($this->definition['day_of_month']);
+                    } elseif (is_string($this->definition['day_of_month'])) {
+                        $modification_string = sprintf('%s day of %s %s', ucfirst($this->definition['day_of_month']), $current_date->format('F'), $current_date->year);
+                        $current_date->endOfMonth();
+                        $current_date->setTime(...explode(':', $this->getTimeOfDay()));
+                    }
+                }
                 if (isset($this->definition['week_of_month']) && !empty($this->definition['week_of_month'])) {
                     $this->definition['period'] = 'months';
                     foreach ($this->definition['days'] as $day => $day_enabled) {
@@ -37,6 +44,11 @@ class Periodic extends Base implements ScheduleParserContract
                     if ($current_date->lte($this->getRangeEnd()) && $current_date->gte($this->getRangeStart())) {
                         $this->generated[] = $current_date->copy();
                     }
+                }
+                switch ($this->definition['period']) {
+                    case 'months':
+                        $current_date->day($original_current_date->day);
+                        break;
                 }
 
                 $modify_method = sprintf('add%s', ucfirst(camel_case($this->definition['period'])));
