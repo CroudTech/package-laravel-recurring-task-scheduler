@@ -24,8 +24,9 @@ class Schedule extends Model
         'time_of_day',
         'interval',
         'period',
-        'day_of_month',
-        'week_of_month',
+        'modifier',
+        'day_number',
+        'week_number',
         'mon',
         'tue',
         'wed',
@@ -56,7 +57,8 @@ class Schedule extends Model
 
     protected $casts = [
         'triggered_at' => 'datetime',
-        'day_of_month' => 'string',
+        'day_number' => 'string',
+        'modifier' => 'string',
     ];
 
     /**

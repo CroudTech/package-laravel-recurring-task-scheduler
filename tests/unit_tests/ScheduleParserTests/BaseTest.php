@@ -2,7 +2,7 @@
 namespace CroudTech\RecurringTaskScheduler\Tests\ScheduleParserTest;
 
 use Carbon\Carbon;
-use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
+use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic\Days as PeriodicParser;
 use CroudTech\RecurringTaskScheduler\Tests\TestCase;
 
 class BaseTest extends TestCase

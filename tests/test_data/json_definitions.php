@@ -1,8 +1,54 @@
 <?php
 
 return collect([
+    [   // Every two weeks on weekdays
+        '{
+            "definition_description": "Every two weeks on weekdays",
+            "type": "periodic",
+            "interval": "2",
+            "period": "weeks",
+            "day_number": false,
+            "week_number": false,
+            "days": {
+                "mon": true,
+                "tue": true,
+                "wed": true,
+                "thu": true,
+                "fri": true,
+                "sat": false,
+                "sun": false
+            },
+            "months": {},
+            "timezone": "Europe/London",
+            "range": {
+                "start": "2017-10-27T23:00:00.000Z",
+                "end": "2017-12-12T00:00:00.000Z"
+            },
+            "time_of_day": "09:00",
+            "occurrence": "Weekly",
+            "callback": "clone"
+        }',
+        [
+            '2017-10-27T09:00:00+01:00', // Fri, 27 Oct 2017 09:00:00 +0100
+            '2017-11-06T09:00:00+00:00', // Mon, 06 Nov 2017 09:00:00 +0000
+            '2017-11-07T09:00:00+00:00', // Tue, 07 Nov 2017 09:00:00 +0000
+            '2017-11-08T09:00:00+00:00', // Wed, 08 Nov 2017 09:00:00 +0000
+            '2017-11-09T09:00:00+00:00', // Thu, 09 Nov 2017 09:00:00 +0000
+            '2017-11-10T09:00:00+00:00', // Fri, 10 Nov 2017 09:00:00 +0000
+            '2017-11-20T09:00:00+00:00', // Mon, 20 Nov 2017 09:00:00 +0000
+            '2017-11-21T09:00:00+00:00', // Tue, 21 Nov 2017 09:00:00 +0000
+            '2017-11-22T09:00:00+00:00', // Wed, 22 Nov 2017 09:00:00 +0000
+            '2017-11-23T09:00:00+00:00', // Thu, 23 Nov 2017 09:00:00 +0000
+            '2017-11-24T09:00:00+00:00', // Fri, 24 Nov 2017 09:00:00 +0000
+            '2017-12-04T09:00:00+00:00', // Mon, 04 Dec 2017 09:00:00 +0000
+            '2017-12-05T09:00:00+00:00', // Tue, 05 Dec 2017 09:00:00 +0000
+            '2017-12-06T09:00:00+00:00', // Wed, 06 Dec 2017 09:00:00 +0000
+            '2017-12-07T09:00:00+00:00', // Thu, 07 Dec 2017 09:00:00 +0000
+            '2017-12-08T09:00:00+00:00', // Fri, 08 Dec 2017 09:00:00 +0000
+        ],
+    ],
     [   // Daily [every other day]
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "days", "day_of_month": false, "week_of_month": false, "days": {}, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "days", "day_number": false, "week_number": false, "days": {}, "months": {} }',
         [
             '2017-08-16T09:00:00+01:00', // Wed, 16 Aug 2017 09:00:00 +0100
             '2017-08-18T09:00:00+01:00', // Fri, 18 Aug 2017 09:00:00 +0100
@@ -61,7 +107,7 @@ return collect([
         ],
     ],
     [   //Weekly [every week day]
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": false, "days": { "mon": true, "tue": true, "wed": true, "thu": true, "fri": true, "sat": false, "sun": false }, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_number": false, "week_number": false, "days": { "mon": true, "tue": true, "wed": true, "thu": true, "fri": true, "sat": false, "sun": false }, "months": {} }',
         [
             '2017-08-16T09:00:00+01:00', // Wed, 16 Aug 2017 09:00:00 +0100
             '2017-08-17T09:00:00+01:00', // Thu, 17 Aug 2017 09:00:00 +0100
@@ -143,7 +189,22 @@ return collect([
         ],
     ],
     [   // Last day of each month
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "1", "period": "months", "day_of_month": "last", "week_of_month": false, "days": {}, "months": {} }',
+        '{
+            "timezone": "Europe/London",
+            "range": {
+                "start": "2017-08-16",
+                "end": "2017-11-30"
+            },
+            "time_of_day": "09:00",
+            "type": "periodic",
+            "interval": "1",
+            "period": "months",
+            "day_number": false,
+            "modifier": "last_day",
+            "week_number": false,
+            "days": {},
+            "months": {}
+        }',
         [
             '2017-08-31T09:00:00+01:00', // Tue, 03 Oct 2017 09:00:00 +0100
             '2017-09-30T09:00:00+01:00', // Tue, 03 Oct 2017 09:00:00 +0100
@@ -152,20 +213,35 @@ return collect([
         ],
     ],
     [   // Same day each month [3rd of every other month] (excluding day of current month outside date range)
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "months", "day_of_month": "3", "week_of_month": false, "days": {}, "months": {} }',
+        '{
+            "definition_description": "Same day each month [3rd of every other month] (excluding day of current month outside date range)",
+            "timezone": "Europe/London",
+            "range": {
+                "start": "2017-08-16",
+                "end": "2017-11-30"
+            },
+            "time_of_day": "09:00",
+            "type": "periodic",
+            "interval": "2",
+            "period": "months",
+            "day_number": "3",
+            "week_number": false,
+            "days": {},
+            "months": {}
+        }',
         [
             '2017-10-03T09:00:00+01:00', // Tue, 03 Oct 2017 09:00:00 +0100
         ],
     ],
     [   // Same day each month [3rd of every other month]
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "months", "day_of_month": "3", "week_of_month": false, "days": {}, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "months", "day_number": "3", "week_number": false, "days": {}, "months": {} }',
         [
             '2017-08-03T09:00:00+01:00', // Thu, 03 Aug 2017 09:00:00 +0100
             '2017-10-03T09:00:00+01:00', // Tue, 03 Oct 2017 09:00:00 +0100
         ],
     ],
     [   // Same week each month [every second monday] (excluding date outside date range)
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true }, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_number": false, "week_number": "second", "days": { "mon": true }, "months": {} }',
         [
             '2017-09-11T09:00:00+01:00', // Mon, 11 Sep 2017 00:00:00 +0100
             '2017-10-09T09:00:00+01:00', // Mon, 09 Oct 2017 00:00:00 +0100
@@ -173,7 +249,7 @@ return collect([
         ],
     ],
     [   // Same week each month [every second monday]
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true }, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_number": false, "week_number": "second", "days": { "mon": true }, "months": {} }',
         [
             '2017-08-14T09:00:00+01:00', // Mon, 14 Aug 2017 00:00:00 +0100
             '2017-09-11T09:00:00+01:00', // Mon, 11 Sep 2017 00:00:00 +0100
@@ -182,7 +258,7 @@ return collect([
         ],
     ],
     [   // Same week each month (with two days) [every second monday and wednesday] (excluding dates outside date range)
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true, "wed": true }, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_number": false, "week_number": "second", "days": { "mon": true, "wed": true }, "months": {} }',
         [
             '2017-09-11T09:00:00+01:00', // Mon 11 Sep 2017 00:00:00 +01:00
             '2017-09-13T09:00:00+01:00', // Mon 13 Sep 2017 00:00:00 +01:00
@@ -193,7 +269,7 @@ return collect([
         ],
     ],
     [   // Same week each month (with two days) [every second monday and wednesday]
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true, "wed": true }, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_number": false, "week_number": "second", "days": { "mon": true, "wed": true }, "months": {} }',
         [
             '2017-08-09T09:00:00+01:00', // Wed 09 Aug 2017 00:00:00 +01:00
             '2017-08-14T09:00:00+01:00', // Mon 14 Aug 2017 00:00:00 +01:00
@@ -206,14 +282,14 @@ return collect([
         ],
     ],
     [   // Same week each month (with two days and excluded month) [every second monday and wednesday] (excluding dates outside date range)
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true, "wed": true }, "months": { "aug": true, "nov": true } }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_number": false, "week_number": "second", "days": { "mon": true, "wed": true }, "months": { "aug": true, "nov": true } }',
         [
             '2017-11-08T09:00:00+00:00', // Mon 08 Nov 2017 00:00:00 +01:00
             '2017-11-13T09:00:00+00:00', // Mon 13 Nov 2017 00:00:00 +01:00
         ],
     ],
     [   // Same week each month (with two days and excluded month) [every second monday and wednesday]
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true, "wed": true }, "months": { "aug": true, "nov": true } }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_number": false, "week_number": "second", "days": { "mon": true, "wed": true }, "months": { "aug": true, "nov": true } }',
         [
             '2017-08-09T09:00:00+01:00', // Wed 09 Aug 2017 00:00:00 +01:00
             '2017-08-14T09:00:00+01:00', // Mon 14 Aug 2017 00:00:00 +01:00
@@ -222,19 +298,19 @@ return collect([
         ],
     ],
     [   // Same day each year [16th August every year]
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "years", "day_of_month": "16", "week_of_month": false, "days": {}, "months": { "aug": true } }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "years", "day_number": "16", "week_number": false, "days": {}, "months": { "aug": true } }',
         [
             '2017-08-16T09:00:00+01:00', // Wed 16 Aug 2017 00:00:00 +01:00
         ]
     ],
     [   // Same week each year [last Monday of August every year]
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "years", "day_of_month": false, "week_of_month": "last", "days": { "mon": true }, "months": { "aug": true } }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "years", "day_number": false, "week_number": "last", "days": { "mon": true }, "months": { "aug": true } }',
         [
             '2017-08-28T09:00:00+01:00', // Mon 28 Aug 2017 00:00:00 +01:00
         ]
     ],
     [   // Same week each month (with two days and excluded month) [every second monday and wednesday]
-        '{ "timezone": "Asia/Bahrain", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_of_month": false, "week_of_month": "second", "days": { "mon": true, "wed": true }, "months": { "aug": true, "nov": true } }',
+        '{ "timezone": "Asia/Bahrain", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "days", "day_number": false, "week_number": "second", "days": { "mon": true, "wed": true }, "months": { "aug": true, "nov": true } }',
         [
             '2017-08-09T09:00:00+03:00', // Wed 09 Aug 2017 00:00:00 +01:00
             '2017-08-14T09:00:00+03:00', // Mon 14 Aug 2017 00:00:00 +01:00

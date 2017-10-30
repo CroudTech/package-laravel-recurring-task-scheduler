@@ -25,8 +25,9 @@ abstract class Base
         'time_of_day' => '09:00:00',
         'interval' => 1,
         'period' => 'days',
-        'day_of_month' => false,
-        'week_of_month' => false,
+        'day_number' => false,
+        'week_number' => false,
+        'modifier' => null,
         'days' => [
             'mon' => true,
             'tue' => true,
@@ -101,8 +102,8 @@ abstract class Base
         $this->definition = $this->addDefinitionDefaults($this->replaceNumericRangeKeys($definition));
         $this->timezone = isset($this->definition['timezone']) ? $this->definition['timezone'] : $this->timezone;
         $this->definition['timezone'] = $this->timezone;
-        $this->definition['day_of_month'] = empty($this->definition['day_of_month']) ? false : $this->definition['day_of_month'];
-        $this->definition['week_of_month'] = empty($this->definition['week_of_month']) ? false : $this->definition['week_of_month'];
+        $this->definition['day_number'] = empty($this->definition['day_number']) ? false : $this->definition['day_number'];
+        $this->definition['week_number'] = empty($this->definition['week_number']) ? false : $this->definition['week_number'];
         $this->parseDefinitionRange();
         $this->time_of_day = $this->definition['time_of_day'];
         $this->interval = $this->definition['interval'];
@@ -140,6 +141,16 @@ abstract class Base
         $this->range_end->setTime(23, 59, 59);
         $this->definition['range']['start'] = $this->getRangeStart()->format('c');
         $this->definition['range']['end'] = $this->getRangeEnd()->format('c');
+    }
+
+    /**
+     * Get the modifier string
+     *
+     * @return string
+     */
+    public function getModifier()
+    {
+        return $this->definition['modifier'];
     }
 
     /**
@@ -299,12 +310,13 @@ abstract class Base
     public function filterExceptions($generated)
     {
         return collect($generated)->filter(function ($date) {
-            $day = strtolower($date->format('D'));
-            $month = strtolower($date->format('M'));
-            return array_key_exists($day, $this->definition['days']) &&
-                $this->definition['days'][$day] === true &&
-                array_key_exists($month, $this->definition['months']) &&
-                $this->definition['months'][$month] === true;
+            $days = collect($this->definition['days'])->filter()->keys()->map(function ($val) {
+                return ucfirst($val);
+            });
+            $months = collect($this->definition['months'])->filter()->keys()->map(function ($val) {
+                return ucfirst($val);
+            });
+            return $days->contains($date->format('D')) && $months->contains($date->format('M')) ;
         })->values()->toArray();
     }
 

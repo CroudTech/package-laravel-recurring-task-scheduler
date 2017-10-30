@@ -80,9 +80,20 @@ class RecurringTaskSchedulerServiceProvider extends ServiceProvider
                 throw new InvalidArgument(sprintf('No definition type was provided'));
             }
 
-            $classname = sprintf('\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\%s', ucfirst(camel_case($args['definition']['type'])));
+            $classname = sprintf('\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\%s\%s', ucfirst(camel_case($args['definition']['type'])), ucfirst(camel_case($args['definition']['period'])));
+
+            if (isset($args['definition']['modifier']) && !empty($args['definition']['modifier'])) {
+                $modifier_namespace = ucfirst(camel_case($args['definition']['modifier']));
+                $modifier_classname = sprintf('\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\%s\%s\%s', ucfirst(camel_case($args['definition']['type'])), ucfirst(camel_case($args['definition']['period'])), $modifier_namespace);
+                if (class_exists($modifier_classname)) {
+                    $classname = $modifier_classname;
+                } else {
+                    \Log::warning(sprintf('Schedule definition is attemting to apply a non-existent modifier "%s" classname "%s"', $args['definition']['modifier'], $modifier_classname));
+                }
+            }
+
             if (!class_exists($classname)) {
-                throw new InvalidArgument(sprintf('There is no ScheduleParserContract implementation that matches the definition type "%s"', $args['definition']['type']));
+                throw new InvalidArgument(sprintf('There is no ScheduleParserContract implementation that matches the definition type "%s" "%s" tried to load class %s', $args['definition']['type'], $args['definition']['period'], $classname));
             }
 
             return new $classname($args['definition']);

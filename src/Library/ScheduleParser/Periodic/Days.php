@@ -1,9 +1,10 @@
 <?php
-namespace CroudTech\RecurringTaskScheduler\Library\ScheduleParser;
+namespace CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic;
 
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
+use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Base;
 
-class Periodic extends Base implements ScheduleParserContract
+class Days extends Base implements ScheduleParserContract
 {
     /**
      * Return generated dates from provided schedule definition
@@ -19,20 +20,20 @@ class Periodic extends Base implements ScheduleParserContract
 
             // Prevent iteration over more than 1000 days to stop incorrect definition from causing infinite loops
             while ($current_date->lte($this->getRangeEnd()) && count($this->generated) < 1000) {
-                if (isset($this->definition['day_of_month'])) {
-                    if (is_numeric($this->definition['day_of_month'])) {
-                        $current_date->day($this->definition['day_of_month']);
-                    } elseif (is_string($this->definition['day_of_month'])) {
-                        $modification_string = sprintf('%s day of %s %s', ucfirst($this->definition['day_of_month']), $current_date->format('F'), $current_date->year);
+                if (isset($this->definition['day_number'])) {
+                    if (is_numeric($this->definition['day_number'])) {
+                        $current_date->day($this->definition['day_number']);
+                    } elseif (is_string($this->definition['day_number'])) {
+                        $modification_string = sprintf('%s day of %s %s', ucfirst($this->definition['day_number']), $current_date->format('F'), $current_date->year);
                         $current_date->endOfMonth();
                         $current_date->setTime(...explode(':', $this->getTimeOfDay()));
                     }
                 }
-                if (isset($this->definition['week_of_month']) && !empty($this->definition['week_of_month'])) {
+                if (isset($this->definition['week_number']) && !empty($this->definition['week_number'])) {
                     $this->definition['period'] = 'months';
                     foreach ($this->definition['days'] as $day => $day_enabled) {
                         if ($day_enabled) {
-                            $modification_string = sprintf('%s %s of %s %s', ucfirst($this->definition['week_of_month']), $this->formatShortDay($day, 'l'), $current_date->format('F'), $current_date->year);
+                            $modification_string = sprintf('%s %s of %s %s', ucfirst($this->definition['week_number']), $this->formatShortDay($day, 'l'), $current_date->format('F'), $current_date->year);
                             $current_date->modify($modification_string);
                             $current_date->setTime(...explode(':', $this->getTimeOfDay()));
                             if ($current_date->lte($this->getRangeEnd()) && $current_date->gte($this->getRangeStart())) {
