@@ -11,10 +11,11 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
      * Test daily periodic definition
      *
      * @dataProvider testDailyEveryNDaysProvider
+     * @group DEV
      */
     public function testDailyEveryNDays($definition, $expected_dates)
     {
-        $parser = new \CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic($definition);
+        $parser = $this->app->make(\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory::class)->factory($definition);
         $generated_dates = collect($parser->getDates());
 
         foreach ($generated_dates as $generated_date) {
@@ -29,11 +30,15 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
                 $this->assertTrue($parser->getDefinition()['months'][$month_name], 'Month should not be in generated dates');
             }
         }
-        $this->assertEquals($expected_dates, $generated_dates->map(
-            function ($date) {
-                return $date->format('c');
-            }
-        )->toArray(), 'Expected dates did not match for definition ' . var_export($definition, true));
+        $this->assertEquals(
+            $expected_dates,
+            $generated_dates->map(
+                function ($date) {
+                    return $date->format('c');
+                }
+            )->toArray(),
+            'Expected dates did not match for definition ' . var_export($definition, true)
+        );
     }
 
     /**
@@ -43,7 +48,8 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
      */
     public function testDailyEveryNDaysProvider()
     {
-        return collect([
+        return collect(
+            [
             [
                 [
                     'timezone' => 'Europe/London',
@@ -110,7 +116,7 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
                     'interval' => 1,
                     'time_of_day' => '09:30:00',
                     'days' => [
-                        'mon' => 1,
+                        'mon' => true,
                     ],
                     'months' => [
                         'jan' => true,
@@ -149,11 +155,14 @@ class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
                     "2017-10-02T09:30:00+01:00",
                 ],
             ],
-        ])->map(function ($row) {
-            foreach ($row[1] as $k => $expected_date) {
-                $row[1][$k] = \Carbon\Carbon::parse($expected_date)->setTimezone('UTC')->format('c');
+            ]
+        )->map(
+            function ($row) {
+                foreach ($row[1] as $k => $expected_date) {
+                    $row[1][$k] = \Carbon\Carbon::parse($expected_date)->setTimezone('UTC')->format('c');
+                }
+                    return $row;
             }
-            return $row;
-        })->toArray();
+        )->toArray();
     }
 }

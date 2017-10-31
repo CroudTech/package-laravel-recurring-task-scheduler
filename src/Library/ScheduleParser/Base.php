@@ -446,4 +446,18 @@ abstract class Base
     {
         return $this->definition['day_number'] ? $this->definition['day_number'] : $this->getStartDate()->format('j');
     }
+
+    /**
+     * Get the week number as a string
+     *
+     * @return void
+     */
+    public function getWeekNumberAsString()
+    {
+        $week_number = $this->definition['week_number'];
+        if (is_numeric($week_number)) {
+            return [null, 'First', 'Second', 'Third', 'Fourth', 'Fifth'][$week_number];
+        }
+        return ucfirst($week_number);
+    }
 }

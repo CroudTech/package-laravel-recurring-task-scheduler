@@ -14,7 +14,7 @@ class PeriodicEveryNPeriodTest extends TestCase
      */
     public function testDailyEveryNDays($definition, $expected_dates)
     {
-        $parser = new \CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic($definition);
+        $parser = $this->app->make(\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory::class)->factory($definition);
         $generated_dates = collect($parser->getDates());
 
         $this->assertTrue((new Carbon($definition['range'][0], $definition['timezone']))->isSameDay($generated_dates->first()->setTimezone($definition['timezone'])), 'First generated date is not the same day as the first day of the range'); // Check that the first date is equal to the start of the range
@@ -29,11 +29,13 @@ class PeriodicEveryNPeriodTest extends TestCase
             $test_date->$modify_method($definition['interval'])->setTime(...explode(':', $definition['time_of_day']));
         }
 
-        $this->assertEquals($expected_dates, $generated_dates->map(
-            function ($date) use ($definition) {
-                return $date->copy()->setTimezone($definition['timezone'])->format('c');
-            }
-        )->toArray());
+        $this->assertEquals(
+            $expected_dates, $generated_dates->map(
+                function ($date) use ($definition) {
+                    return $date->copy()->setTimezone($definition['timezone'])->format('c');
+                }
+            )->toArray()
+        );
     }
 
     /**

@@ -7,10 +7,7 @@ use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
 use CroudTech\RecurringTaskScheduler\Tests\TestCase;
 
-/**
- * Check scheduler periods:
- */
-class DefinitionsWeeklyTest extends Base
+class DefinitionsDailyTest extends Base
 {
     /**
      * We're extending the parent so the phpunit output reports the correct test class in it's output
@@ -24,6 +21,6 @@ class DefinitionsWeeklyTest extends Base
 
     public function definitionsProvider()
     {
-        return include $this->test_root . '/test_data/schedule_definitions_weekly.php';
+        return include $this->test_root . '/test_data/schedule_definitions_daily.php';
     }
 }

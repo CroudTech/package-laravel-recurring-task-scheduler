@@ -34,11 +34,22 @@ class Months extends Base implements ScheduleParserContract
                     }
                 }
 
-                if ($current_date->between($this->getRangeStart(), $this->getRangeEnd()) &&
-                    $current_date->format('j') == $day_number
-                ) {
-                    $this->generated[] = $current_date->copy();
+                if (isset($this->definition['week_number']) && !empty($this->definition['week_number'])) {
+                    foreach ($this->getDayNames() as $day_name) {
+                        $modification_string = sprintf('%s %s of %s %s', $this->getWeekNumberAsString(), $this->formatShortDay($day_name, 'l'), $current_date->format('F'), $current_date->year);
+                        $current_date->modify($modification_string)->setTime(...explode(':', $this->getTimeOfDay()));
+                        if ($current_date->lte($this->getRangeEnd()) && $current_date->gte($this->getRangeStart())) {
+                            $this->generated[] = $current_date->copy();
+                        }
+                    }
+                } else {
+                    if ($current_date->between($this->getRangeStart(), $this->getRangeEnd()) &&
+                        $current_date->format('j') == $day_number
+                    ) {
+                        $this->generated[] = $current_date->copy();
+                    }
                 }
+
 
                 $current_date->month($month)->year($year);
                 while ($current_date->day != $day_number) {

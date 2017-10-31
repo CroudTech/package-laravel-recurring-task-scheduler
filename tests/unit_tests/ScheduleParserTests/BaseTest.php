@@ -354,4 +354,66 @@ class BaseTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * Provide test data for testGetDefinitionDays()
+     *
+     * @return array
+     */
+    public function definitionWeeksProvider()
+    {
+        return [
+            [
+                [],
+                null,
+            ],
+            [
+                [
+                    'week_number' => 1,
+                ],
+                'First'
+            ],
+            [
+                [
+                    'week_number' => 2,
+                ],
+                'Second'
+            ],
+            [
+                [
+                    'week_number' => 3,
+                ],
+                'Third'
+            ],
+            [
+                [
+                    'week_number' => 4,
+                ],
+                'Fourth'
+            ],
+            [
+                [
+                    'week_number' => 5,
+                ],
+                'Fifth'
+            ],
+            [
+                [
+                    'week_number' => 'Not Numeric',
+                ],
+                'Not Numeric',
+            ],
+        ];
+    }
+
+    /**
+     * Check that numeric weeks can be converted correctly to words
+     *
+     * @dataProvider definitionWeeksProvider
+     */
+    public function testGetWeekNumberAsString($definition, $expected_string)
+    {
+        $parser = new PeriodicParser($definition);
+        $this->assertEquals($expected_string, $parser->getWeekNumberAsString());
+    }
 }

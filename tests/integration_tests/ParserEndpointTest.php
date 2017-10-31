@@ -44,6 +44,6 @@ class ParserEndpointTest extends TestCase
      */
     public function definitionsProvider() : array
     {
-        return include $this->test_root . '/test_data/json_definitions.php';
+        return include $this->test_root . '/test_data/integration_test_json_definitions.php';
     }
 }

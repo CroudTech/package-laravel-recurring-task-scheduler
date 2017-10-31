@@ -24,7 +24,7 @@ class CreateScheduleTable extends Migration
             $table->unsignedSmallInteger('interval')->default(1);
             $table->string('period');
             $table->string('occurrence')->nullable();
-            $table->unsignedTinyInteger('day_number')->nullable();
+            $table->unsignedTinyInteger('day_of_month')->nullable();
             $table->string('week_of_month')->nullable();
             foreach (['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as $day) {
                 $table->unsignedTinyInteger($day)->default(1);
