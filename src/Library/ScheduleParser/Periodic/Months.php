@@ -16,11 +16,8 @@ class Months extends Base implements ScheduleParserContract
 
         if (empty($this->generated)) {
             $interval = $this->getInterval();
-            $day_number = $this->definition['day_number'] ? $this->definition['day_number'] : $this->getRangeStart()->format('j');
-            $current_date = $this->getRangeStart()
-                ->timezone($this->getTimezone())
-                ->setTime(...explode(':', $this->getTimeOfDay()))
-                ->day($day_number);
+            $day_number = $this->getDayNumber();
+            $current_date = $this->getStartDate()->day($day_number);
 
             $iteration_count = 0;
 

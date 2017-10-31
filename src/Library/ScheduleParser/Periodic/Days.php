@@ -15,7 +15,7 @@ class Days extends Base implements ScheduleParserContract
     {
         if (empty($this->generated)) {
             $interval = $this->getInterval();
-            $current_date = $this->getRangeStart()->setTime(...explode(':', $this->getTimeOfDay()));
+            $current_date = $this->getStartDate();
             $original_current_date = $current_date->copy();
 
             // Prevent iteration over more than 1000 days to stop incorrect definition from causing infinite loops

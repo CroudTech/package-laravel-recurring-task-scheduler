@@ -298,7 +298,7 @@ return collect([
         ],
     ],
     'Same day each year [16th August every year]' => [
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "years", "day_number": "16", "week_number": false, "days": {}, "months": { "aug": true } }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-13", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "years", "day_number": "16", "week_number": false, "days": {}, "months": { "aug": true } }',
         [
             '2017-08-16T09:00:00+01:00', // Wed 16 Aug 2017 00:00:00 +01:00
         ]
@@ -315,7 +315,7 @@ return collect([
             "interval": 1,
             "period": "years",
             "day_number": false,
-            "week_number": "last",
+            "modifier": "last_week",
             "days": {
                 "mon": true
             },

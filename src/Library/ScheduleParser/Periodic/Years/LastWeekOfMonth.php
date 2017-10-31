@@ -1,11 +1,11 @@
 <?php
-namespace CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic;
+namespace CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic\Years;
 
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Base;
 
-class Years extends Base implements ScheduleParserContract
+class LastWeekOfMonth extends Base implements ScheduleParserContract
 {
     /**
      * Return generated dates from provided schedule definition
@@ -26,10 +26,14 @@ class Years extends Base implements ScheduleParserContract
             while ($current_date->lte($this->getRangeEnd()) && count($this->generated) < 500 && $iteration_count < 1000) {
                 $generated_date = $current_date->copy();
                 foreach ($months as $month) {
-                    $generated_date->month($month);
-                    $generated_date->day($day_number);
-                    if ($generated_date->between($this->getRangeStart(), $this->getRangeEnd())) {
-                        $this->generated[] = $generated_date->copy();
+                    $generated_date->startOfMonth()->month($month)->endOfMonth()->endOfWeek()->modify('last monday');
+                    foreach ($this->getDayNames() as $day) {
+                        $generated_date->modify($day)->setTime(...explode(':', $this->getTimeOfDay()));
+                        if ($generated_date->month == $month) {
+                            if ($generated_date->between($this->getRangeStart(), $this->getRangeEnd())) {
+                                $this->generated[] = $generated_date->copy();
+                            }
+                        }
                     }
                 }
                 $current_date->addYears($interval);

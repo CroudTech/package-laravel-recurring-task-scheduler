@@ -3,6 +3,7 @@ namespace CroudTech\RecurringTaskScheduler\Library\ScheduleParser;
 
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
+use Illuminate\Support\Collection;
 
 abstract class Base
 {
@@ -363,5 +364,86 @@ abstract class Base
         return $this->generated = collect($this->generated)->map(function ($date) {
             return $date->setTimezone('UTC');
         })->toArray();
+    }
+
+    /**
+     * Get the month names or return the month from the start date if no months where selected
+     * (we're assuming that nobody would intend to create a schedule that wouldn't ever run)
+     *
+     * @return Collection
+     */
+    public function getMonthNames()
+    {
+        $months = collect($this->definition['months'])->filter()->keys()->map(function ($val) {
+            return ucfirst($val);
+        });
+
+        return $months->count() == 0 ? collect([strtolower($this->getRangeStart()->format('M'))]) : $months;
+    }
+
+    /**
+     * Get the month numbers or return the month from the start date if no months where selected
+     * (we're assuming that nobody would intend to create a schedule that wouldn't ever run)
+     *
+     * @return Collection
+     */
+    public function getMonthNumbers() : Collection
+    {
+        $months = $this->getMonthNames()->map(function ($month_name) {
+            return Carbon::parse(sprintf('1st %s 2017', $month_name))->format('n');
+        });
+        return $months->count() == 0 ? collect([$this->getRangeStart()->format('n')]) : $months;
+    }
+
+    /**
+     * Get the day names or return the day from the start date if no days where selected
+     * (we're assuming that nobody would intend to create a schedule that wouldn't ever run)
+     *
+     * @return Collection
+     */
+    public function getDayNames()
+    {
+        $days = collect($this->definition['days'])->filter()->keys()->map(function ($val) {
+            return ucfirst($val);
+        });
+
+        return $days->count() == 0 ? collect([strtolower($this->getRangeStart()->format('D'))]) : $days;
+    }
+
+    /**
+     * Get the day numbers or return the day from the start date if no days where selected
+     * (we're assuming that nobody would intend to create a schedule that wouldn't ever run)
+     *
+     * @return Collection
+     */
+    public function getDayNumbers() : Collection
+    {
+        $days = $this->getDayNames()->map(function ($day_name) {
+            return Carbon::now()->modify($day_name)->format('N');
+        });
+        return $days->count() == 0 ? collect([$this->getRangeStart()->format('N')]) : $days;
+    }
+
+    /**
+     * Get the date to start from (a copy of the range start date with the time set on it)
+     *
+     * @return void
+     */
+    public function getStartDate()
+    {
+        return $this->getRangeStart()
+            ->copy()
+            ->timezone($this->getTimezone())
+            ->setTime(...explode(':', $this->getTimeOfDay()));
+    }
+
+    /**
+     * Get the day number of default to the date of the start date
+     *
+     * @return int
+     */
+    public function getDayNumber() : int
+    {
+        return $this->definition['day_number'] ? $this->definition['day_number'] : $this->getStartDate()->format('j');
     }
 }

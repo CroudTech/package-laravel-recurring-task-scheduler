@@ -15,8 +15,7 @@ class FirstWorkingDay extends Base implements ScheduleParserContract
     {
         if (empty($this->generated)) {
             $interval = $this->getInterval();
-            $current_date = $this->getRangeStart()
-                ->timezone($this->getTimezone())
+            $current_date = $this->getStartDate()
                 ->startOfWeek()
                 ->setTime(...explode(':', $this->getTimeOfDay()));
             $iteration_count = 0;

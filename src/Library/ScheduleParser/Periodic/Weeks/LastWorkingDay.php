@@ -15,7 +15,7 @@ class LastWorkingDay extends Base implements ScheduleParserContract
     {
         if (empty($this->generated)) {
             $interval = $this->getInterval();
-            $current_date = $this->getRangeStart()->setTime(...explode(':', $this->getTimeOfDay()));
+            $current_date = $this->getStartDate();
 
             $iteration_count = 0;
             while ($current_date->between($this->getRangeStart(), $this->getRangeEnd()) && count($this->generated) < 500 && $iteration_count < 1000) {

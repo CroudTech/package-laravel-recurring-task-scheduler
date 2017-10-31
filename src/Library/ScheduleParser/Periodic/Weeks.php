@@ -16,7 +16,7 @@ class Weeks extends Base implements ScheduleParserContract
 
         if (empty($this->generated)) {
             $interval = $this->getInterval();
-            $current_date = $this->getRangeStart()->setTime(...explode(':', $this->getTimeOfDay()));
+            $current_date = $this->getStartDate();
 
             $days = collect($this->definition['days'])->filter()->keys()->map(function ($val) {
                 return ucfirst($val);
