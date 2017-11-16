@@ -85,6 +85,6 @@ class ScheduleEvent extends Model
       */
       public function scopeTodaysEvents($query)
       {
-          return $query->where('date', '>', Carbon::now()->timezone('Australia/Sydney')->startOfDay()->timezone('UTC');
+          return $query->where('date', '>', Carbon::now()->timezone('Australia/Sydney')->startOfDay()->timezone('UTC'));
       }
 }
