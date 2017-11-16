@@ -76,4 +76,15 @@ class ScheduleEvent extends Model
      {
          return $query->where('date', '>', Carbon::now());
      }
+     
+     /**
+      * Scope a query to only include todays events (based on the schedules timezone)
+      *
+      * @param \Illuminate\Database\Eloquent\Builder $query
+      * @return \Illuminate\Database\Eloquent\Builder
+      */
+      public function scopeTodaysEvents($query)
+      {
+          return $query->where('date', '>', Carbon::now()->timezone('Australia/Sydney')->startOfDay()->timezone('UTC');
+      }
 }
