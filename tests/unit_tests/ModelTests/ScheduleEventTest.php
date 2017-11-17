@@ -45,4 +45,31 @@ class ScheduleEventTest extends TestCase
         ];
         $this->assertEquals($expected_event_array, $schedule_event_array);
     }
+
+    /**
+     * Test the todays events scope throws correct exception when grammar isn't supported
+     *
+     * @expectedException     \CroudTech\RecurringTaskScheduler\Exceptions\InvalidScopeException
+     */
+    public function testScopeTodaysEventsWithInvalidQueryGrammar()
+    {
+        $query = \CroudTech\RecurringTaskScheduler\Model\ScheduleEvent::query();
+        $query->todaysEvents();
+    }
+
+    /**
+     * Test the todays events scope throws correct exception when grammar isn't supported
+     *
+     */
+    public function testScopeTodaysEventsWithMysqlGrammar()
+    {
+        $query = \CroudTech\RecurringTaskScheduler\Model\ScheduleEvent::query();
+        $base_query = $query->getQuery();
+        $refObject   = new \ReflectionObject( $base_query );
+        $refProperty = $refObject->getProperty( 'grammar' );
+        $refProperty->setAccessible( true );
+        $refProperty->setValue($base_query, new \Illuminate\Database\Query\Grammars\MySqlGrammar);
+        $query->todaysEvents();
+        $this->assertEquals('select * from `ctrts_schedule_events` where date >= CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(NOW(), \'UTC\', schedules.timezone),"%Y-%m-%d 00:00:00"), schedules.timezone, \'UTC\')', $query->toSql());
+    }
 }

@@ -2,7 +2,9 @@
 namespace CroudTech\RecurringTaskScheduler\Model;
 
 use Carbon\Carbon;
+use CroudTech\RecurringTaskScheduler\Exceptions\InvalidScopeException;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -76,7 +78,7 @@ class ScheduleEvent extends Model
      {
          return $query->where('date', '>', Carbon::now());
      }
-     
+
      /**
       * Scope a query to only include todays events (based on the schedules timezone)
       *
@@ -85,6 +87,14 @@ class ScheduleEvent extends Model
       */
       public function scopeTodaysEvents($query)
       {
-          return $query->where('date', '>', Carbon::now()->timezone($this->schedule->timezone)->startOfDay()->timezone('UTC'));
+        switch ($grammar = class_basename(get_class($query->toBase()->getGrammar())))
+        {
+            case 'SQLiteGrammar':
+                throw new InvalidScopeException(sprintf('The scope method %s is not implemented for sql grammar %s', __METHOD__, $grammar));
+                break;
+            case 'MySqlGrammar':
+                return $query->whereRaw('date >= CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(NOW(), \'UTC\', schedules.timezone),"%Y-%m-%d 00:00:00"), schedules.timezone, \'UTC\')');
+                break;
+        }
       }
 }
