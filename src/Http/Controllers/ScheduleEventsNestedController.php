@@ -20,7 +20,7 @@ class ScheduleEventsNestedController extends BaseResourceController
     public function index(Request $request, int $schedule_id)
     {
         $this->repository->clearQuery();
-        $this->repository->query()->where('schedule_id', $schedule_id);
+        $this->repository->query()->with('schedule')->where('schedule_id', $schedule_id);
         return $this->apiIndex($request);
     }
 
