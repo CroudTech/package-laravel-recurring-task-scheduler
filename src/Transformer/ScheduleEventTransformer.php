@@ -18,7 +18,7 @@ class ScheduleEventTransformer extends TransformerAbstract implements Transforme
     {
         $array = $schedule_event->toArray();
         if ($schedule_event->relationLoaded('schedule')) {
-            $array['local_date'] = $schedule_event->date->timezone($schedule_event->schedule->timezone);
+            $array['local_date'] = $schedule_event->date->timezone($schedule_event->schedule->timezone)->toDateTimeString();
             unset($array['schedule']);
         }
         $array['links'] = $this->getLinks($schedule_event);
