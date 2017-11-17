@@ -17,6 +17,10 @@ class ScheduleEventTransformer extends TransformerAbstract implements Transforme
     public function transform(ScheduleEvent $schedule_event) : array
     {
         $array = $schedule_event->toArray();
+        if ($schedule_event->relationLoaded('schedule')) {
+            $array['local_date'] = $schedule_event->date->timezone($schedule_event->schedule->timezone);
+            unset($array['schedule']);
+        }
         $array['links'] = $this->getLinks($schedule_event);
         return $array;
     }
