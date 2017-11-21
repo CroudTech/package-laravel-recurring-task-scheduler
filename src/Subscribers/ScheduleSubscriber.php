@@ -15,7 +15,7 @@ class ScheduleSubscriber
     {
         $event->schedule_event->trigger_success = false;
         $event->schedule_event->triggered_at = Carbon::now();
-        if ($event->schedule_event->schedule->scheduleable->scheduleEventTrigger($event) == true) {
+        if (isset($event->schedule_event->schedule->scheduleable) && $event->schedule_event->schedule->scheduleable->scheduleEventTrigger($event) == true) {
             $event->schedule_event->trigger_success = true;
         }
 
