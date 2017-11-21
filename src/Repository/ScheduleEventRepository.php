@@ -18,7 +18,7 @@ class ScheduleEventRepository extends BaseRepository implements RepositoryContra
     protected function modifyApiPaginateQuery(Request $request)
     {
         if (empty($request['all_events'])) {
-            $this->query()->futureEvents();
+            $this->query()->todaysEvents();
         }
 
         unset($request['all_events']);
