@@ -93,7 +93,10 @@ class ScheduleEvent extends Model
                 throw new InvalidScopeException(sprintf('The scope method %s is not implemented for sql grammar %s', __METHOD__, $grammar));
                 break;
             case 'MySqlGrammar':
-                return $query->whereRaw('date >= CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(NOW(), \'UTC\', schedules.timezone),"%Y-%m-%d 00:00:00"), schedules.timezone, \'UTC\')');
+                $schedule_table = (new Schedule)->getTable();
+                $schedule_event_table = (new static)->getTable();
+                $query->join($schedule_table, $schedule_event_table . '.schedule_id', '=', $schedule_table . '.id');
+                return $query->whereRaw('date >= CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(NOW(), \'UTC\', ' . $schedule_table . '.timezone),"%Y-%m-%d 00:00:00"), ' . $schedule_table . '.timezone, \'UTC\')');
                 break;
         }
       }
