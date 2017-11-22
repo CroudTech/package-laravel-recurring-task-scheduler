@@ -70,6 +70,6 @@ class ScheduleEventTest extends TestCase
         $refProperty->setAccessible( true );
         $refProperty->setValue($base_query, new \Illuminate\Database\Query\Grammars\MySqlGrammar);
         $query->todaysEvents();
-        $this->assertEquals('select * from `ctrts_schedule_events` inner join `ctrts_schedules` on `ctrts_schedule_events`.`schedule_id` = `ctrts_schedules`.`id` where date >= CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(NOW(), \'UTC\', ctrts_schedules.timezone),"%Y-%m-%d 00:00:00"), ctrts_schedules.timezone, \'UTC\')', $query->toSql());
+        $this->assertEquals('select `ctrts_schedule_events`.* from `ctrts_schedule_events` inner join `ctrts_schedules` on `ctrts_schedule_events`.`schedule_id` = `ctrts_schedules`.`id` where date >= CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(NOW(), \'UTC\', ctrts_schedules.timezone),"%Y-%m-%d 00:00:00"), ctrts_schedules.timezone, \'UTC\')', $query->toSql());
     }
 }
