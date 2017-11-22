@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  *
  * Datetime values stored in the ScheduleEvent are stored in UTC (Timezone offsets are assumed to have been calculated at generation time)
  * and a copy of the original datetime with it's timezone are stored for reporting and debugging
- *
  */
 class ScheduleEvent extends Model
 {
@@ -71,34 +70,34 @@ class ScheduleEvent extends Model
     /**
      * Scope a query to only include future events
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-     public function scopeFutureEvents($query)
-     {
-         return $query->where('date', '>', Carbon::now());
-     }
+    public function scopeFutureEvents($query)
+    {
+        return $query->where('date', '>', Carbon::now());
+    }
 
      /**
       * Scope a query to only include todays events (based on the schedules timezone)
       *
-      * @param \Illuminate\Database\Eloquent\Builder $query
+      * @param  \Illuminate\Database\Eloquent\Builder $query
       * @return \Illuminate\Database\Eloquent\Builder
       */
-      public function scopeTodaysEvents($query)
-      {
+    public function scopeTodaysEvents($query)
+    {
         switch ($grammar = class_basename(get_class($query->toBase()->getGrammar())))
         {
             case 'SQLiteGrammar':
                 throw new InvalidScopeException(sprintf('The scope method %s is not implemented for sql grammar %s', __METHOD__, $grammar));
-                break;
+                    break;
             case 'MySqlGrammar':
                 $schedule_table = (new Schedule)->getTable();
                 $schedule_event_table = (new static)->getTable();
                 $query->join($schedule_table, $schedule_event_table . '.schedule_id', '=', $schedule_table . '.id');
                 $query->select($schedule_event_table . '.*');
                 return $query->whereRaw('date >= CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(NOW(), \'UTC\', ' . $schedule_table . '.timezone),"%Y-%m-%d 00:00:00"), ' . $schedule_table . '.timezone, \'UTC\')');
-                break;
+                    break;
         }
-      }
+    }
 }
