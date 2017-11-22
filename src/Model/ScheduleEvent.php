@@ -96,6 +96,7 @@ class ScheduleEvent extends Model
                 $schedule_table = (new Schedule)->getTable();
                 $schedule_event_table = (new static)->getTable();
                 $query->join($schedule_table, $schedule_event_table . '.schedule_id', '=', $schedule_table . '.id');
+                $query->select($schedule_event_table . '.*');
                 return $query->whereRaw('date >= CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(NOW(), \'UTC\', ' . $schedule_table . '.timezone),"%Y-%m-%d 00:00:00"), ' . $schedule_table . '.timezone, \'UTC\')');
                 break;
         }
