@@ -1,6 +1,39 @@
 <?php
 return [
-    [   // Every two weeks on weekdays
+    // 'Weekly with last day of range on the selected week day' => [
+    //     '{
+    //         "timezone": "Europe/London",
+    //         "range": {
+    //             "start": "2017-11-24",
+    //             "end": "2018-01-01"
+    //         },
+    //         "time_of_day": "09:00",
+    //         "type": "periodic",
+    //         "interval": "1",
+    //         "period": "weeks",
+    //         "day_number": false,
+    //         "week_number": false,
+    //         "days": {
+    //             "mon": true,
+    //             "tue": false,
+    //             "wed": false,
+    //             "thu": false,
+    //             "fri": false,
+    //             "sat": false,
+    //             "sun": false
+    //         },
+    //         "months": {}
+    //     }',
+    //     [
+    //         '2017-11-27T09:00:00+00:00', // Mon 27 11 2017 09:00:00 +0000
+    //         '2017-12-04T09:00:00+00:00', // Mon 04 12 2017 09:00:00 +0000
+    //         '2017-12-11T09:00:00+00:00', // Mon 11 12 2017 09:00:00 +0000
+    //         '2017-12-18T09:00:00+00:00', // Mon 18 12 2017 09:00:00 +0000
+    //         '2017-12-25T09:00:00+00:00', // Mon 25 12 2017 09:00:00 +0000
+    //         '2018-01-01T09:00:00+00:00', // Mon 25 12 2017 09:00:00 +0000
+    //     ],
+    // ],
+    'Every two weeks on weekdays' => [   // Every two weeks on weekdays
         '{
             "definition_description": "Every two weeks on weekdays",
             "type": "periodic",
@@ -44,9 +77,11 @@ return [
             '2017-12-06T09:00:00+00:00', // Wed, 06 Dec 2017 09:00:00 +0000
             '2017-12-07T09:00:00+00:00', // Thu, 07 Dec 2017 09:00:00 +0000
             '2017-12-08T09:00:00+00:00', // Fri, 08 Dec 2017 09:00:00 +0000
+            '2017-12-11T09:00:00+00:00', // Mon, 11 Dec 2017 09:00:00 +0000
+            '2017-12-12T09:00:00+00:00', // Tue, 12 Dec 2017 09:00:00 +0000
         ],
     ],
-    [   // Every two weeks on wednesdays
+    'Every two weeks on wednesdays' => [   // Every two weeks on wednesdays
         '{
             "definition_description": "Every two weeks on wednesdays",
             "type": "periodic",
@@ -79,7 +114,7 @@ return [
             '2017-12-06T09:00:00+00:00', // Wed, 06 Dec 2017 09:00:00 +0000
         ],
     ],
-    [   // Every two weeks on wednesdays and fridays
+    'Every two weeks on wednesdays and fridays' => [   // Every two weeks on wednesdays and fridays
         '{
             "definition_description": "Every two weeks on wednesdays and fridays",
             "type": "periodic",
@@ -116,7 +151,7 @@ return [
             '2017-12-08T09:00:00+00:00', // Fri, 08 Dec 2017 09:00:00 +0000
         ],
     ],
-    [   // Last working day modifier
+    'Last working day modifier 1' => [   // Last working day modifier
         '{
             "definition_description": "Last working day modifier",
             "type": "periodic",
@@ -151,7 +186,7 @@ return [
             '2017-12-08T09:00:00+00:00', // Fri, 08 Dec 2017 09:00:00 +0000
         ],
     ],
-    [   // Last working day modifier
+    'Last working day modifier 2' => [   // Last working day modifier
         '{
             "definition_description": "Last working day modifier",
             "type": "periodic",

@@ -28,6 +28,7 @@ class ParserEndpointTest extends TestCase
     {
         $route = route('croudtech.schedule.parse');
         $this->json('GET', $route, $definition = json_decode($definition, true));
+
         $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
         $this->assertResponseStatus(200);
         $dates = collect((array)$this->response->getData()->data)->map(function ($date) {

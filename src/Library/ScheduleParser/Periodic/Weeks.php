@@ -1,8 +1,10 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic;
 
+use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Base;
+use Illuminate\Support\Collection;
 
 class Weeks extends Base implements ScheduleParserContract
 {
@@ -13,7 +15,6 @@ class Weeks extends Base implements ScheduleParserContract
      */
     public function getDates() : array
     {
-
         if (empty($this->generated)) {
             $interval = $this->getInterval();
             $current_date = $this->getStartDate();
@@ -22,11 +23,11 @@ class Weeks extends Base implements ScheduleParserContract
                 return ucfirst($val);
             });
             $day_of_week = 0;
-            // Prevent iteration over more than 500 days to stop incorrect definition from causing infinite loops
+
+            // Prevent iteration over more than 1000 days to stop incorrect definition from causing infinite loops
             $iteration_count = 0;
-            while ($current_date->between($this->getRangeStart(), $this->getRangeEnd()) && count($this->generated) < 500 && $iteration_count < 1000) {
-                $start_of_week = $current_date->copy()->timezone($this->getTimezone())->startOfWeek()->setTime(...explode(':', $this->getTimeOfDay()));
-                $day_of_week = $start_of_week->copy();
+            foreach ($this->getWeeksForDateRange($this->getRangeStart(), $this->getRangeEnd(), $interval) as $current_week) {
+                $day_of_week = $current_week->copy()->timezone($this->timezone)->setTime(...explode(':', $this->getTimeOfDay()));
                 $day_number = 0;
 
                 while ($day_number < 7) {
@@ -36,10 +37,11 @@ class Weeks extends Base implements ScheduleParserContract
 
                     $day_of_week->addDays(1);
                     $day_number++;
+                    $iteration_count++;
+                    if ($iteration_count > 1000) {
+                        throw new \Exception('Recurring task scheduler cannot itterate over 1000 days for a single schedule');
+                    }
                 }
-                $current_date->addWeeks($interval)->setTime(...explode(':', $this->getTimeOfDay()));
-
-                $iteration_count++;
             }
         }
 
@@ -47,5 +49,29 @@ class Weeks extends Base implements ScheduleParserContract
         $this->sortDates();
         $this->fixTimezones();
         return $this->generated;
+    }
+
+    /**
+     * Get start date of each week in date range
+     *
+     * @param Carbon $start_date
+     * @param Carbon $end_date
+     * @param int $interval
+     * @return Collection
+     */
+    public function getWeeksForDateRange(Carbon $start_date, Carbon $end_date, int $interval) : Collection
+    {
+        $first_date = $start_date->copy()->startOfWeek();
+        $current_date = $first_date->copy();
+        $last_date = $end_date->copy()->endOfWeek();
+        $current_date->startOfWeek();
+        $weeks = collect();
+
+        while ($current_date->between($first_date, $last_date)) {
+            $weeks[] = $current_date->copy();
+            $current_date->addWeeks($interval);
+        }
+
+        return $weeks;
     }
 }
