@@ -61,7 +61,9 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
             $this->getDefinitionFromSchedule($schedule)
         );
     
-        return $schedule->scheduleEvents()->diff($parser->getDates())->each()->delete()->get();
+        return $schedule->scheduleEvents()->diff($parser->getDates())->each(function($scheduleEvent) {
+            $scheduleEvent->delete();
+        })->get();
     }
 
     /**
