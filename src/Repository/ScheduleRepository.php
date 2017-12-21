@@ -1,13 +1,14 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Repository;
 
+use Illuminate\Support\Collection;
+use CroudTech\RecurringTaskScheduler\Model\Schedule;
+use CroudTech\Repositories\Contracts\RepositoryContract;
+use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleableContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
-use CroudTech\RecurringTaskScheduler\Model\Schedule;
-use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
-use CroudTech\Repositories\Contracts\RepositoryContract;
-use Illuminate\Support\Collection;
+use CroudTech\RecurringTaskScheduler\Regeneration\ScheduleEventRegenerator;
 
 class ScheduleRepository extends BaseRepository implements RepositoryContract, ScheduleRepositoryContract
 {
@@ -60,9 +61,16 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
         $parser = $this->getParserFromDefinition(
             $this->getDefinitionFromSchedule($schedule)
         );
-    
-        return $schedule->scheduleEvents()->diff($parser->getDates())->each(function($scheduleEvent) {
+
+        $currentDates = $schedule->scheduleEvents()->pluck('date');
+        $depracatedDates = collect($currentDates)->diff($newDates)->get()->toArray();
+
+        $schedule->scheduleEvents()->whereIn('date', $depracatedDates)->each(function($scheduleEvent) {
             $scheduleEvent->delete();
+        });
+
+        return collect($parser->getDates())->diff($currentDates)->each(function($date) use($schedule) {
+            $schedule->scheduleEvent()->save(['date' => $date]);
         })->get();
     }
 
