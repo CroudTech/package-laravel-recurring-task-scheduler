@@ -65,7 +65,7 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
         $currentDates = $schedule->scheduleEvents()->pluck('date');
         $depracatedDates = collect($currentDates)->diff($newDates)->get()->toArray();
 
-        $schedule->scheduleEvents()->whereIn('date', $depracatedDates)->each(function($scheduleEvent) {
+        $schedule->scheduleEvents()->whereIn('date', $depracatedDates)->get()->each(function($scheduleEvent) {
             $scheduleEvent->delete();
         });
 
