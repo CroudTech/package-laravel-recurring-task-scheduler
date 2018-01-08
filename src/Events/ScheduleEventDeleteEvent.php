@@ -6,7 +6,7 @@ use CroudTech\RecurringTaskScheduler\Model\Schedule;
 use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent as ScheduleEventModel;
 use Illuminate\Queue\SerializesModels;
 
-class ScheduleEventTriggerEvent
+class ScheduleEventDeleteEvent
 {
     use SerializesModels;
 
