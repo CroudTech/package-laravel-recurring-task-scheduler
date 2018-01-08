@@ -55,23 +55,28 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
      * Regenerate events for schedule
      *
      * @return Collection
-     */
+     */   
+
     public function regenerateScheduleEvents($schedule) : Collection
     {
         $parser = $this->getParserFromDefinition(
             $this->getDefinitionFromSchedule($schedule)
         );
 
-        $currentDates = $schedule->scheduleEvents()->pluck('date');
-        $depracatedDates = collect($currentDates)->diff($newDates)->get()->toArray();
+        $parser_dates = $parser->getDates();
+        $current_dates = $schedule->scheduleEvents()->get()->pluck('date');
+        $deprecated_dates = collect($current_dates)->diff($parser_dates)->toArray();
+        $new_dates = collect($parser_dates)->diff($current_dates);
 
-        $schedule->scheduleEvents()->whereIn('date', $depracatedDates)->get()->each(function($scheduleEvent) {
+        $schedule->scheduleEvents()->whereIn('date', $deprecated_dates)->get()->each(function($scheduleEvent) {
             $scheduleEvent->delete();
         });
 
-        return collect($parser->getDates())->diff($currentDates)->each(function($date) use($schedule) {
-            $schedule->scheduleEvent()->save(['date' => $date]);
-        })->get();
+        collect($new_dates)->each(function($date) use($schedule) {
+            $schedule->scheduleEvents()->create(['date' => $date]);
+        });
+
+        return $schedule->scheduleEvents()->get();
     }
 
     /**
@@ -90,16 +95,7 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
         }
         return $schedule->scheduleEvents()->get();
     }
-
-    /**
-     * Delete events for schedule
-     */
-    public function deleteScheduleEvents($schedule) : Void
-    {
-        $schedule->scheduleEvents->each(function(ScheduleEvent $schedule_event){
-            $schedule_event->delete();
-        });
-    }
+    
 
     /**
      * Make a new unsaved instance of the model
