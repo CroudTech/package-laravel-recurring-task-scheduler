@@ -1,6 +1,7 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Observers;
 
+use CroudTech\RecurringTaskScheduler\Events\ScheduleEventDeleteEvent;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
@@ -48,5 +49,15 @@ class ScheduleEventObserver
         }
 
         return true;
+    }
+
+    /**
+     * Listen to the ScheduleEvent deleted event.
+     *
+     * @return void
+     */
+    public function deleted(ScheduleEvent $schedule_event)
+    {
+        event(new ScheduleEventDeleteEvent($schedule_event));
     }
 }
