@@ -92,6 +92,16 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
     }
 
     /**
+     * Delete events for schedule
+     */
+    public function deleteScheduleEvents($schedule) : Void
+    {
+        $schedule->scheduleEvents->each(function(ScheduleEvent $schedule_event){
+            $schedule_event->delete();
+        });
+    }
+
+    /**
      * Make a new unsaved instance of the model
      *
      * @param array $data
