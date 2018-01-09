@@ -1,13 +1,14 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Repository;
 
+use Illuminate\Support\Collection;
+use CroudTech\RecurringTaskScheduler\Model\Schedule;
+use CroudTech\Repositories\Contracts\RepositoryContract;
+use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleableContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleParserContract;
 use CroudTech\RecurringTaskScheduler\Contracts\ScheduleRepositoryContract;
-use CroudTech\RecurringTaskScheduler\Model\Schedule;
-use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
-use CroudTech\Repositories\Contracts\RepositoryContract;
-use Illuminate\Support\Collection;
+use CroudTech\RecurringTaskScheduler\Regeneration\ScheduleEventRegenerator;
 
 class ScheduleRepository extends BaseRepository implements RepositoryContract, ScheduleRepositoryContract
 {
@@ -54,18 +55,26 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
      * Regenerate events for schedule
      *
      * @return Collection
-     */
+     */   
+
     public function regenerateScheduleEvents($schedule) : Collection
     {
-        $definition = $this->getDefinitionFromSchedule($schedule);
-        $parser = $this->getParserFromDefinition($definition);
-        $schedule->scheduleEvents()->each(function (ScheduleEvent $schedule_event) {
-            $schedule_event->delete();
+        $parser = $this->getParserFromDefinition(
+            $this->getDefinitionFromSchedule($schedule)
+        );
+
+        $parser_dates = $parser->getDates();
+        $current_dates = $schedule->scheduleEvents()->get()->pluck('date');
+        $deprecated_dates = collect($current_dates)->diff($parser_dates)->toArray();
+        $new_dates = collect($parser_dates)->diff($current_dates);
+
+        $schedule->scheduleEvents()->whereIn('date', $deprecated_dates)->get()->each(function($scheduleEvent) {
+            $scheduleEvent->delete();
         });
 
-        foreach ($parser->getDates() as $date) {
+        collect($new_dates)->each(function($date) use($schedule) {
             $schedule->scheduleEvents()->create(['date' => $date]);
-        }
+        });
 
         return $schedule->scheduleEvents()->get();
     }
@@ -87,6 +96,16 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
         return $schedule->scheduleEvents()->get();
     }
 
+    /**
+     * Delete events for schedule
+     */
+    public function deleteScheduleEvents($schedule)
+    {
+        $schedule->scheduleEvents->each(function(ScheduleEvent $schedule_event){
+            $schedule_event->delete();
+        });
+    }
+    
     /**
      * Make a new unsaved instance of the model
      *
