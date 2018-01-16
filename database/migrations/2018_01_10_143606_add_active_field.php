@@ -27,7 +27,9 @@ class AddActiveField extends Migration
     public function down()
     {
         Schema::table('ctrts_schedules', function (Blueprint $table) {
-            $table->dropColumn('active');
+            if (Schema::hasColumn('ctrts_schedules', 'active')) {
+                $table->dropColumn('active');
+            }
         });
     }
 }
