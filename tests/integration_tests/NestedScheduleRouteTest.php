@@ -66,7 +66,6 @@ class NestedScheduleRouteTest extends TestCase
         $schedules[] = $this->getSchedule();
         $schedules[] = $this->getSchedule();
 
-
         $this->json('GET', route('schedule.schedule-event.show', ['schedule' => $schedules->first()->id, 'schedule-event' => $schedules->first()->scheduleEvents->last()->id]));
         $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
         $this->seeJsonStructure([

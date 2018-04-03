@@ -60,7 +60,7 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
      * @return Collection
      */   
 
-        public function regenerateScheduleEvents($schedule) : Collection
+    public function regenerateScheduleEvents($schedule, $from_today = false) : Collection
     {
         $parser = $this->getParserFromDefinition(
             $this->getDefinitionFromSchedule($schedule)
@@ -71,8 +71,8 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
         $parser_dates = $parser->getDates();
         $current_dates = $schedule->scheduleEvents()->get()->pluck('date');
         $deprecated_dates = collect($current_dates)->diff($parser_dates)->toArray();
-        $new_dates = collect($parser_dates)->diff($current_dates)->filter(function($date) use ($today) {
-            return $date >= $today;
+        $new_dates = collect($parser_dates)->diff($current_dates)->filter(function($date) use ($today, $from_today) {
+            return ($from_today && $date >= $today) || true;
         });
 
         $schedule->scheduleEvents()->whereIn('date', $deprecated_dates)->get()->each(function($scheduleEvent) {
