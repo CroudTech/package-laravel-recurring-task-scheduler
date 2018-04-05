@@ -72,7 +72,7 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
         $current_dates = $schedule->scheduleEvents()->get()->pluck('date');
         $deprecated_dates = collect($current_dates)->diff($parser_dates)->toArray();
         $new_dates = collect($parser_dates)->diff($current_dates)->filter(function($date) use ($today, $from_today) {
-            return ($from_today && $date >= $today) || true;
+            return !$from_today || $date >= $today;
         });
 
         $schedule->scheduleEvents()->whereIn('date', $deprecated_dates)->get()->each(function($scheduleEvent) {
