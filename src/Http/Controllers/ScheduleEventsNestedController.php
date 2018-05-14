@@ -89,7 +89,7 @@ class ScheduleEventsNestedController extends BaseResourceController
             if ($this->repository->update($id, $request->all())) {
                 $this->postUpdate($request, $item);
                 $item = $item->fresh();
-                return $this->sendResponse($this->transform($item->fresh()));
+                return $this->sendResponse($this->transform($item->fresh()->load('schedule')));
             }
 
             return $this->sendError(sprintf('%s could not be saved', class_basename($this->repository->getModelName())), $response_code = 402);
