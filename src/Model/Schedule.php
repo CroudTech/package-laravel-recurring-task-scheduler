@@ -17,6 +17,7 @@ class Schedule extends Model
     protected $table = 'ctrts_schedules';
 
     protected $fillable = [
+        'active',
         'timezone',
         'type',
         'range_start',
