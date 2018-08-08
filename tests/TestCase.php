@@ -3,7 +3,7 @@ namespace CroudTech\RecurringTaskScheduler\Tests;
 
 use CroudTech\RecurringTaskScheduler\RecurringTaskSchedulerServiceProvider;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Foundation\Testing\TestCase as LaravelTestCase;
+use Laravel\BrowserKitTesting\TestCase as LaravelTestCase;
 
 abstract class TestCase extends LaravelTestCase
 {
