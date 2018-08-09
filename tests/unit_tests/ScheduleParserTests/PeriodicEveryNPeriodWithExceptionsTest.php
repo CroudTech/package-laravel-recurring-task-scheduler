@@ -2,10 +2,10 @@
 namespace CroudTech\RecurringTaskScheduler\Tests\ScheduleParserTest;
 
 use Carbon\Carbon;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 
 
-class PeriodicEveryNPeriodWithExceptionsTest extends TestCase
+class PeriodicEveryNPeriodWithExceptionsTest extends BrowserKitTestCase
 {
     /**
      * Test daily periodic definition

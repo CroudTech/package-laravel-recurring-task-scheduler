@@ -3,7 +3,7 @@ namespace CroudTech\RecurringTaskScheduler\Tests;
 
 use Carbon\Carbon;
 
-class FactoryTest extends TestCase
+class FactoryTest extends BrowserKitTestCase
 {
     /**
      * Check that the correct exception is thrown when no definition type is provided

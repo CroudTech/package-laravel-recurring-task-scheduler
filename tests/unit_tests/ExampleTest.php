@@ -1,6 +1,6 @@
 <?php
 namespace CroudTech\RecurringTaskScheduler\Tests;
-class ExampleTest extends TestCase
+class ExampleTest extends BrowserKitTestCase
 {
     protected function setUp()
     {

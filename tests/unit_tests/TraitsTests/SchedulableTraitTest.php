@@ -2,12 +2,12 @@
 namespace CroudTech\RecurringTaskScheduler\Tests\Traits;
 
 use Carbon\Carbon;
-use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
+use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
 
-class ScheduleTraitTest extends TestCase
+class ScheduleTraitTest extends BrowserKitTestCase
 {
     use DatabaseMigrations;
 
