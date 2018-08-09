@@ -3,12 +3,12 @@ namespace CroudTech\RecurringTaskScheduler\Tests\ScheduleParserTest;
 
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 
 /**
  * Check scheduler periods:
  */
-abstract class Base extends TestCase
+abstract class Base extends BrowserKitTestCase
 {
     /**
      * @dataProvider definitionsProvider

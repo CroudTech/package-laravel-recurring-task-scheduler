@@ -4,12 +4,12 @@ namespace CroudTech\RecurringTaskScheduler\Tests\RepositoryTests;
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleTransformer;
 use CroudTech\Repositories\Fractal;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ScheduleTransformerTest extends TestCase
+class ScheduleTransformerTest extends BrowserKitTestCase
 {
     use DatabaseMigrations;
 

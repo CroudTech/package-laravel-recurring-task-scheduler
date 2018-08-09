@@ -19,7 +19,9 @@ class ChangeMonthDayNumberField extends Migration
             } else {
                 $table->unsignedTinyInteger('day_number')->nullable();
             }
+        });
 
+        Schema::table('ctrts_schedules', function (Blueprint $table) {
             if (Schema::hasColumn('ctrts_schedules', 'week_of_month')) {
                 $table->renameColumn('week_of_month', 'week_number');
             } else {
