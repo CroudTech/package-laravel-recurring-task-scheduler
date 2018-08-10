@@ -29,6 +29,14 @@ class AddCallbackUrl extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('ctrts_schedules', function (Blueprint $table) {
+            if (Schema::hasColumn('ctrts_schedules', 'entity_id')) {
+                $table->int('schedulable_id')->nullable(false)->change();
+                $table->string('scheduleable_type', 100)->nullable(false)->change();
+                $table->dropColumn('entity_id');
+                $table->dropColumn('entity_callback_url');
+                $table->dropColumn('entity_callback_params');
+            }
+        });
     }
 }
