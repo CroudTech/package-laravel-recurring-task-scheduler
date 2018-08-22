@@ -3,10 +3,10 @@ namespace CroudTech\RecurringTaskScheduler\Tests\ModelTests;
 
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ParserEndpointTest extends TestCase
+class ParserEndpointTest extends BrowserKitTestCase
 {
     /**
      * Check that the parser endpoint returns the correct error code when invalid parameters are passed

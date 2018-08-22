@@ -3,10 +3,10 @@ namespace CroudTech\RecurringTaskScheduler\Tests\RepositoryTests;
 
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ScheduleObserverTest extends TestCase
+class ScheduleObserverTest extends BrowserKitTestCase
 {
     use DatabaseMigrations;
 
