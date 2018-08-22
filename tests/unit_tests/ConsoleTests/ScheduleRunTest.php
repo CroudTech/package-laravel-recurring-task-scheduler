@@ -9,6 +9,7 @@ use CroudTech\RecurringTaskScheduler\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use CroudTech\RecurringTaskScheduler\Model\ScheduleEvent;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 
 class ScheduleEventTest extends BrowserKitTestCase
 {
