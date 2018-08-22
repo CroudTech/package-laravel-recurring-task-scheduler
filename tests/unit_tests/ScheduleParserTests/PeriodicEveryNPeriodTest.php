@@ -2,15 +2,15 @@
 namespace CroudTech\RecurringTaskScheduler\Tests\ScheduleParserTest;
 
 use Carbon\Carbon;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 
 
-class PeriodicEveryNPeriodTest extends TestCase
+class PeriodicEveryNPeriodTest extends BrowserKitTestCase
 {
     /**
      * Test daily periodic definition
      *
-     * @dataProvider testDailyEveryNDaysProvider
+     * @dataProvider dailyEveryNDaysProvider
      */
     public function testDailyEveryNDays($definition, $expected_dates)
     {
@@ -43,7 +43,7 @@ class PeriodicEveryNPeriodTest extends TestCase
      *
      * @return array
      */
-    public function testDailyEveryNDaysProvider()
+    public function dailyEveryNDaysProvider()
     {
         return [
             [
