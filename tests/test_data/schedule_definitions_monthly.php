@@ -365,11 +365,14 @@ return [
         ],
     ],
     'Same week each month [every second monday] (excluding date outside date range)' => [
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "months", "day_number": false, "week_number": "second", "days": { "mon": true }, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2018-11-01", "end": "2019-04-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "months", "day_number": false, "week_number": "second", "days": { "mon": true }, "months": {} }',
         [
-            '2017-09-11T08:00:00+00:00', // Mon, 11 Sep 2017 08:00:00 +0000
-            '2017-10-09T08:00:00+00:00', // Mon, 09 Oct 2017 08:00:00 +0000
-            '2017-11-13T09:00:00+00:00', // Mon, 13 Nov 2017 09:00:00 +0000
+            '2018-11-12T09:00:00+00:00', // Mon, 11 Sep 2017 08:00:00 +0000
+            '2018-12-10T09:00:00+00:00', // Mon, 09 Oct 2017 08:00:00 +0000
+            '2019-01-14T09:00:00+00:00', // Mon, 13 Nov 2017 09:00:00 +0000
+            '2019-02-11T09:00:00+00:00', // Mon, 13 Nov 2017 09:00:00 +0000
+            '2019-03-11T09:00:00+00:00', // Mon, 13 Nov 2017 09:00:00 +0000
+            '2019-04-08T08:00:00+00:00', // Mon, 13 Nov 2017 09:00:00 +0000
         ],
     ],
     'Same week each month (with two days and excluded month) [every second monday and wednesday] (excluding dates outside date range)' => [
@@ -439,6 +442,50 @@ return [
             '2017-09-11T08:00:00+00:00', // Mon, 11 Sep 2017 08:00:00 +0000
             '2017-10-09T08:00:00+00:00', // Mon, 09 Oct 2017 08:00:00 +0000
             '2017-11-13T09:00:00+00:00', // Mon, 13 Nov 2017 09:00:00 +0000
+        ],
+    ],
+    'Third day of every third month' => [
+        '{
+            "timezone": "UTC",
+            "range": {
+                "start": "2018-12-01",
+                "end": "2019-12-01"
+            },
+            "time_of_day": "10:00",
+            "type": "periodic",
+            "interval": 3,
+            "period": "months",
+            "day_number": 3,
+            "week_number": 0,
+            "days": {
+                "mon": true,
+                "tue": true,
+                "wed": true,
+                "thu": true,
+                "fri": true,
+                "sat": true,
+                "sun": true
+            },
+            "months": {
+                "jan": true,
+                "feb": true,
+                "mar": true,
+                "apr": true,
+                "may": true,
+                "jun": true,
+                "jul": true,
+                "aug": true,
+                "sep": true,
+                "oct": true,
+                "nov": true,
+                "dec": true
+            }
+        }',
+        [
+            '2018-12-03T10:00:00+00:00', 
+            '2019-03-03T10:00:00+00:00', 
+            '2019-06-03T10:00:00+00:00', 
+            '2019-09-03T10:00:00+00:00', 
         ],
     ],
 ];

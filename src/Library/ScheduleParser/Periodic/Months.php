@@ -26,11 +26,12 @@ class Months extends Base implements ScheduleParserContract
                 $year = $current_date->year;
 
                 if ($current_date->format('j') == $day_number) {
-                    if ($month == 12) {
-                        $month = 1;
-                        $year = $year + 1;
-                    } else {
+                    if ($month <= 12) {
                         $month = $month + $interval;
+                    }
+                    if ($month > 12) {
+                        $month = $month - 12;
+                        $year = $year + 1;
                     }
                 }
 
@@ -39,17 +40,16 @@ class Months extends Base implements ScheduleParserContract
                         $modification_string = sprintf('%s %s of %s %s', $this->getWeekNumberAsString(), $this->formatShortDay($day_name, 'l'), $current_date->format('F'), $current_date->year);
                         $current_date->modify($modification_string)->setTime(...explode(':', $this->getTimeOfDay()));
                         if ($current_date->lte($this->getRangeEnd()) && $current_date->gte($this->getRangeStart())) {
-                            $this->generated[] = $current_date->copy();
+                                $this->generated[] = $current_date->copy();
                         }
                     }
                 } else {
                     if ($current_date->between($this->getRangeStart(), $this->getRangeEnd()) &&
                         $current_date->format('j') == $day_number
                     ) {
-                        $this->generated[] = $current_date->copy();
+                            $this->generated[] = $current_date->copy();
                     }
                 }
-
 
                 $current_date->month($month)->year($year);
                 while ($current_date->day != $day_number) {
@@ -60,7 +60,13 @@ class Months extends Base implements ScheduleParserContract
             }
         }
 
+        $raw = $this->generated;
+
         $this->generated = $this->filterExceptions($this->generated);
+
+        // dd($raw, '---', $this->generated, '---------', $this->getRangeStart(), $this->getRangeEnd());
+        // dd($raw, '---', $this->generated);
+
         $this->sortDates();
         $this->fixTimezones();
         return $this->generated;
