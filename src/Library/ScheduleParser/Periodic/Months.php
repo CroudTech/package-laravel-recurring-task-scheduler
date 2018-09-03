@@ -40,14 +40,14 @@ class Months extends Base implements ScheduleParserContract
                         $modification_string = sprintf('%s %s of %s %s', $this->getWeekNumberAsString(), $this->formatShortDay($day_name, 'l'), $current_date->format('F'), $current_date->year);
                         $current_date->modify($modification_string)->setTime(...explode(':', $this->getTimeOfDay()));
                         if ($current_date->lte($this->getRangeEnd()) && $current_date->gte($this->getRangeStart())) {
-                                $this->generated[] = $current_date->copy();
+                            $this->generated[] = $current_date->copy();
                         }
                     }
                 } else {
                     if ($current_date->between($this->getRangeStart(), $this->getRangeEnd()) &&
                         $current_date->format('j') == $day_number
                     ) {
-                            $this->generated[] = $current_date->copy();
+                        $this->generated[] = $current_date->copy();
                     }
                 }
 
