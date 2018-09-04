@@ -59,13 +59,8 @@ class Months extends Base implements ScheduleParserContract
                 $iteration_count++;
             }
         }
-
-        $raw = $this->generated;
-
+        
         $this->generated = $this->filterExceptions($this->generated);
-
-        // dd($raw, '---', $this->generated, '---------', $this->getRangeStart(), $this->getRangeEnd());
-        // dd($raw, '---', $this->generated);
 
         $this->sortDates();
         $this->fixTimezones();
