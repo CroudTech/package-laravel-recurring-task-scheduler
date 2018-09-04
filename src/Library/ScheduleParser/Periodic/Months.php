@@ -59,9 +59,8 @@ class Months extends Base implements ScheduleParserContract
                 $iteration_count++;
             }
         }
-        
-        $this->generated = $this->filterExceptions($this->generated);
 
+        $this->generated = $this->filterExceptions($this->generated);
         $this->sortDates();
         $this->fixTimezones();
         return $this->generated;
