@@ -26,11 +26,12 @@ class Months extends Base implements ScheduleParserContract
                 $year = $current_date->year;
 
                 if ($current_date->format('j') == $day_number) {
-                    if ($month == 12) {
-                        $month = 1;
-                        $year = $year + 1;
-                    } else {
+                    if ($month <= 12) {
                         $month = $month + $interval;
+                    }
+                    if ($month > 12) {
+                        $month = $month - 12;
+                        $year = $year + 1;
                     }
                 }
 
@@ -49,7 +50,6 @@ class Months extends Base implements ScheduleParserContract
                         $this->generated[] = $current_date->copy();
                     }
                 }
-
 
                 $current_date->month($month)->year($year);
                 while ($current_date->day != $day_number) {
