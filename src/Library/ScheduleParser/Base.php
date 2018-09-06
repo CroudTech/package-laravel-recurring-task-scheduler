@@ -140,8 +140,8 @@ abstract class Base
         $this->range_end = is_a($this->definition['range']['end'], Carbon::class) ? $this->definition['range']['end'] : new Carbon($this->definition['range']['end'], new \DateTimeZone($this->getTimezone()));
         $this->range_start->setTime(0, 0, 0);
         $this->range_end->setTime(23, 59, 59);
-        $this->definition['range']['start'] = $this->getRangeStart()->format('c');
-        $this->definition['range']['end'] = $this->getRangeEnd()->format('c');
+        $this->definition['range']['start'] = $this->getRangeStart()->format('Y-m-d H:i:s');
+        $this->definition['range']['end'] = $this->getRangeEnd()->format('Y-m-d H:i:s');
     }
 
     /**
