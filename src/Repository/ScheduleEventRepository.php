@@ -39,6 +39,7 @@ class ScheduleEventRepository extends BaseRepository implements RepositoryContra
                 $query->where('active', true);
             })
             ->whereNull('triggered_at')
+            ->where('paused', '=', 0)
             ->with('schedule')
             ->get();
     }
