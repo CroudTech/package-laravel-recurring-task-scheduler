@@ -1,7 +1,7 @@
 
 
 
-# Recurring Task Scheduler
+# Recurring Task Scheduler Package
 
 <p align="left">
     <a href="https://travis-ci.org/CroudSupport/recurring_task_scheduler"><img src="https://travis-ci.org/CroudSupport/recurring_task_scheduler.svg?branch=master"></a>
