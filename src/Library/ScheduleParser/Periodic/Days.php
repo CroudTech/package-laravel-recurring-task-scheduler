@@ -18,8 +18,8 @@ class Days extends Base implements ScheduleParserContract
             $current_date = $this->getStartDate();
             $original_current_date = $current_date->copy();
 
-            // Prevent iteration over more than 1000 days to stop incorrect definition from causing infinite loops
-            while ($current_date->lte($this->getRangeEnd()) && count($this->generated) < 1000) {
+            // Prevent iteration over more than 3650 days to stop incorrect definition from causing infinite loops
+            while ($current_date->lte($this->getRangeEnd()) && count($this->generated) < 3650) {
                 if ($current_date->lte($this->getRangeEnd()) && $current_date->gte($this->getRangeStart())) {
                     $this->generated[] = $current_date->copy();
                 }
