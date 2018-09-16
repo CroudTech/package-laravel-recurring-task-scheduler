@@ -50,6 +50,9 @@ class Schedule extends Model
         'scheduleable_id',
         'scheduleable_type',
         'occurrence',
+        'entity_id',
+        'entity_callback_url',
+        'entity_callback_params',
     ];
 
     protected $attributes = [
