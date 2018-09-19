@@ -76,6 +76,13 @@ abstract class Base
     protected $time_of_day;
 
     /**
+     * The times during the day the schedule should run
+     *
+     * @var array
+     */
+    protected $times;
+
+    /**
      * The interval to use as a multiplier
      *
      * @var int
@@ -107,6 +114,7 @@ abstract class Base
         $this->definition['week_number'] = empty($this->definition['week_number']) ? false : $this->definition['week_number'];
         $this->parseDefinitionRange();
         $this->time_of_day = $this->definition['time_of_day'];
+        $this->times = isset($this->definition['times']) ? $this->definition['times'] : '';
         $this->interval = $this->definition['interval'];
 
         return $this->definition;
@@ -298,6 +306,11 @@ abstract class Base
         return $this->time_of_day;
     }
 
+    public function getTimes()
+    {
+        return json_decode($this->times, true);
+    }
+
     /**
      * The interval
      *
@@ -464,5 +477,23 @@ abstract class Base
             return [null, 'First', 'Second', 'Third', 'Fourth', 'Fifth'][$week_number];
         }
         return ucfirst($week_number);
+    }
+
+    /**
+     * Validate times
+     *
+     * @param array
+     * 
+     * @return array
+     */
+    public function validateTimes(array $times)
+    {
+        foreach ($times as $time) {
+            if (preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $time)) {
+                $validTimes[] = $time;
+            }
+        }
+
+        return $validTimes;
     }
 }

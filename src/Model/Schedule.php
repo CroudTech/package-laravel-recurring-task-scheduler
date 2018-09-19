@@ -23,6 +23,7 @@ class Schedule extends Model
         'range_start',
         'range_end',
         'time_of_day',
+        'times',
         'interval',
         'period',
         'modifier',
