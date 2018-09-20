@@ -308,6 +308,8 @@ abstract class Base
 
     public function getTimes()
     {
+        $this->times = is_array($this->times) ? json_encode($this->times) : $this->times;
+
         return json_decode($this->times, true);
     }
 
