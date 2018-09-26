@@ -65,6 +65,7 @@ class Schedule extends Model
         'day_number' => 'string',
         'modifier' => 'string',
         'times' => 'array',
+        'entity_callback_params' => 'array'
     ];
 
     /**
