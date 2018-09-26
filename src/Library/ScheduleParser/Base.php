@@ -490,6 +490,7 @@ abstract class Base
      */
     public function validateTimes(array $times)
     {
+        $validTimes = [];
         foreach ($times as $time) {
             if (preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $time)) {
                 $validTimes[] = $time;
