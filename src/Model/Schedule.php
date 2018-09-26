@@ -64,6 +64,7 @@ class Schedule extends Model
         'triggered_at' => 'datetime',
         'day_number' => 'string',
         'modifier' => 'string',
+        'times' => 'array',
     ];
 
     /**
