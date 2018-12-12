@@ -52,6 +52,7 @@ class Schedule extends Model
         'scheduleable_type',
         'occurrence',
         'entity_id',
+        'entity_callback_method',
         'entity_callback_url',
         'entity_callback_params',
     ];

@@ -32,6 +32,7 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
         isset($scheduleable) ? $schedule->scheduleable()->associate($scheduleable) : null;
         $schedule->times = isset($definition['times']) ? $definition['times'] : null;
         $schedule->entity_id = isset($definition['entity_id']) ? $definition['entity_id'] : null;
+        $schedule->entity_callback_method = isset($definition['entity_callback_method']) ? $definition['entity_callback_method'] : 'POST';
         $schedule->entity_callback_url = isset($definition['entity_callback_url']) ? $definition['entity_callback_url'] : null;
         $schedule->entity_callback_params = isset($definition['entity_callback_params']) ? $definition['entity_callback_params'] : null;
 
