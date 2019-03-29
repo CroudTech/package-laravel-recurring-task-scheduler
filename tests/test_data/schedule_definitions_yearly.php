@@ -92,4 +92,136 @@ return [
             '2019-07-30T08:00:00+00:00', // Tue, 30 Jul 2019 08:00:00 +0000
         ]
     ],
+    'Last working day of June - 2019' => [
+        '{
+            "type": "periodic",
+            "interval": 1,
+            "timezone": "Europe/London",
+            "period": "years",
+            "timeOfDay": "09:00:00",
+            "times": null,
+            "modifier": "last_working_day",
+            "scheduleableId": null,
+            "scheduleableType": null,
+            "occurrence": "SameDayEachYear",
+            "days": {
+                "mon": 1,
+                "tue": 1,
+                "wed": 1,
+                "thu": 1,
+                "fri": 1,
+                "sat": 1,
+                "sun": 1
+            },
+            "months": {
+                "jan": 0,
+                "feb": 0,
+                "mar": 0,
+                "apr": 0,
+                "may": 0,
+                "jun": 1,
+                "jul": 0,
+                "aug": 0,
+                "sep": 0,
+                "oct": 0,
+                "nov": 0,
+                "dec": 0
+            },
+            "range": {
+                "start": "2019-03-26 00:00:00",
+                "end": "2019-08-31 23:59:59"
+            }
+        }',
+        [
+            '2019-06-28T08:00:00+00:00', // Mon, 31 Jul 2017 08:00:00 +0000
+        ]
+    ],
+    'First working day of June - 2019' => [
+        '{
+            "type": "periodic",
+            "interval": 1,
+            "timezone": "Europe/London",
+            "period": "years",
+            "timeOfDay": "09:00:00",
+            "times": null,
+            "modifier": "first_working_day",
+            "scheduleableId": null,
+            "scheduleableType": null,
+            "occurrence": "SameDayEachYear",
+            "days": {
+                "mon": 1,
+                "tue": 1,
+                "wed": 1,
+                "thu": 1,
+                "fri": 1,
+                "sat": 1,
+                "sun": 1
+            },
+            "months": {
+                "jan": 0,
+                "feb": 0,
+                "mar": 0,
+                "apr": 0,
+                "may": 0,
+                "jun": 1,
+                "jul": 0,
+                "aug": 0,
+                "sep": 0,
+                "oct": 0,
+                "nov": 0,
+                "dec": 0
+            },
+            "range": {
+                "start": "2019-03-26 00:00:00",
+                "end": "2019-08-31 23:59:59"
+            }
+        }',
+        [
+            '2019-06-03T08:00:00+00:00', // Mon, 31 Jul 2017 08:00:00 +0000
+        ]
+    ],
+    'Last day of March - 2019' => [
+        '{
+            "type": "periodic",
+            "interval": 1,
+            "timezone": "Europe/London",
+            "period": "years",
+            "timeOfDay": "09:00:00",
+            "times": null,
+            "modifier": "last_day",
+            "scheduleableId": null,
+            "scheduleableType": null,
+            "occurrence": "SameDayEachYear",
+            "days": {
+                "mon": 1,
+                "tue": 1,
+                "wed": 1,
+                "thu": 1,
+                "fri": 1,
+                "sat": 1,
+                "sun": 1
+            },
+            "months": {
+                "jan": 0,
+                "feb": 0,
+                "mar": 1,
+                "apr": 0,
+                "may": 0,
+                "jun": 0,
+                "jul": 0,
+                "aug": 0,
+                "sep": 0,
+                "oct": 0,
+                "nov": 0,
+                "dec": 0
+            },
+            "range": {
+                "start": "2019-03-26 00:00:00",
+                "end": "2019-08-31 23:59:59"
+            }
+        }',
+        [
+            '2019-03-31T08:00:00+00:00', // Mon, 31 Jul 2017 08:00:00 +0000
+        ]
+    ],
 ];
