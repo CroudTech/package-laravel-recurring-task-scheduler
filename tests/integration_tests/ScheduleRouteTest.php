@@ -23,10 +23,12 @@ class ScheduleRouteTest extends BrowserKitTestCase
         $schedule->range_start = '2017-01-01 00:00:00';
         $schedule->range_end = '2017-08-01 00:00:00';
         $schedule->period = 'days';
+        $schedule->status = 'active';
         $schedule->scheduleable()->associate($scheduleable);
         $schedule->save();
 
         $this->json('GET', route('schedule.index'), []);
+ 
         $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
         $this->seeJsonStructure([
             'data' => [

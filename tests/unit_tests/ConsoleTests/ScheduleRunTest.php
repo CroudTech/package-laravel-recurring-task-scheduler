@@ -48,6 +48,7 @@ class ScheduleEventTest extends BrowserKitTestCase
         $schedule->range_start = '2017-01-01 00:00:00';
         $schedule->range_end = '2017-01-05 00:00:00';
         $schedule->period = 'days';
+        $schedule->status = 'active';
         $schedule->scheduleable()->associate($scheduleable);
         $schedule->save();
 

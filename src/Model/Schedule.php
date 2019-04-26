@@ -14,12 +14,18 @@ class Schedule extends Model
 {
     use SoftDeletes;
 
+    public static $active_statuses = [
+        'active',
+    ];
+
     protected $table = 'ctrts_schedules';
 
     protected $fillable = [
         'active',
         'timezone',
         'type',
+        'scope',
+        'status',
         'range_start',
         'range_end',
         'time_of_day',

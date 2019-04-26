@@ -36,7 +36,7 @@ class ScheduleEventRepository extends BaseRepository implements RepositoryContra
         return $this->query()
             ->whereBetween('date', [$timestamp->copy()->startOfDay(), $timestamp])
             ->whereHas('schedule', function ($query) {
-                $query->where('active', true);
+                $query->where('status', '=', 'active');
             })
             ->whereNull('triggered_at')
             ->where('paused', '=', 0)
