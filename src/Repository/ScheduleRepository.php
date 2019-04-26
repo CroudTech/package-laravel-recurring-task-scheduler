@@ -17,6 +17,7 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
 
     protected $params = [
         'times' => null,
+        'scope' => null,
         'entity_id' => null,
         'entity_callback_method' => 'POST',
         'entity_callback_url' => null,
