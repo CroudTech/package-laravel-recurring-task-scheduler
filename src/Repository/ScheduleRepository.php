@@ -15,6 +15,15 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
 {
     const DEFAULT_TIMEZONE = 'Europe/London';
 
+    protected $params = [
+        'times' => null,
+        'scope' => null,
+        'entity_id' => null,
+        'entity_callback_method' => 'POST',
+        'entity_callback_url' => null,
+        'entity_callback_params' => null,
+    ];
+
     /**
      * Create a new schedule from a definition array
      *
@@ -30,11 +39,10 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
         $schedule = $this->make($schedule_attributes);
 
         isset($scheduleable) ? $schedule->scheduleable()->associate($scheduleable) : null;
-        $schedule->times = isset($definition['times']) ? $definition['times'] : null;
-        $schedule->entity_id = isset($definition['entity_id']) ? $definition['entity_id'] : null;
-        $schedule->entity_callback_method = isset($definition['entity_callback_method']) ? $definition['entity_callback_method'] : 'POST';
-        $schedule->entity_callback_url = isset($definition['entity_callback_url']) ? $definition['entity_callback_url'] : null;
-        $schedule->entity_callback_params = isset($definition['entity_callback_params']) ? $definition['entity_callback_params'] : null;
+
+        foreach($this->params as $param => $value) {
+            $schedule->$param = $definition[$param] ?? $value;
+        }
 
         $schedule->save();
 
