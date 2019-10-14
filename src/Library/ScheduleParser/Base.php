@@ -140,7 +140,7 @@ abstract class Base
 
     /**
      * Build date range
-     * 
+     *
      * @return void
      */
     protected function parseDefinitionRange()
@@ -149,12 +149,35 @@ abstract class Base
             $this->definition['range'] = array_slice($this->definition['range'], 0, 2);
         }
 
-        $this->range_start = is_a($this->definition['range']['start'], Carbon::class) ? $this->definition['range']['start'] : new Carbon($this->definition['range']['start'], new \DateTimeZone($this->getTimezone()));
-        $this->range_end = is_a($this->definition['range']['end'], Carbon::class) ? $this->definition['range']['end'] : new Carbon($this->definition['range']['end'], new \DateTimeZone($this->getTimezone()));
-        $this->range_start->setTime(0, 0, 0);
-        $this->range_end->setTime(23, 59, 59);
-        $this->definition['range']['start'] = $this->getRangeStart()->toDateTimeString();
-        $this->definition['range']['end'] = $this->getRangeEnd()->toDateTimeString();
+        if (is_a($this->definition['range']['start'], Carbon::class)) {
+            $this->range_start = $this->definition['range']['start'];
+        } else {
+            $this->range_start = Carbon::parse($this->definition['range']['start'])
+                ->timezone($this->getTimezone())
+                ->setTime(0, 0, 0)
+                ->timezone('UTC');
+        }
+
+        if (is_a($this->definition['range']['end'], Carbon::class)) {
+            $this->range_end = $this->definition['range']['end'];
+        } else {
+            $this->range_end = Carbon::parse($this->definition['range']['end'])
+                ->timezone($this->getTimezone())
+                ->setTime(23, 59, 59)
+                ->timezone('UTC');
+        }
+
+        // $this->range_en d = is_a($this->definition['range']['end'], Carbon::class) ? $this->definition['range']['end'] : Carbon::parse($this->definition['range']['end'])->timezone($this->getTimezone());
+
+        // $this->range_start->setTime(0, 0, 0);
+        // $this->range_end->setTime(23, 59, 59);
+
+        // $this->range_start->timezone('UTC');
+        // $this->range_end->timezone('UTC');
+
+        $this->definition['range']['start'] = $this->getRangeStart();
+        $this->definition['range']['end'] = $this->getRangeEnd();
+
     }
 
     /**
@@ -485,7 +508,7 @@ abstract class Base
      * Validate times
      *
      * @param array
-     * 
+     *
      * @return array
      */
     public function validateTimes(array $times)
