@@ -27,7 +27,7 @@ class Months extends Base implements ScheduleParserContract
 
                 if ($current_date->format('j') == $day_number) {
                     if ($month <= 12) {
-                        $month = $month + $interval;
+                        $month = $month + ($iteration_count === 0 ? 1 : $interval);
                     }
                     if ($month > 12) {
                         $month = $month - 12;
