@@ -121,8 +121,14 @@ class ScheduleRouteTest extends BrowserKitTestCase
             ],
         ]);
 
-        $returned_range_end = Carbon::parse($this->response->getData()->data->range->end->date)->format('y-m-d');
-        $this->assertEquals(Carbon::parse($definition_array['range']['end'])->timezone('UTC')->format('y-m-d'), $returned_range_end);
+        $returned_range_end = Carbon::parse($this->response->getData()->data->range->end->date, $definition_array['timezone'])
+            ->timezone('UTC')
+            ->format('y-m-d');
+
+        $this->assertEquals(
+            Carbon::parse($definition_array['range']['end'])->timezone('UTC')->format('y-m-d'),
+            $returned_range_end
+        );
     }
 
     /**
