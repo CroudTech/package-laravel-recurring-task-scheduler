@@ -22,7 +22,7 @@ return collect([
             "months": {},
             "timezone": "Europe/London",
             "range": {
-                "start": "2017-10-27T23:00:00.000Z",
+                "start": "2017-10-27T00:00:00.000Z",
                 "end": "2017-12-12T00:00:00.000Z"
             },
             "time_of_day": "09:00",
@@ -233,16 +233,26 @@ return collect([
             "months": {}
         }',
         [
-            '2017-10-03T09:00:00+01:00', // Tue, 03 Oct 2017 09:00:00 +0100
+            // starts the next month, not in three months time
+            '2017-09-03T08:00:00+00:00', // Sun, 03 Sept 2017 09:00:00 +0100
+            '2017-11-03T09:00:00+00:00', // Fri, 03 Nov 2017 09:00:00 +0100
         ],
     ],
     'Same day each month [3rd of every other month]' => [
-        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "months", "day_number": "3", "week_number": false, "days": {}, "months": {} }',
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-01 00:00:00", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "months", "day_number": "3", "week_number": false, "days": {}, "months": {} }',
         [
             '2017-08-03T09:00:00+01:00', // Thu, 03 Aug 2017 09:00:00 +0100
             '2017-10-03T09:00:00+01:00', // Tue, 03 Oct 2017 09:00:00 +0100
         ],
     ],
+    'Same day each month [3rd of every other month started after the 3rd]' => [
+        '{ "timezone": "Europe/London", "range": { "start": "2017-08-05 00:00:00", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": "2", "period": "months", "day_number": "3", "week_number": false, "days": {}, "months": {} }',
+        [
+            '2017-09-03T09:00:00+01:00', // Sun, 03 Sept 2017 09:00:00 +0100
+            '2017-11-03T09:00:00+00:00', // Fri, 03 Nov 2017 09:00:00 +0100
+        ],
+    ],
+
     'Same week each month [every second monday] (excluding date outside date range)' => [
         '{ "timezone": "Europe/London", "range": { "start": "2017-08-16", "end": "2017-11-30" }, "time_of_day": "09:00", "type": "periodic", "interval": 1, "period": "months", "day_number": false, "week_number": "second", "days": { "mon": true }, "months": {} }',
         [

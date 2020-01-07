@@ -18,8 +18,11 @@ class Months extends Base implements ScheduleParserContract
             $interval = $this->getInterval();
             $day_number = $this->getDayNumber();
             $current_date = $this->getStartDate()->day($day_number);
-
             $iteration_count = 0;
+
+            if ($this->getStartDate()->format('j') > $day_number) {
+                $current_date->addMonths(1)->day(1);
+            }
 
             while ($current_date->lte($this->getRangeEnd()) && count($this->generated) < 500 && $iteration_count < 1000) {
                 $month = $current_date->month;
@@ -27,7 +30,7 @@ class Months extends Base implements ScheduleParserContract
 
                 if ($current_date->format('j') == $day_number) {
                     if ($month <= 12) {
-                        $month = $month + ($iteration_count === 0 ? 1 : $interval);
+                        $month = $month + $interval;
                     }
                     if ($month > 12) {
                         $month = $month - 12;
