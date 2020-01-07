@@ -29,8 +29,12 @@ class ScheduleEventRepositoryTest extends BrowserKitTestCase
             $scheduleRepository->createFromScheduleDefinition($definition);
         });
 
-        $date = Carbon::parse('2019-11-04 05:00:00', 'UTC');
-        $events = $scheduleEventRepository->getEventsForTimestamp($date);
+        $timestamp = Carbon::parse('2019-11-04 15:00:00', 'UTC');
+        $events = $scheduleEventRepository->getEventsForTimestamp($timestamp);
+        $this->assertEquals($events->count(), 3);
+
+        $timestamp = Carbon::parse('2019-11-04 05:00:00', 'UTC');
+        $events = $scheduleEventRepository->getEventsForTimestamp($timestamp);
         $this->assertEquals($events->count(), 2);
     }
 
@@ -39,8 +43,8 @@ class ScheduleEventRepositoryTest extends BrowserKitTestCase
         return [
             [
                 'range' => [
-                    'start' => '2019-11-01',
-                    'end' => '2019-12-01',
+                    'start' => '2019-11-04 00:00:00',
+                    'end' => '2019-11-04 23:59:59',
                 ],
                 'time_of_day' => '00:00',
                 'timezone' => 'Australia/Sydney',
@@ -49,8 +53,8 @@ class ScheduleEventRepositoryTest extends BrowserKitTestCase
             ],
             [
                 'range' => [
-                    'start' => '2019-11-01',
-                    'end' => '2019-12-01',
+                    'start' => '2019-11-04',
+                    'end' => '2019-11-04',
                 ],
                 'time_of_day' => '02:00',
                 'timezone' => 'Europe/London',
@@ -59,10 +63,20 @@ class ScheduleEventRepositoryTest extends BrowserKitTestCase
             ],
             [
                 'range' => [
-                    'start' => '2019-11-01',
-                    'end' => '2019-12-01',
+                    'start' => '2019-11-04',
+                    'end' => '2019-11-04',
                 ],
-                'time_of_day' => '18:00',
+                'time_of_day' => '22:00',
+                'timezone' => 'America/New_York',
+                'type' => 'periodic',
+                'period' => 'days'
+            ],
+            [
+                'range' => [
+                    'start' => '2019-11-04',
+                    'end' => '2019-11-04',
+                ],
+                'time_of_day' => '09:00',
                 'timezone' => 'America/New_York',
                 'type' => 'periodic',
                 'period' => 'days'
