@@ -84,6 +84,7 @@ class BaseTest extends TestCase
         ];
         $now = Carbon::now();
         $parser = new PeriodicParser($definition);
+
         $this->assertEquals($now->setTime(0, 0, 0)->format('c'), $parser->getRangeStart()->format('c'));
         $this->assertEquals($now->setTime(23, 59, 59)->addYear(1)->format('c'), $parser->getRangeEnd()->format('c'));
     }
@@ -98,8 +99,8 @@ class BaseTest extends TestCase
         $definition = [
             'timezone' => $timezone,
             'range' => [
-                $range_start,
-                $range_end,
+                'start' => Carbon::parse($range_start, $timezone),
+                'end' => Carbon::parse($range_end, $timezone),
             ],
             'type' => 'periodic',
             'period' => 'days',
@@ -108,20 +109,16 @@ class BaseTest extends TestCase
         ];
 
         $parser = new PeriodicParser($definition);
-
         $offset = (new \DateTimeZone($timezone))->getOffset(new Carbon($range_start, $timezone));
+
         $this->assertInstanceOf(Carbon::class, $parser->getRangeStart());
-        $this->assertEquals($definition['timezone'], $parser->getRangeStart()->timezoneName);
+        $this->assertEquals($definition['timezone'], $parser->getTimezone());
         $this->assertEquals(Carbon::parse($range_start)->subSeconds($offset)->format('Y-m-d H:i:s'), $parser->getRangeStart()->setTimezone('UTC')->format('Y-m-d H:i:s'));
         $this->assertEquals(Carbon::parse($range_start)->subSeconds($offset)->format('Y-m-d H:i:s'), $parser->getRangeStartUTC()->format('Y-m-d H:i:s'));
-        $this->assertEquals($range_start, $parser->getRangeStart()->format('Y-m-d H:i:s'));
-
-        $offset = (new \DateTimeZone($timezone))->getOffset(new Carbon($range_end, $timezone));
+        $this->assertEquals($range_start, $parser->getRangeStart()->timezone($definition['timezone'])->format('Y-m-d H:i:s'));
         $this->assertInstanceOf(Carbon::class, $parser->getRangeEnd());
-        $this->assertEquals($definition['timezone'], $parser->getRangeEnd()->timezoneName);
-        $this->assertEquals(Carbon::parse($range_end)->subSeconds($offset)->format('Y-m-d H:i:s'), $parser->getRangeEnd()->setTimezone('UTC')->format('Y-m-d H:i:s'));
-        $this->assertEquals(Carbon::parse($range_end)->subSeconds($offset)->format('Y-m-d H:i:s'), $parser->getRangeEndUTC()->format('Y-m-d H:i:s'));
-        $this->assertEquals($range_end, $parser->getRangeEnd()->format('Y-m-d H:i:s'));
+        $this->assertEquals(Carbon::parse($range_end, $definition['timezone'])->format('Y-m-d H:i:s'), $parser->getRangeEnd()->format('Y-m-d H:i:s'));
+        $this->assertEquals($range_end, $parser->getRangeEnd()->timezone($definition['timezone'])->format('Y-m-d H:i:s'));
     }
 
     /**

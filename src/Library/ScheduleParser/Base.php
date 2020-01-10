@@ -152,28 +152,16 @@ abstract class Base
         if (is_a($this->definition['range']['start'], Carbon::class)) {
             $this->range_start = $this->definition['range']['start'];
         } else {
-            $this->range_start = Carbon::parse($this->definition['range']['start'])
-                ->timezone($this->getTimezone())
-                ->setTime(0, 0, 0)
-                ->timezone('UTC');
+            $this->range_start = Carbon::parse($this->definition['range']['start'], $this->getTimezone())
+                ->setTime(0, 0, 0);
         }
 
         if (is_a($this->definition['range']['end'], Carbon::class)) {
             $this->range_end = $this->definition['range']['end'];
         } else {
-            $this->range_end = Carbon::parse($this->definition['range']['end'])
-                ->timezone($this->getTimezone())
-                ->setTime(23, 59, 59)
-                ->timezone('UTC');
+            $this->range_end = Carbon::parse($this->definition['range']['end'], $this->getTimezone())
+                ->setTime(23, 59, 59);
         }
-
-        // $this->range_en d = is_a($this->definition['range']['end'], Carbon::class) ? $this->definition['range']['end'] : Carbon::parse($this->definition['range']['end'])->timezone($this->getTimezone());
-
-        // $this->range_start->setTime(0, 0, 0);
-        // $this->range_end->setTime(23, 59, 59);
-
-        // $this->range_start->timezone('UTC');
-        // $this->range_end->timezone('UTC');
 
         $this->definition['range']['start'] = $this->getRangeStart();
         $this->definition['range']['end'] = $this->getRangeEnd();
@@ -208,8 +196,8 @@ abstract class Base
     protected function addDefinitionDefaults($definition) : array
     {
         $this->default_definition['range'] = [
-            'start' => Carbon::now(),
-            'end' => Carbon::now()->addYear(),
+            'start' => Carbon::now()->setTime(0, 0, 0),
+            'end' => Carbon::now()->addYear()->setTime(23, 59, 59),
         ];
 
         $merged_definition = collect($this->default_definition)->merge(collect($definition))->toArray();

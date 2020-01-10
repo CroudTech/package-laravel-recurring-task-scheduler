@@ -101,7 +101,7 @@ class ScheduleRouteTest extends BrowserKitTestCase
         $definition_array['scheduleable_type'] = get_class($scheduleable);
         $schedule = $repository->createFromScheduleDefinition($definition_array, $scheduleable);
         $old_range_end = $definition_array['range']['end'];
-        $definition_array['range']['end'] = Carbon::parse($old_range_end)->addMonth('1')->setTime(23, 59, 59)->format('c');
+        $definition_array['range']['end'] = Carbon::parse($old_range_end, $definition_array['timezone'])->setTime(23, 59, 59)->format('c');
         $this->json('PUT', route('schedule.update', ['schedule' => $schedule->id]), $definition_array);
 
         $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
@@ -121,9 +121,14 @@ class ScheduleRouteTest extends BrowserKitTestCase
             ],
         ]);
 
-        $returned_range_end = Carbon::parse($this->response->getData()->data->range->end->date)->timezone($this->response->getData()->data->range->end->timezone)->format('c');
-        $this->assertNotEquals(Carbon::parse($old_range_end)->setTime(23, 59, 59)->format('c'), $returned_range_end);
-        $this->assertEquals(Carbon::parse($definition_array['range']['end'])->format('c'), $returned_range_end);
+        $returned_range_end = Carbon::parse($this->response->getData()->data->range->end->date, $definition_array['timezone'])
+            ->timezone('UTC')
+            ->format('y-m-d');
+
+        $this->assertEquals(
+            Carbon::parse($definition_array['range']['end'])->timezone('UTC')->format('y-m-d'),
+            $returned_range_end
+        );
     }
 
     /**

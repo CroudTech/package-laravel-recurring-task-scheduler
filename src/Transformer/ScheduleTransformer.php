@@ -102,9 +102,9 @@ class ScheduleTransformer extends TransformerAbstract implements TransformerCont
         unset($schedule_array['range_end']);
         $parser = app()->make(\CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Factory::class)->factory($schedule_array);
         $schedule_array = $parser->getDefinition();
-        $schedule_array['range']['start'] = Carbon::parse($schedule_array['range']['start']);
-        $schedule_array['range']['end'] = Carbon::parse($schedule_array['range']['end']);
 
+        $schedule_array['range']['start'] = is_a($schedule_array['range']['start'], Carbon::class) ? $schedule_array['range']['start'] : Carbon::parse($schedule_array['range']['start']);
+        $schedule_array['range']['end'] = is_a($schedule_array['range']['end'], Carbon::class) ? $schedule_array['range']['end'] : Carbon::parse($schedule_array['range']['end']);
         return $schedule_array;
     }
 
