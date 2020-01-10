@@ -15,6 +15,16 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
 {
     const DEFAULT_TIMEZONE = 'Europe/London';
 
+    protected $params = [
+        'times' => null,
+        'scope' => null,
+        'status' => 'active',
+        'entity_id' => null,
+        'entity_callback_method' => 'POST',
+        'entity_callback_url' => null,
+        'entity_callback_params' => null,
+    ];
+
     /**
      * Create a new schedule from a definition array
      *
@@ -22,13 +32,19 @@ class ScheduleRepository extends BaseRepository implements RepositoryContract, S
      * @param ScheduleableContract $scheduleable
      * @return Schedule
      */
-    public function createFromScheduleDefinition(array $definition, ScheduleableContract $scheduleable) : Schedule
+    public function createFromScheduleDefinition(array $definition, ScheduleableContract $scheduleable = null) : Schedule
     {
         $parser = $this->getParserFromDefinition($definition);
         $schedule_attributes = $this->getTransformer()->transformDefinitionToScheduleAttributes($parser->getDefinition());
         $schedule_attributes = $this->preCreate($this->parseData($schedule_attributes));
         $schedule = $this->make($schedule_attributes);
-        $schedule->scheduleable()->associate($scheduleable);
+
+        isset($scheduleable) ? $schedule->scheduleable()->associate($scheduleable) : null;
+
+        foreach($this->params as $param => $value) {
+            $schedule->$param = $definition[$param] ?? $value;
+        }
+
         $schedule->save();
 
         return $schedule;

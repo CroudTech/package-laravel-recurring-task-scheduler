@@ -33,13 +33,21 @@ class ScheduleEventRepository extends BaseRepository implements RepositoryContra
      */
     public function getEventsForTimestamp(Carbon $timestamp) : Collection
     {
+        $today = $timestamp->format('Y-m-d');
         return $this->query()
-            ->whereBetween('date', [$timestamp->copy()->startOfDay(), $timestamp])
+            ->whereBetween('date', [$timestamp->copy()->subDays(1)->startOfDay(), $timestamp])
             ->whereHas('schedule', function ($query) {
-                $query->where('active', true);
+                $query->where('status', '=', 'active');
             })
             ->whereNull('triggered_at')
+            ->where('paused', '=', 0)
             ->with('schedule')
-            ->get();
+            ->get()
+            ->filter(function ($scheduleEvent) use ($today) {
+                if ($scheduleEvent->date->format('Y-m-d') === $today) {
+                    return true;
+                }
+                return $scheduleEvent->date->copy()->timezone($scheduleEvent->schedule->timezone)->format('Y-m-d') === $today;
+            });
     }
 }

@@ -4,12 +4,12 @@ namespace CroudTech\RecurringTaskScheduler\Tests\RepositoryTests;
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
 use CroudTech\RecurringTaskScheduler\Model\Schedule;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 use CroudTech\RecurringTaskScheduler\Transformer\ScheduleTransformer;
 use CroudTech\Repositories\Fractal;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ScheduleTransformerTest extends TestCase
+class ScheduleTransformerTest extends BrowserKitTestCase
 {
     use DatabaseMigrations;
 
@@ -169,10 +169,10 @@ class ScheduleTransformerTest extends TestCase
                     $this->assertEquals($schedule[$expected_attribute], $transformed['data']['months'][$expected_attribute]);
                     break;
                 case 'range_start':
-                    $this->assertEquals($schedule[$expected_attribute], $transformed['data']['range']['start']->format('c'));
+                    $this->assertEquals($schedule[$expected_attribute], $transformed['data']['range']['start']->toDateTimeString());
                     break;
                 case 'range_end':
-                    $this->assertEquals($schedule[$expected_attribute], $transformed['data']['range']['end']->format('c'));
+                    $this->assertEquals($schedule[$expected_attribute], $transformed['data']['range']['end']->toDateTimeString());
                     break;
                 default:
                     $this->assertEquals($schedule[$expected_attribute], $transformed['data'][$expected_attribute], sprintf('Expected "%s" for "%s" got "%s"', $transformed['data'][$expected_attribute], $expected_attribute, $schedule[$expected_attribute]));

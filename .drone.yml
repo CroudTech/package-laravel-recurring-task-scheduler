@@ -1,6 +1,6 @@
 pipeline:
   test:
-    image: croudtech/webapp
+    image: croudtech/webapp:2.0.0
     commands:
       - /usr/bin/composer install
       - ./vendor/bin/phpunit -d memory_limit=2G tests

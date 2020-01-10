@@ -5,7 +5,7 @@ use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic\Weeks as WeeksParser;
 use Mockery as m;
 
-class PeriodicWeeklyTest extends TestCase
+class PeriodicWeeklyTest extends BrowserKitTestCase
 {
     /**
      * Make sure we get the correct range of weeks

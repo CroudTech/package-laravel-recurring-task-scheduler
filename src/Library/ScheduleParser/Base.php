@@ -76,6 +76,13 @@ abstract class Base
     protected $time_of_day;
 
     /**
+     * The times during the day the schedule should run
+     *
+     * @var array
+     */
+    protected $times;
+
+    /**
      * The interval to use as a multiplier
      *
      * @var int
@@ -107,6 +114,7 @@ abstract class Base
         $this->definition['week_number'] = empty($this->definition['week_number']) ? false : $this->definition['week_number'];
         $this->parseDefinitionRange();
         $this->time_of_day = $this->definition['time_of_day'];
+        $this->times = isset($this->definition['times']) ? $this->definition['times'] : '';
         $this->interval = $this->definition['interval'];
 
         return $this->definition;
@@ -130,18 +138,34 @@ abstract class Base
         return $definition;
     }
 
+    /**
+     * Build date range
+     *
+     * @return void
+     */
     protected function parseDefinitionRange()
     {
         if (is_array($this->definition['range'])) {
             $this->definition['range'] = array_slice($this->definition['range'], 0, 2);
         }
 
-        $this->range_start = is_a($this->definition['range']['start'], Carbon::class) ? $this->definition['range']['start'] : new Carbon($this->definition['range']['start'], new \DateTimeZone($this->getTimezone()));
-        $this->range_end = is_a($this->definition['range']['end'], Carbon::class) ? $this->definition['range']['end'] : new Carbon($this->definition['range']['end'], new \DateTimeZone($this->getTimezone()));
-        $this->range_start->setTime(0, 0, 0);
-        $this->range_end->setTime(23, 59, 59);
-        $this->definition['range']['start'] = $this->getRangeStart()->format('c');
-        $this->definition['range']['end'] = $this->getRangeEnd()->format('c');
+        if (is_a($this->definition['range']['start'], Carbon::class)) {
+            $this->range_start = $this->definition['range']['start'];
+        } else {
+            $this->range_start = Carbon::parse($this->definition['range']['start'], $this->getTimezone())
+                ->setTime(0, 0, 0);
+        }
+
+        if (is_a($this->definition['range']['end'], Carbon::class)) {
+            $this->range_end = $this->definition['range']['end'];
+        } else {
+            $this->range_end = Carbon::parse($this->definition['range']['end'], $this->getTimezone())
+                ->setTime(23, 59, 59);
+        }
+
+        $this->definition['range']['start'] = $this->getRangeStart();
+        $this->definition['range']['end'] = $this->getRangeEnd();
+
     }
 
     /**
@@ -172,8 +196,8 @@ abstract class Base
     protected function addDefinitionDefaults($definition) : array
     {
         $this->default_definition['range'] = [
-            'start' => Carbon::now(),
-            'end' => Carbon::now()->addYear(),
+            'start' => Carbon::now()->setTime(0, 0, 0),
+            'end' => Carbon::now()->addYear()->setTime(23, 59, 59),
         ];
 
         $merged_definition = collect($this->default_definition)->merge(collect($definition))->toArray();
@@ -291,6 +315,13 @@ abstract class Base
     public function getTimeOfDay() : string
     {
         return $this->time_of_day;
+    }
+
+    public function getTimes()
+    {
+        $this->times = is_array($this->times) ? json_encode($this->times) : $this->times;
+
+        return json_decode($this->times, true);
     }
 
     /**
@@ -459,5 +490,24 @@ abstract class Base
             return [null, 'First', 'Second', 'Third', 'Fourth', 'Fifth'][$week_number];
         }
         return ucfirst($week_number);
+    }
+
+    /**
+     * Validate times
+     *
+     * @param array
+     *
+     * @return array
+     */
+    public function validateTimes(array $times)
+    {
+        $validTimes = [];
+        foreach ($times as $time) {
+            if (preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $time)) {
+                $validTimes[] = $time;
+            }
+        }
+
+        return $validTimes;
     }
 }

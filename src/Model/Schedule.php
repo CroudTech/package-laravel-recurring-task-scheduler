@@ -14,15 +14,22 @@ class Schedule extends Model
 {
     use SoftDeletes;
 
+    public static $active_statuses = [
+        'active',
+    ];
+
     protected $table = 'ctrts_schedules';
 
     protected $fillable = [
         'active',
         'timezone',
         'type',
+        'scope',
+        'status',
         'range_start',
         'range_end',
         'time_of_day',
+        'times',
         'interval',
         'period',
         'modifier',
@@ -50,6 +57,10 @@ class Schedule extends Model
         'scheduleable_id',
         'scheduleable_type',
         'occurrence',
+        'entity_id',
+        'entity_callback_method',
+        'entity_callback_url',
+        'entity_callback_params',
     ];
 
     protected $attributes = [
@@ -60,6 +71,8 @@ class Schedule extends Model
         'triggered_at' => 'datetime',
         'day_number' => 'string',
         'modifier' => 'string',
+        'times' => 'array',
+        'entity_callback_params' => 'array'
     ];
 
     /**

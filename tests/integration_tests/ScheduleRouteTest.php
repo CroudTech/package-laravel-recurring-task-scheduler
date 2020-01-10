@@ -3,10 +3,10 @@ namespace CroudTech\RecurringTaskScheduler\Tests\ModelTests;
 
 use Carbon\Carbon;
 use CroudTech\RecurringTaskScheduler\Library\ScheduleParser\Periodic as PeriodicParser;
-use CroudTech\RecurringTaskScheduler\Tests\TestCase;
+use CroudTech\RecurringTaskScheduler\Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ScheduleRouteTest extends TestCase
+class ScheduleRouteTest extends BrowserKitTestCase
 {
     use DatabaseMigrations;
 
@@ -23,10 +23,12 @@ class ScheduleRouteTest extends TestCase
         $schedule->range_start = '2017-01-01 00:00:00';
         $schedule->range_end = '2017-08-01 00:00:00';
         $schedule->period = 'days';
+        $schedule->status = 'active';
         $schedule->scheduleable()->associate($scheduleable);
         $schedule->save();
 
         $this->json('GET', route('schedule.index'), []);
+ 
         $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
         $this->seeJsonStructure([
             'data' => [
@@ -99,7 +101,7 @@ class ScheduleRouteTest extends TestCase
         $definition_array['scheduleable_type'] = get_class($scheduleable);
         $schedule = $repository->createFromScheduleDefinition($definition_array, $scheduleable);
         $old_range_end = $definition_array['range']['end'];
-        $definition_array['range']['end'] = Carbon::parse($old_range_end)->addMonth('1')->setTime(23, 59, 59)->format('c');
+        $definition_array['range']['end'] = Carbon::parse($old_range_end, $definition_array['timezone'])->setTime(23, 59, 59)->format('c');
         $this->json('PUT', route('schedule.update', ['schedule' => $schedule->id]), $definition_array);
 
         $this->assertInstanceOf(\Illuminate\Http\JsonResponse::class, $this->response);
@@ -119,9 +121,14 @@ class ScheduleRouteTest extends TestCase
             ],
         ]);
 
-        $returned_range_end = Carbon::parse($this->response->getData()->data->range->end->date)->timezone($this->response->getData()->data->range->end->timezone)->format('c');
-        $this->assertNotEquals(Carbon::parse($old_range_end)->setTime(23, 59, 59)->format('c'), $returned_range_end);
-        $this->assertEquals(Carbon::parse($definition_array['range']['end'])->format('c'), $returned_range_end);
+        $returned_range_end = Carbon::parse($this->response->getData()->data->range->end->date, $definition_array['timezone'])
+            ->timezone('UTC')
+            ->format('y-m-d');
+
+        $this->assertEquals(
+            Carbon::parse($definition_array['range']['end'])->timezone('UTC')->format('y-m-d'),
+            $returned_range_end
+        );
     }
 
     /**

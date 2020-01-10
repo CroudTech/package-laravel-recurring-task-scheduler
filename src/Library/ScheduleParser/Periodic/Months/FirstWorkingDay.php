@@ -30,7 +30,7 @@ class FirstWorkingDay extends Base implements ScheduleParserContract
                     $this->generated[] = $start_of_month->copy();
                 }
 
-                $current_date->month($current_date->month + $interval);
+                $current_date->month($current_date->month + ($iteration_count === 0 ? 1 : $interval));
                 $iteration_count++;
             }
         }
